@@ -12,6 +12,8 @@ const nextConfig = {
       "mfo.qissseee.tech"
     ],
   },
+  swcMinify: false,
+
 };
 
 module.exports = withNextIntl(nextConfig);
