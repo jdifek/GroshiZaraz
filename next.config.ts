@@ -3,9 +3,7 @@
 const withNextIntl = require("next-intl/plugin")("./app/i18n/request.ts");
 
 const nextConfig = {
-  experimental: {
-    esmExternals: false,
-  },
+ 
   images: {
     domains: [
       "via.placeholder.com",
