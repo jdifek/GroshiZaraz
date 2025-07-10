@@ -2,8 +2,6 @@ import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import BankCard from "./BankCard";
 import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 
-
-
 export const BanksSection = () => {
   const banks = [
     {
@@ -59,7 +57,7 @@ export const BanksSection = () => {
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h2 className="text-4xl font-bold text-gray-800 mb-4 relative inline-block">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 relative inline-block">
           Банки
           <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
         </h2>
@@ -67,18 +65,14 @@ export const BanksSection = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {banks.map((bank, index) => (
-          <BankCard
-            key={bank.id}
-            bank={bank}
-            index={index}
-          />
+          <BankCard key={bank.id} bank={bank} index={index} />
         ))}
       </div>
 
       <div className="text-center space-x-4">
         <GrayButton text="Показать ещё" />
 
-       <BlueButton text="Показать все банки" />
+        <BlueButton text="Показать все банки" />
       </div>
     </div>
   );

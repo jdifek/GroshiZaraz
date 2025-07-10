@@ -50,10 +50,10 @@ const stats = [
 
 const ClientReviews = () => {
   return (
-    <div className="min-h-screen  py-16 px-4">
+    <div className="min-h-screen  py-16 ">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 relative inline-block after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:rounded after:bg-gradient-to-r after:from-blue-500 after:to-yellow-400">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 relative inline-block after:absolute after:-bottom-2 after:left-1/2 after:-translate-x-1/2 after:w-20 after:h-1 after:rounded after:bg-gradient-to-r after:from-blue-500 after:to-yellow-400">
             Отзывы наших клиентов
           </h2>
           <p className="text-gray-600 max-w-xl mx-auto text-base">

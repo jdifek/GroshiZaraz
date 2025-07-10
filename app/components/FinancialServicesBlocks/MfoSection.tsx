@@ -55,24 +55,24 @@ export const MfoSection = () => {
   ];
   return (
     <div className="space-y-8">
-    <div className="text-center">
-      <h2 className="text-4xl font-bold text-gray-800 mb-4 relative inline-block">
-        Микрофинансовые организации
-        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
-      </h2>
-    </div>
+      <div className="text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 relative inline-block">
+          Микрофинансовые организации
+          <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
+        </h2>
+      </div>
 
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {mfoCompanies.map((mfo, index) => (
-        <MfoCard key={mfo.id} mfo={mfo} index={index} />
-      ))}
-    </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {mfoCompanies.map((mfo, index) => (
+          <MfoCard key={mfo.id} mfo={mfo} index={index} />
+        ))}
+      </div>
 
-    <div className="text-center space-x-4">
-      <GrayButton text="Показать ещё" />
+      <div className="text-center space-x-4">
+        <GrayButton text="Показать ещё" />
 
-      <BlueButton text="Показать все МФО" />
+        <BlueButton text="Показать все МФО" />
+      </div>
     </div>
-  </div>
-  )
-}
+  );
+};

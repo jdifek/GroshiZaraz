@@ -80,18 +80,19 @@ const services = [
   },
 ];
 
-
 const FinancialServicesBlocks = () => {
-  const [activeService, setActiveService] = useState<string | number | null>(null);
+  const [activeService, setActiveService] = useState<string | number | null>(
+    null
+  );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Financial Services Section */}
         <div className="space-y-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-800 mb-4 relative inline-block">
-              GroshiZaraz — агрегатор кредитов и займов онлайн, умный подбор
+          <h1 className="!text-[1.95rem] md:!text-[42px] font-bold text-gray-800 mb-4 relative inline-block">
+          GroshiZaraz — агрегатор кредитов и займов онлайн, умный подбор
               финансовых услуг
               <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
             </h1>
@@ -120,7 +121,7 @@ const FinancialServicesBlocks = () => {
         <BanksSection />
 
         {/* MFO Section */}
-      <MfoSection />
+        <MfoSection />
       </div>
 
       <style jsx>{`
