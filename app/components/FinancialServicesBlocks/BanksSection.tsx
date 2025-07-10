@@ -2,7 +2,6 @@ import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import BankCard from "./BankCard";
 import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 
 export const BanksSection = () => {
