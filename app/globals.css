@@ -1,0 +1,16 @@
+
+@import "tailwindcss";
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1A202C; /* Тёмно-серый, почти чёрный */
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 42px;
+  }
+}
