@@ -82,7 +82,7 @@ const services = [
 
 
 const FinancialServicesBlocks = () => {
-  const [activeService, setActiveService] = useState(null);
+  const [activeService, setActiveService] = useState<string | number | null>(null);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white p-8">

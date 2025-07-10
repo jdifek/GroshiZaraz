@@ -11,7 +11,7 @@ interface ServiceCardProps {
   service: Service;
   index: number;
   activeService: string | number | null;
-  setActiveService: React.Dispatch<React.SetStateAction<null>>
+  setActiveService: React.Dispatch<React.SetStateAction<string | number | null>>
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
