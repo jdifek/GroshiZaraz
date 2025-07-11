@@ -2,11 +2,24 @@
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { useRouter } from 'next/navigation';
 import { notFound } from 'next/navigation';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-const CategoryPage = ({ params }: { params: { category: string } }) => {
+type CategoryPageProps = {
+  params: Promise<{ category: string }>;
+};
+
+const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
   const router = useRouter();
-  const { category: categorySlug } = params;
+  const [categorySlug, setCategorySlug] = useState<string | null>(null);
+
+  // Асинхронно разрешаем params
+  useEffect(() => {
+    const resolveParams = async () => {
+      const { category } = await params;
+      setCategorySlug(category);
+    };
+    resolveParams();
+  }, [params]);
 
   const categories = [
     { name: 'Все', slug: 'all' },
@@ -125,15 +138,20 @@ const CategoryPage = ({ params }: { params: { category: string } }) => {
     },
   ];
 
-  // Find the category name from the slug
+  // Пока params не разрешены, отображаем загрузку
+  if (!categorySlug) {
+    return <div className="text-center py-8">Загрузка...</div>;
+  }
+
+  // Найти название категории по slug
   const currentCategory = categories.find((cat) => cat.slug === categorySlug)?.name || 'Все';
 
-  // Handle invalid category slugs
+  // Обработка несуществующих категорий
   if (!categories.some((cat) => cat.slug === categorySlug)) {
     notFound();
   }
 
-  // Filter articles based on the category (show all if slug is 'all')
+  // Фильтрация статей по категории (показать все для slug 'all')
   const filteredArticles = categorySlug === 'all'
     ? articles
     : articles.filter((article) => article.category === currentCategory);
@@ -189,7 +207,7 @@ const CategoryPage = ({ params }: { params: { category: string } }) => {
             {/* Display message if no articles are found */}
             {filteredArticles.length === 0 ? (
               <div className="text-center text-gray-600 py-8">
-                Нет статей в категории &rdquo;{currentCategory}&rdquo;
+                Нет статей в категории &quot;{currentCategory}&quot;
               </div>
             ) : (
               <>
