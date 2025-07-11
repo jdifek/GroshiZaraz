@@ -1,7 +1,7 @@
-type GrayToGrayButtonProps = {
+type BlueButtonProps = {
   text: string;
 };
-export const GrayButton: React.FC<GrayToGrayButtonProps> = ({
+export const GrayButton: React.FC<BlueButtonProps> = ({
   text,
 }) => {
   return (
