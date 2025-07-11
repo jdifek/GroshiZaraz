@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import React, { useState } from 'react';
 
@@ -92,7 +93,7 @@ const ReviewsPage = () => {
     return review.company === selectedFilter;
   });
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -110,7 +111,7 @@ const ReviewsPage = () => {
     }
   };
 
-  const renderStars = (rating) => {
+  const renderStars = (rating: number) => {
     return [...Array(5)].map((_, i) => (
       <span key={i} className={`text-lg ${i < rating ? 'text-yellow-400' : 'text-gray-300'}`}>
         ⭐
@@ -296,7 +297,7 @@ const ReviewsPage = () => {
                     name="text"
                     value={formData.text}
                     onChange={handleInputChange}
-                    rows="4"
+                    rows={4} 
                     className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                     placeholder="Поделитесь своим опытом..."
                   />
