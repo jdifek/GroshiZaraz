@@ -79,7 +79,7 @@ const NewsSection = () => {
 
   return (
     <section className="py-16">
-      <div className="max-w-7xl mx-auto px-8">
+      <div className="max-w-7xl mx-auto ">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 relative inline-block">
             Финансовые новости

@@ -31,11 +31,11 @@ const AboutServiceSection = () => {
 
   return (
     <section className="py-16 ">
-      <div className="max-w-7xl mx-auto px-8">
+      <div className="max-w-7xl mx-auto ">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 relative inline-block">
             GroshiZaraz — помогаем в подборе финансовых услуг
-            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
+            <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-36 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
           </h2>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto">
             Мы помогаем найти лучшие финансовые решения, сравнивая предложения
@@ -67,7 +67,7 @@ const AboutServiceSection = () => {
           ))}
         </div>
 
-        <div className="bg-gradient-to-br from-blue-50 to-white rounded-3xl p-8 md:p-12 shadow-lg">
+        <div className=" rounded-3xl p-8 md:p-12 shadow-lg">
           <div className="max-w-4xl mx-auto text-center">
             <h3 className="text-3xl font-bold text-gray-800 mb-6">
               Почему выбирают GroshiZaraz?

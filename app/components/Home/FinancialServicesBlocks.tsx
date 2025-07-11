@@ -86,7 +86,7 @@ const FinancialServicesBlocks = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+    <div className="min-h-screen ">
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Financial Services Section */}
         <div className="space-y-8">
