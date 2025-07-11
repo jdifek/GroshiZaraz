@@ -171,12 +171,12 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
           <div className="flex items-center text-sm text-gray-600 mb-4">
             <span>Главная</span>
             <span className="mx-2">-</span>
-            <span>Журнал Бробанк</span>
+            <span>Журнал GroshiZaraz</span>
             <span className="mx-2">-</span>
             <span>{currentCategory}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Журнал Бробанк - {currentCategory}
+            Журнал GroshiZaraz - {currentCategory}
           </h1>
         </div>
       </div>
