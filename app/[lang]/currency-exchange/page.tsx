@@ -78,7 +78,7 @@ export default function CurrencyExchangePage() {
   return (
     <div className="space-y-8">
       {/* Заголовок */}
-      <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl pb-6 border border-gray-100">
+      <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-6 border border-gray-100">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">
           Курсы валют
         </h1>
