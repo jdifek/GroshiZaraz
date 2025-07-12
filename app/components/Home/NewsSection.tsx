@@ -140,7 +140,7 @@ const NewsSection = () => {
         </div>
 
         <div className="text-center mt-12">
-          <BlueButton text="Все новости" />
+          <BlueButton link="/journal" text="Все новости" />
         </div>
       </div>
     </section>
