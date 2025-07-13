@@ -241,8 +241,8 @@ export default function AskQuestionPage (){
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="min-h-screen ">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4 relative inline-block">
