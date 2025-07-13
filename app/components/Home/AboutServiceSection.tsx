@@ -157,7 +157,7 @@ const AboutServiceSection = () => {
               </div>
             </div>
             <div className="mt-8">
-              <BlueButton text="Узнать больше" />
+              <BlueButton link="/about" text="Узнать больше" />
             </div>
           </div>
         </div>

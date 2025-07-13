@@ -28,10 +28,10 @@ export async function generateMetadata({
     openGraph: {
       title: t("home.title"),
       description: t("home.description"),
-      url: "https://mfoxa.com.ua",
+      url: "https://GroshiZaraz.com.ua",
       images: [
         {
-          url: "https://mfoxa.com.ua/og-main.jpg",
+          url: "https://GroshiZaraz.com.ua/og-main.jpg",
           width: 1200,
           height: 630,
           alt: t("home.title"),
@@ -39,7 +39,7 @@ export async function generateMetadata({
       ],
     },
     alternates: {
-      canonical: "https://mfoxa.com.ua",
+      canonical: "https://GroshiZaraz.com.ua",
     },
   };
 }

@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
               </li>
               <li>
                 <Link 
-                  href="/faq" 
+                  href="/ask-question" 
                   className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:translate-x-1 inline-block"
                 >
                   → Вопросы и ответы

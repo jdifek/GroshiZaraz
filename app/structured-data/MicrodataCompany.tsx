@@ -1,5 +1,5 @@
-'use client';
-import React from 'react';
+"use client";
+import React from "react";
 
 export const MicrodataCompany = ({ company }: { company: string }) => {
   const isSgroshi = company === "sgroshi";
@@ -8,26 +8,26 @@ export const MicrodataCompany = ({ company }: { company: string }) => {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: isSgroshi ? "Швидко Гроші" : "Название компании",
-    url: `https://mfoxa.com.ua/mfo/${company}`,
-    logo: "https://mfoxa.com.ua/logo.png",
+    url: `https://GroshiZaraz.com.ua/mfo/${company}`,
+    logo: "https://GroshiZaraz.com.ua/logo.png",
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+38 (063) 178-64-56",
       contactType: "customer service",
       areaServed: "UA",
-      availableLanguage: ["Ukrainian", "Russian"]
+      availableLanguage: ["Ukrainian", "Russian"],
     },
     address: {
       "@type": "PostalAddress",
       streetAddress: "ул. Прживальского 19б, стр. 17а",
       addressLocality: "Киев",
-      addressCountry: "UA"
+      addressCountry: "UA",
     },
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.8",
-      reviewCount: "119"
-    }
+      reviewCount: "119",
+    },
   };
 
   return (
