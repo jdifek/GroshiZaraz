@@ -36,10 +36,10 @@ const Footer: React.FC = () => {
             <ul className="space-y-3 text-sm">
               <li>
                 <Link 
-                  href="/offers" 
+                  href="/compare" 
                   className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:translate-x-1 inline-block"
                 >
-                  → Предложения
+                  → Сравнение
                 </Link>
               </li>
               <li>
