@@ -38,6 +38,9 @@ export async function generateMetadata({
         locale: lang === "ua" ? "uk_UA" : "ru_UA",
         type: "website",
       },
+      icons: {
+        icon: "/favicon.svg",
+      },
       twitter: {
         card: "summary_large_image",
         title: messages.Metadata.root.title,
