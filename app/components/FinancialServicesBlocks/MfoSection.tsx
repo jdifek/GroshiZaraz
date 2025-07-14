@@ -71,7 +71,7 @@ export const MfoSection = () => {
       <div className="text-center space-x-4">
         <GrayButton text="Показать ещё" />
 
-        <BlueButton text="Показать все МФО" />
+        <BlueButton link="/mfos" text="Показать все МФО" />
       </div>
     </div>
   );

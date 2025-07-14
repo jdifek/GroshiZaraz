@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { ChevronDown, Star, Clock, Percent, TrendingUp, Shield, Users } from 'lucide-react';
 import { BlueButton } from '@/app/ui/Buttons/BlueButton';
 import { GrayButton } from '@/app/ui/Buttons/GrayButton';
+import { InfoButton } from '@/app/ui/Buttons/InfoButton';
 
 // Define interfaces for type safety
 interface MFO {
@@ -321,6 +322,7 @@ export default function MFOsPage() {
             {isSortDropdownOpen && (
               <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-lg border border-gray-200 z-10">
                 {sortOptions.map((option) => (
+                  
                   <button
                     key={option.value}
                     onClick={() => {
@@ -331,6 +333,7 @@ export default function MFOsPage() {
                   >
                     {option.label}
                   </button>
+
                 ))}
               </div>
             )}
@@ -439,10 +442,13 @@ export default function MFOsPage() {
                   </div>
                 </div>
 
-                <BlueButton 
+              <div className='flex justify-between'>
+              <BlueButton 
                   text="Получить займ" 
-                  // onClick={() => setSelectedOffer(offer)}
                 />
+                  <InfoButton />
+
+              </div>
               </div>
             </div>
           ))}
