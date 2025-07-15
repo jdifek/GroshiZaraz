@@ -14,3 +14,11 @@ h1 {
     font-size: 42px;
   }
 }
+/* глобально или как утилиту */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

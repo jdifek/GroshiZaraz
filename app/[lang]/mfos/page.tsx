@@ -4,6 +4,7 @@ import { ChevronDown, Star, Clock, Percent, TrendingUp, Shield, Users } from 'lu
 import { BlueButton } from '@/app/ui/Buttons/BlueButton';
 import { GrayButton } from '@/app/ui/Buttons/GrayButton';
 import { InfoButton } from '@/app/ui/Buttons/InfoButton';
+import MFODetailsPopup from '@/app/ui/Popups/MFODetailsPopup';
 
 // Define interfaces for type safety
 interface MFO {
@@ -42,7 +43,8 @@ export default function MFOsPage() {
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
   const [visibleCount] = useState<number>(9);
   const [selectedOffer, setSelectedOffer] = useState<MFO | null>(null);
-
+  const [selectedMFO, setSelectedMFO] = useState<MFO | null>(null);
+  const [isDetailsPopupOpen, setIsDetailsPopupOpen] = useState(false);
   const mfoData: MFO[] = [
     {
       id: 1,
@@ -446,8 +448,12 @@ export default function MFOsPage() {
               <BlueButton 
                   text="Получить займ" 
                 />
-                  <InfoButton />
-
+<InfoButton 
+  onClick={() => {
+    setSelectedMFO(offer);
+    setIsDetailsPopupOpen(true);
+  }}
+/>
               </div>
               </div>
             </div>
@@ -565,6 +571,17 @@ export default function MFOsPage() {
           </div>
         )}
       </div>
+      {selectedMFO && (
+  <MFODetailsPopup
+    mfo={selectedMFO}
+    isOpen={isDetailsPopupOpen}
+    onClose={() => {
+      setIsDetailsPopupOpen(false);
+      setSelectedMFO(null);
+    }}
+   
+  />
+)}
     </div>
   );
 }

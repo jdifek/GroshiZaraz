@@ -68,44 +68,44 @@ export const navigationItems: NavigationItem[] = [
       ],
     },
   },
-  {
-    name: "Вклады",
-    href: "/deposits",
-    dropdown: {
-      "Вклады": [
-        { name: "Вклады", href: "/deposits", isBold: true },
-        { name: "С высокой ставкой", href: "/deposits/high-rate" },
-        { name: "С пополнением", href: "/deposits/replenishment" },
-        { name: "Краткосрочные", href: "/deposits/short-term" },
-        { name: "Долгосрочные", href: "/deposits/long-term" },
-      ],
-      "Накопительные счета": [
-        { name: "Накопительные счета", href: "/deposits/savings", isBold: true },
-        { name: "Без ограничений", href: "/deposits/savings/unlimited" },
-        { name: "С капитализацией", href: "/deposits/savings/compound" },
-      ],
-    },
-  },
-  { name: "Бизнес", href: "/business" },
-  {
-    name: "Страхование",
-    href: "/insurance",
-    dropdown: {
-      "Страхование": [
-        { name: "Страхование", href: "/insurance", isBold: true },
-        { name: "ОСАГО", href: "/insurance/osago" },
-        { name: "Каско", href: "/insurance/casco" },
-        { name: "Медицинское страхование", href: "/insurance/medical" },
-        { name: "Страхование жизни", href: "/insurance/life" },
-      ],
-      "Страхование имущества": [
-        { name: "Страхование имущества", href: "/insurance/property", isBold: true },
-        { name: "Квартиры", href: "/insurance/property/apartment" },
-        { name: "Дома", href: "/insurance/property/house" },
-      ],
-    },
-  },
-  { name: "Банки", href: "/banks" },
+  // {
+  //   name: "Вклады",
+  //   href: "/deposits",
+  //   dropdown: {
+  //     "Вклады": [
+  //       { name: "Вклады", href: "/deposits", isBold: true },
+  //       { name: "С высокой ставкой", href: "/deposits/high-rate" },
+  //       { name: "С пополнением", href: "/deposits/replenishment" },
+  //       { name: "Краткосрочные", href: "/deposits/short-term" },
+  //       { name: "Долгосрочные", href: "/deposits/long-term" },
+  //     ],
+  //     "Накопительные счета": [
+  //       { name: "Накопительные счета", href: "/deposits/savings", isBold: true },
+  //       { name: "Без ограничений", href: "/deposits/savings/unlimited" },
+  //       { name: "С капитализацией", href: "/deposits/savings/compound" },
+  //     ],
+  //   },
+  // },
+  // { name: "Бизнес", href: "/business" },
+  // {
+  //   name: "Страхование",
+  //   href: "/insurance",
+  //   dropdown: {
+  //     "Страхование": [
+  //       { name: "Страхование", href: "/insurance", isBold: true },
+  //       { name: "ОСАГО", href: "/insurance/osago" },
+  //       { name: "Каско", href: "/insurance/casco" },
+  //       { name: "Медицинское страхование", href: "/insurance/medical" },
+  //       { name: "Страхование жизни", href: "/insurance/life" },
+  //     ],
+  //     "Страхование имущества": [
+  //       { name: "Страхование имущества", href: "/insurance/property", isBold: true },
+  //       { name: "Квартиры", href: "/insurance/property/apartment" },
+  //       { name: "Дома", href: "/insurance/property/house" },
+  //     ],
+  //   },
+  // },
+  // { name: "Банки", href: "/banks" },
   { name: "Курс валют", href: "/currency-exchange" },
   { name: "Задать вопрос", href: "/ask-question" },
 ];
