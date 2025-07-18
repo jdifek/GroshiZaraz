@@ -2,7 +2,6 @@ import React from "react";
 import ReviewCard from "../Reviews/ReviewCard";
 import StatCard from "../Reviews/StatCard";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
-import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 
 const reviews = [
   {
@@ -71,9 +70,8 @@ const ClientReviews = () => {
         </div>
 
         <div className="text-center space-x-4 ">
-          <GrayButton text="Показать ещё" />
 
-          <BlueButton link="reviews" text="Показать все отзывы" />
+          <BlueButton link="reviews" text="Показать еще отзывы" />
         </div>
         <div className="mt-8 bg-white rounded-xl shadow-md px-8 py-6 flex flex-wrap justify-around items-center gap-6 border border-blue-100">
           {stats.map((stat, i) => (

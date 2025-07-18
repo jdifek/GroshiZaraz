@@ -1,9 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react';
-import { Star, X, Check } from 'lucide-react';
-import { BlueButton } from '@/app/ui/Buttons/BlueButton';
-import { GrayButton } from '@/app/ui/Buttons/GrayButton';
+import React, { useState } from "react";
+import { Star, X, Check } from "lucide-react";
+import { BlueButton } from "@/app/ui/Buttons/BlueButton";
+import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 
 interface MFO {
   id: number;
@@ -31,25 +31,27 @@ interface MFODetailsPopupProps {
   onClose: () => void;
 }
 
-const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({ 
-  mfo, 
-  isOpen, 
-  onClose, 
+const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
+  mfo,
+  isOpen,
+  onClose,
 }) => {
-  const [activeTab, setActiveTab] = useState<'conditions' | 'rates' | 'requirements'>('conditions');
+  const [activeTab, setActiveTab] = useState<
+    "conditions" | "rates" | "requirements"
+  >("conditions");
 
   if (!isOpen) return null;
 
   const tabs = [
-    { id: 'conditions', label: 'Условия' },
-    { id: 'rates', label: 'Проценты' },
-    { id: 'requirements', label: 'Требования' }
+    { id: "conditions", label: "Условия" },
+    { id: "rates", label: "Проценты" },
+    { id: "requirements", label: "Требования" },
   ];
 
   return (
     <div className="fixed inset-0 bg-black/40  backdrop-blur-sm flex items-center justify-center z-50 p-4">
-<div className="bg-white scrollbar-hidden overflow-y-auto rounded-2xl max-w-lg w-full h-[90vh] flex flex-col shadow-2xl">
-{/* Header */}
+      <div className="bg-white scrollbar-hidden overflow-y-auto rounded-2xl max-w-lg w-full h-[90vh] flex flex-col shadow-2xl">
+        {/* Header */}
         <div className="relative p-6 pb-4">
           <button
             onClick={onClose}
@@ -57,9 +59,11 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
           >
             <X className="w-4 h-4 text-gray-600" />
           </button>
-          
+
           <div className="flex items-center gap-3 mb-4">
-            <div className={`w-12 h-12 bg-gradient-to-br ${mfo.color} rounded-xl flex items-center justify-center text-white text-lg font-bold`}>
+            <div
+              className={`w-12 h-12 bg-gradient-to-br ${mfo.color} rounded-xl flex items-center justify-center text-white text-lg font-bold`}
+            >
               {mfo.logo}
             </div>
             <div className="flex-1">
@@ -74,7 +78,9 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1">
                   <Star className="w-3 h-3 text-yellow-500 fill-current" />
-                  <span className="text-sm font-semibold text-gray-800">{mfo.rating}</span>
+                  <span className="text-sm font-semibold text-gray-800">
+                    {mfo.rating}
+                  </span>
                 </div>
               </div>
             </div>
@@ -82,41 +88,48 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
 
           {/* Tabs */}
           <div className="flex bg-gray-100 rounded-lg p-1 mb-4">
-  {tabs.map((tab) => (
-    <button
-      key={tab.id}
-      onClick={() => setActiveTab(tab.id as any)}
-      className={`flex-1 py-2 px-3 text-sm font-medium rounded-md
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`flex-1 py-2 px-3 text-sm font-medium rounded-md
         transition-all duration-200 ease-in-out
         ${
           activeTab === tab.id
-            ? 'bg-white text-gray-900 shadow-sm'
-            : 'text-gray-600 hover:text-gray-800 hover:bg-white/70'
+            ? "bg-white text-gray-900 shadow-sm"
+            : "text-gray-600 hover:text-gray-800 hover:bg-white/70"
         }`}
-    >
-      {tab.label}
-    </button>
-  ))}
-</div>
-
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Tab Content */}
         <div className="px-6 pb-6">
-          {activeTab === 'conditions' && (
+          {activeTab === "conditions" && (
             <div className="space-y-4">
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Максимальная сумма</span>
-                  <span className="font-semibold text-gray-800">{mfo.maxAmount}</span>
+                  <span className="font-semibold text-gray-800">
+                    {mfo.maxAmount}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="text-gray-600">Минимальная сумма микрозайма</span>
-                  <span className="font-semibold text-gray-800">{mfo.minAmount}</span>
+                  <span className="text-gray-600">
+                    Минимальная сумма микрозайма
+                  </span>
+                  <span className="font-semibold text-gray-800">
+                    {mfo.minAmount}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Срок займа</span>
-                  <span className="font-semibold text-gray-800">{mfo.term}</span>
+                  <span className="font-semibold text-gray-800">
+                    {mfo.term}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Подача заявки</span>
@@ -124,11 +137,15 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Решение по займу</span>
-                  <span className="font-semibold text-gray-800">{mfo.responseTime}</span>
+                  <span className="font-semibold text-gray-800">
+                    {mfo.responseTime}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span className="text-gray-600">Залог</span>
-                  <span className="font-semibold text-gray-800">Без залога</span>
+                  <span className="font-semibold text-gray-800">
+                    Без залога
+                  </span>
                 </div>
               </div>
 
@@ -136,7 +153,9 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                 <div className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-lg p-3 mt-4">
                   <div className="flex items-center gap-2 mb-1">
                     <Check className="w-4 h-4 text-green-600" />
-                    <span className="font-semibold text-green-800 text-sm">Первый займ без процентов</span>
+                    <span className="font-semibold text-green-800 text-sm">
+                      Первый займ без процентов
+                    </span>
                   </div>
                   <p className="text-green-700 text-xs">
                     Новые клиенты получают займ под 0%
@@ -146,39 +165,50 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
             </div>
           )}
 
-          {activeTab === 'rates' && (
+          {activeTab === "rates" && (
             <div className="space-y-4">
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Ставка в день</span>
-                  <span className="font-semibold text-green-600">{mfo.rate}</span>
+                  <span className="font-semibold text-green-600">
+                    {mfo.rate}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Комиссия</span>
-                  <span className="font-semibold text-gray-800">{mfo.commission}</span>
+                  <span className="font-semibold text-gray-800">
+                    {mfo.commission}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Одобрение</span>
-                  <span className="font-semibold text-blue-600">{mfo.approval}</span>
+                  <span className="font-semibold text-blue-600">
+                    {mfo.approval}
+                  </span>
                 </div>
               </div>
 
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                <h4 className="font-semibold text-yellow-800 mb-2 text-sm">⚠️ Важная информация</h4>
+                <h4 className="font-semibold text-yellow-800 mb-2 text-sm">
+                  ⚠️ Важная информация
+                </h4>
                 <p className="text-yellow-700 text-xs">
-                  Займы выдаются лицам старше 18 лет. Помните о необходимости своевременного погашения. 
-                  Просрочка может негативно повлиять на вашу кредитную историю.
+                  Займы выдаются лицам старше 18 лет. Помните о необходимости
+                  своевременного погашения. Просрочка может негативно повлиять
+                  на вашу кредитную историю.
                 </p>
               </div>
             </div>
           )}
 
-          {activeTab === 'requirements' && (
+          {activeTab === "requirements" && (
             <div className="space-y-4">
               <div className="space-y-3">
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Возраст</span>
-                  <span className="font-semibold text-gray-800">{mfo.ageLimit}</span>
+                  <span className="font-semibold text-gray-800">
+                    {mfo.ageLimit}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Гражданство</span>
@@ -186,17 +216,23 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Документы</span>
-                  <span className="font-semibold text-gray-800">Паспорт РФ</span>
+                  <span className="font-semibold text-gray-800">
+                    Паспорт РФ
+                  </span>
                 </div>
               </div>
 
               <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                <h4 className="font-semibold text-green-800 mb-2 text-sm">Преимущества</h4>
+                <h4 className="font-semibold text-green-800 mb-2 text-sm">
+                  Преимущества
+                </h4>
                 <div className="space-y-1">
                   {mfo.advantages.map((advantage, index) => (
                     <div key={index} className="flex items-start gap-2">
                       <Check className="w-3 h-3 text-green-600 flex-shrink-0 mt-0.5" />
-                      <span className="text-green-800 text-xs">{advantage}</span>
+                      <span className="text-green-800 text-xs">
+                        {advantage}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -207,17 +243,12 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
           {/* Action Buttons */}
           <div className="flex items-center mt-6 justify-between">
             <div className="">
-              <BlueButton 
-                text="Получить деньги" 
-              />
+              <BlueButton text="Получить деньги" />
             </div>
             <div className="">
-              <GrayButton 
-                text="Подробнее" 
-              />
+              <GrayButton link="/mfos/test" text="Подробнее" />
             </div>
           </div>
-
 
           {/* Footer Note */}
           <p className="text-xs text-gray-500 text-center mt-4">

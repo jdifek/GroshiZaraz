@@ -1,6 +1,5 @@
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import BankCard from "./BankCard";
-import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 
 export const BanksSection = () => {
   const banks = [
@@ -70,9 +69,8 @@ export const BanksSection = () => {
       </div>
 
       <div className="text-center space-x-4">
-        <GrayButton text="Показать ещё" />
 
-        <BlueButton text="Показать все банки" />
+        <BlueButton text="Показать ещё банки" />
       </div>
     </div>
   );

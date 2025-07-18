@@ -1,4 +1,3 @@
-import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 import { MfoCard } from "./MfoCard";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 
@@ -69,9 +68,8 @@ export const MfoSection = () => {
       </div>
 
       <div className="text-center space-x-4">
-        <GrayButton text="Показать ещё" />
 
-        <BlueButton link="/mfos" text="Показать все МФО" />
+        <BlueButton link="/mfos" text="Показать еще МФО" />
       </div>
     </div>
   );

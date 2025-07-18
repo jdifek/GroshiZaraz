@@ -38,7 +38,8 @@ export const MfoCard: React.FC<MfoCardProps> = ({ mfo, index }) => {
         </div>
       </div>
       <div className="text-sm text-gray-600 mb-4">Отзывы: {mfo.reviews}</div>
-      <GrayToBlueButton text="Задать вопрос" />
+         
+          <GrayToBlueButton text="Подробнее"   link='/mfos/test'/>
     </div>
   );
 };
