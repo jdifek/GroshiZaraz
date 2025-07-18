@@ -54,7 +54,7 @@ const HurmaCreditDetails = () => {
 
   return (
     <div className="min-h-screen ">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-3xl shadow-lg p-8 mb-8">
           <div className="flex flex-col lg:flex-row gap-8">
