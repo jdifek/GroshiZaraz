@@ -60,8 +60,11 @@ const HurmaCreditDetails = () => {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Company Info */}
             <div className="flex-1">
+            <div className={`block md:hidden mb-3 w-20 h-20 bg-gradient-to-br ${companyInfo.color} rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg`}>
+                  {companyInfo.logo}
+                </div>
               <div className="flex items-center gap-4 mb-6">
-                <div className={`w-20 h-20 bg-gradient-to-br ${companyInfo.color} rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg`}>
+                <div className={`md:block hidden w-20 h-20 bg-gradient-to-br ${companyInfo.color} rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg`}>
                   {companyInfo.logo}
                 </div>
                 <div>
