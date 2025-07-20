@@ -34,14 +34,7 @@ const Footer: React.FC = () => {
               <div className="absolute -bottom-2 left-0 w-8 h-0.5 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
             </h4>
             <ul className="space-y-3 text-sm">
-              <li>
-                <Link 
-                  href="/compare" 
-                  className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:translate-x-1 inline-block"
-                >
-                  → Сравнение
-                </Link>
-              </li>
+            
               <li>
                 <Link 
                   href="/about" 
