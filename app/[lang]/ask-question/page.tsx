@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 export default function AskQuestionPage (){
@@ -233,11 +234,14 @@ export default function AskQuestionPage (){
       item.id === id ? { ...item, isOpen: !item.isOpen } : item
     ));
   };
+  const router = useRouter()
+  const pathname = usePathname(); // например "/ru/ask-question/test"
 
-  const handleQuestionClick = (questionId: number) => {
-    // Здесь будет редирект на страницу с вопросом и ответами
-    console.log(`Переход на страницу вопроса ${questionId}`);
-    // window.location.href = `/questions/${questionId}`;
+const localePrefix = pathname.split('/')[1]; // "ru"
+
+  const handleQuestionClick = () => {
+    router.push(`/${localePrefix}/ask-question/slug`);
+
   };
 
   return (
@@ -323,8 +327,8 @@ export default function AskQuestionPage (){
                       </div>
                       
                       <button
-                        onClick={() => handleQuestionClick(question.id)}
-                        className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300 hover:scale-105"
+                        onClick={() => handleQuestionClick()}
+                        className="bg-gradient-to-r cursor-pointer from-blue-500 to-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300 hover:scale-105"
                       >
                         Ответы
                       </button>
