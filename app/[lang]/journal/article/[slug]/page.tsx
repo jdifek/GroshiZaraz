@@ -1,4 +1,5 @@
 'use client';
+import { BlueButton } from '@/app/ui/Buttons/BlueButton';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -138,7 +139,7 @@ const ArticleDetailPage = () => {
             {/* Article Info Overlay */}
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent p-8">
               <div className="max-w-4xl mx-auto">
-                <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight text-white drop-shadow-lg">
+                <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight !text-white drop-shadow-lg">
                   {article.title}
                 </h1>
                 <div className="flex flex-wrap items-center gap-6 text-white/90">
@@ -301,12 +302,8 @@ const ArticleDetailPage = () => {
 
           {/* Back to Journal Button */}
           <div className="text-center pt-8 border-t border-gray-100">
-            <button
-              onClick={() => router.push('/journal')}
-              className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              🔙 Вернуться к журналу
-            </button>
+          <BlueButton text="Вернуться к журналу" />
+
           </div>
         </div>
       </div>

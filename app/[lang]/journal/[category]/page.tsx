@@ -215,6 +215,8 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                   {filteredArticles.slice(0, 3).map((article, index) => (
                     <article
+                    onClick={() => router.push(`/journal/article/${article.id}`)}
+
                       key={article.id}
                       className={`${index === 0 ? 'md:col-span-2 lg:col-span-2' : ''} bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200`}
                     >
