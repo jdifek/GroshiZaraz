@@ -1,115 +1,94 @@
 'use client';
 import { BlueButton } from '@/app/ui/Buttons/BlueButton';
 import { useRouter, useParams } from 'next/navigation';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+interface Author {
+  id: number;
+  name: string;
+  slug: string;
+  avatar: string;
+  color: string;
+  position: string;
+  bio: string;
+  experience: string;
+  followers: number;
+  totalViews: number;
+  totalPosts: number;
+  expertise: string[];
+  achievements: string[];
+  telegram?: string;
+  linkedin?: string;
+  twitter?: string;
+  email?: string;
+}
 
 const AuthorPage = () => {
   const router = useRouter();
   const params = useParams();
   const authorSlug = params.slug as string;
+  const [author, setAuthor] = useState<Author | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // Данные авторов (в реальном приложении будут получаться из API)
-  const authors = {
-    'olga-pikhodskaya': {
-      id: 1,
-      name: 'Ольга Пиходская',
-      slug: 'olga-pikhodskaya',
-      avatar: 'О',
-      color: 'bg-gradient-to-br from-blue-500 to-purple-600',
-      position: 'Старший финансовый журналист',
-      bio: 'Финансовый журналист с более чем 8-летним опытом освещения банковской сферы. Специализируется на анализе банковских продуктов, технологических инноваций в финансах и цифровых платежных решениях. Магистр экономических наук, выпускница КНУ им. Тараса Шевченко.',
-      experience: '8+ лет',
-      articlesCount: 127,
-      totalViews: '2.8M',
-      followers: 1543,
-      expertise: ['Банковские продукты', 'Финтех', 'Цифровые платежи', 'Кредитование', 'Инвестиции'],
-      socialMedia: {
-        telegram: '@olga_banking',
-        linkedin: 'olga-pikhodskaya',
-        twitter: '@olga_finance',
-        email: 'olga@groshizaraz.ua'
-      },
-      achievements: [
-        'Лауреат премии "Финансовый журналист года 2024"',
-        'Автор бестселлера "Банки будущего"',
-        'Спикер на FinTech Conference Ukraine'
-      ]
-    },
-    'irina-kalimulina': {
-      id: 2,
-      name: 'Ирина Калимулина',
-      slug: 'irina-kalimulina',
-      avatar: 'И',
-      color: 'bg-gradient-to-br from-purple-500 to-pink-600',
-      position: 'Эксперт по кредитованию',
-      bio: 'Эксперт в области кредитования и управления долгами с 6-летним опытом работы в банковской сфере. Помогает людям решать сложные финансовые ситуации и находить оптимальные решения для погашения кредитов.',
-      experience: '6+ лет',
-      articlesCount: 89,
-      totalViews: '1.5M',
-      followers: 892,
-      expertise: ['Кредитование', 'Управление долгами', 'Реструктуризация', 'Финансовое планирование'],
-      socialMedia: {
-        telegram: '@irina_credit',
-        linkedin: 'irina-kalimulina',
-        twitter: '@olga_finance',
-        email: 'irina@groshizaraz.ua'
-      },
-      achievements: [
-        'Сертифицированный консультант по долгам',
-        'Автор курса "Выход из долговой ямы"',
-        'Эксперт программы "Финансовая грамотность"'
-      ]
+  // Загрузка данных об авторе по slug
+  useEffect(() => {
+    const fetchAuthor = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/authors/slug/${authorSlug}`);
+        if (!response.ok) {
+          throw new Error('Автор не найден');
+        }
+        const data = await response.json();
+        setAuthor(data);
+        setLoading(false);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (err) {
+        setError('Ошибка при загрузке данных об авторе');
+        setLoading(false);
+      }
+    };
+
+    if (authorSlug) {
+      fetchAuthor();
     }
-  };
+  }, [authorSlug]);
 
-  const author = authors[authorSlug as keyof typeof authors];
-
-  if (!author) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-center">
-          <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">Автор не найден</h1>
-          <BlueButton text="Вернуться к журналу" />
-        </div>
-      </div>
-    );
-  }
-
-  // Статьи автора (заглушка)
+  // Заглушка для статей автора (пока не трогаем API для статей)
   const authorArticles = [
     {
       id: 1,
-      title: "Альфа-Банк представил новое приложение для айфонов",
-      excerpt: "Обновленное мобильное приложение с расширенным функционалом и улучшенным интерфейсом",
-      date: "11.07.2025",
-      category: "Новости",
+      title: 'Альфа-Банк представил новое приложение для айфонов',
+      excerpt: 'Обновленное мобильное приложение с расширенным функционалом и улучшенным интерфейсом',
+      date: '11.07.2025',
+      category: 'Новости',
       views: 36000,
-      image: "🏦",
-      color: "bg-gradient-to-br from-blue-500 to-blue-600",
-      readTime: "5 мин"
+      image: '🏦',
+      color: 'bg-gradient-to-br from-blue-500 to-blue-600',
+      readTime: '5 мин',
     },
     {
       id: 2,
-      title: "Как выбрать лучшую дебетовую карту в 2025 году",
-      excerpt: "Подробное сравнение популярных дебетовых карт украинских банков",
-      date: "08.07.2025",
-      category: "Дебетовые карты",
+      title: 'Как выбрать лучшую дебетовую карту в 2025 году',
+      excerpt: 'Подробное сравнение популярных дебетовых карт украинских банков',
+      date: '08.07.2025',
+      category: 'Дебетовые карты',
       views: 24000,
-      image: "💳",
-      color: "bg-gradient-to-br from-green-500 to-green-600",
-      readTime: "7 мин"
+      image: '💳',
+      color: 'bg-gradient-to-br from-green-500 to-green-600',
+      readTime: '7 мин',
     },
     {
       id: 3,
-      title: "Тренды мобильного банкинга в Украине",
-      excerpt: "Анализ новых функций и возможностей банковских приложений",
-      date: "05.07.2025",
-      category: "Аналитика",
+      title: 'Тренды мобильного банкинга в Украине',
+      excerpt: 'Анализ новых функций и возможностей банковских приложений',
+      date: '05.07.2025',
+      category: 'Аналитика',
       views: 18000,
-      image: "📱",
-      color: "bg-gradient-to-br from-purple-500 to-purple-600",
-      readTime: "6 мин"
-    }
+      image: '📱',
+      color: 'bg-gradient-to-br from-purple-500 to-purple-600',
+      readTime: '6 мин',
+    },
   ];
 
   const formatNumber = (num: number) => {
@@ -122,20 +101,43 @@ const AuthorPage = () => {
     return num.toString();
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="text-center">
+          <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">Загрузка...</h1>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !author) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="text-center">
+          <h1 className="text-xl md:text-2xl font-bold text-gray-800 mb-4">
+            {error || 'Автор не найден'}
+          </h1>
+          <BlueButton text="Вернуться к журналу"/>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen">
       {/* Breadcrumbs */}
       <div className="px-4 md:px-0">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center text-xs sm:text-sm text-gray-600 py-4 overflow-x-auto">
-            <button 
+            <button
               onClick={() => router.push('/')}
               className="hover:text-blue-600 transition-colors whitespace-nowrap"
             >
               Главная
             </button>
             <span className="mx-1 sm:mx-2">-</span>
-            <button 
+            <button
               onClick={() => router.push('/journal')}
               className="hover:text-blue-600 transition-colors whitespace-nowrap"
             >
@@ -153,9 +155,14 @@ const AuthorPage = () => {
         {/* Author Hero Section */}
         <div className="bg-white rounded-xl md:rounded-2xl shadow-md overflow-hidden border border-gray-100 mb-6 md:mb-8">
           {/* Hero Background */}
-          <div className={`${author.color} h-48 sm:h-56 md:h-64 lg:h-80 relative overflow-hidden`}>
-            <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/50"></div>
-            
+          <div
+  className={`${author.color} h-48 sm:h-56 md:h-64 lg:h-80 relative overflow-hidden`}
+>
+  <div
+    className="absolute inset-0"
+    style={{ backgroundColor: author.color }}
+  ></div>
+
             {/* Author Avatar and Basic Info */}
             <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
               <div className="flex flex-col sm:flex-row sm:items-end gap-4 md:gap-6">
@@ -171,10 +178,10 @@ const AuthorPage = () => {
                   </p>
                   <div className="flex flex-wrap justify-center sm:justify-start gap-2 md:gap-4">
                     <div className="bg-white/10 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full border border-white/20">
-                      <span className="text-xs sm:text-sm font-medium">📚 {author.articlesCount} статей</span>
+                      <span className="text-xs sm:text-sm font-medium">📚 {author.totalPosts} статей</span>
                     </div>
                     <div className="bg-white/10 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full border border-white/20">
-                      <span className="text-xs sm:text-sm font-medium">👁️ {author.totalViews} просмотров</span>
+                      <span className="text-xs sm:text-sm font-medium">👁️ {formatNumber(author.totalViews)} просмотров</span>
                     </div>
                     <div className="bg-white/10 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full border border-white/20">
                       <span className="text-xs sm:text-sm font-medium">👥 {formatNumber(author.followers)} подписчиков</span>
@@ -194,9 +201,9 @@ const AuthorPage = () => {
                   О авторе
                   <div className="absolute -bottom-1 md:-bottom-2 left-0 w-8 md:w-12 h-0.5 md:h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
                 </h2>
-                <p className="text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed mb-4 md:mb-6">
-                  {author.bio}
-                </p>
+             <p className="break-words break-normal text-gray-700 text-sm sm:text-base md:text-lg leading-relaxed mb-4 md:mb-6">
+  {author.bio}
+</p>
 
                 {/* Expertise */}
                 <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-3 md:mb-4">Экспертиза</h3>
@@ -238,11 +245,11 @@ const AuthorPage = () => {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm md:text-base">Статей написано:</span>
-                      <span className="font-bold text-gray-800 text-sm md:text-base">{author.articlesCount}</span>
+                      <span className="font-bold text-gray-800 text-sm md:text-base">{author.totalPosts}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm md:text-base">Всего просмотров:</span>
-                      <span className="font-bold text-gray-800 text-sm md:text-base">{author.totalViews}</span>
+                      <span className="font-bold text-gray-800 text-sm md:text-base">{formatNumber(author.totalViews)}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm md:text-base">Подписчиков:</span>
@@ -258,52 +265,62 @@ const AuthorPage = () => {
                     <div className="absolute -bottom-0.5 md:-bottom-1 left-0 w-6 md:w-8 h-0.5 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
                   </h3>
                   <div className="space-y-2 md:space-y-3">
-                    {author.socialMedia.telegram && (
-                      <a href={`https://t.me/${author.socialMedia.telegram.replace('@', '')}`} 
-                         className="flex items-center gap-3 p-2 md:p-3 bg-white rounded-lg md:rounded-xl hover:bg-blue-50 transition-colors border border-gray-100 hover:border-blue-200">
+                    {author.telegram && (
+                      <a
+                        href={`https://t.me/${author.telegram.replace('@', '')}`}
+                        className="flex items-center gap-3 p-2 md:p-3 bg-white rounded-lg md:rounded-xl hover:bg-blue-50 transition-colors border border-gray-100 hover:border-blue-200"
+                      >
                         <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm md:text-base">
                           📱
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="font-medium text-gray-800 text-sm md:text-base">Telegram</div>
-                          <div className="text-xs md:text-sm text-gray-600 truncate">{author.socialMedia.telegram}</div>
+                          <div className="text-xs md:text-sm text-gray-600 truncate">{author.telegram}</div>
                         </div>
                       </a>
                     )}
-                    {author.socialMedia.linkedin && (
-                      <a href={`https://linkedin.com/in/${author.socialMedia.linkedin}`}
-                         className="flex items-center gap-3 p-2 md:p-3 bg-white rounded-lg md:rounded-xl hover:bg-blue-50 transition-colors border border-gray-100 hover:border-blue-200">
+                    {author.linkedin && (
+                      <a
+                        href={`https://linkedin.com/in/${author.linkedin}`}
+                        className="flex items-center gap-3 p-2 md:p-3 bg-white rounded-lg md:rounded-xl hover:bg-blue-50 transition-colors border border-gray-100 hover:border-blue-200"
+                      >
                         <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm md:text-base">
                           💼
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="font-medium text-gray-800 text-sm md:text-base">LinkedIn</div>
-                          <div className="text-xs md:text-sm text-gray-600 truncate">{author.socialMedia.linkedin}</div>
+                          <div className="text-xs md:text-sm text-gray-600 truncate">{author.linkedin}</div>
                         </div>
                       </a>
                     )}
-                    {author?.socialMedia?.twitter && (
-                      <a href={`https://twitter.com/${author.socialMedia.twitter.replace('@', '')}`}
-                         className="flex items-center gap-3 p-2 md:p-3 bg-white rounded-lg md:rounded-xl hover:bg-blue-50 transition-colors border border-gray-100 hover:border-blue-200">
+                    {author.twitter && (
+                      <a
+                        href={`https://twitter.com/${author.twitter.replace('@', '')}`}
+                        className="flex items-center gap-3 p-2 md:p-3 bg-white rounded-lg md:rounded-xl hover:bg-blue-50 transition-colors border border-gray-100 hover:border-blue-200"
+                      >
                         <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-400 rounded-full flex items-center justify-center text-white text-sm md:text-base">
                           🐦
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="font-medium text-gray-800 text-sm md:text-base">Twitter</div>
-                          <div className="text-xs md:text-sm text-gray-600 truncate">{author.socialMedia.twitter}</div>
+                          <div className="text-xs md:text-sm text-gray-600 truncate">{author.twitter}</div>
                         </div>
                       </a>
                     )}
-                    <a href={`mailto:${author.socialMedia.email}`}
-                       className="flex items-center gap-3 p-2 md:p-3 bg-white rounded-lg md:rounded-xl hover:bg-blue-50 transition-colors border border-gray-100 hover:border-blue-200">
-                      <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-600 rounded-full flex items-center justify-center text-white text-sm md:text-base">
-                        ✉️
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="font-medium text-gray-800 text-sm md:text-base">Email</div>
-                        <div className="text-xs md:text-sm text-gray-600 truncate">{author.socialMedia.email}</div>
-                      </div>
-                    </a>
+                    {author.email && (
+                      <a
+                        href={`mailto:${author.email}`}
+                        className="flex items-center gap-3 p-2 md:p-3 bg-white rounded-lg md:rounded-xl hover:bg-blue-50 transition-colors border border-gray-100 hover:border-blue-200"
+                      >
+                        <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-600 rounded-full flex items-center justify-center text-white text-sm md:text-base">
+                          ✉️
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-medium text-gray-800 text-sm md:text-base">Email</div>
+                          <div className="text-xs md:text-sm text-gray-600 truncate">{author.email}</div>
+                        </div>
+                      </a>
+                    )}
                   </div>
                 </div>
 
