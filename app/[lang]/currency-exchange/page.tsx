@@ -1,8 +1,17 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { ArrowUpDown, TrendingUp, TrendingDown, RefreshCw, Clock } from 'lucide-react';
-import { RateNbu } from '@/app/components/CurrencyExchange/RateNbu';
+"use client";
+import React, { useState, useEffect } from "react";
+import {
+  ArrowUpDown,
+  TrendingUp,
+  TrendingDown,
+  RefreshCw,
+  Clock,
+} from "lucide-react";
+import { RateNbu } from "@/app/components/CurrencyExchange/RateNbu";
+import {
+  Dynamics,
+} from "@/app/services/converter/converterTypes";
+import ConverterService from "@/app/services/converter/converterService";
 
 // Define TypeScript interfaces
 interface Currency {
@@ -11,46 +20,22 @@ interface Currency {
   flag: string;
 }
 
-interface Rate {
-  cc: string;
-  rate: number;
-  txt: string;
-}
-
 interface ExchangeRates {
   [key: string]: { rate: number; change: number; trend: string };
 }
 
-interface Dynamics {
-  [key: string]: {
-    currency: string;
-    startRate: number;
-    endRate: number;
-    changePercent: string;
-    direction: 'up' | 'down';
-  };
-}
-
-interface RatesResponse {
-  date: string;
-  rates: Rate[];
-}
-
-interface ConvertResponse {
-  result: string;
-  rate: string;
-}
-
 export default function CurrencyExchangePage() {
-  const [fromCurrency, setFromCurrency] = useState<string>('USD');
-  const [toCurrency, setToCurrency] = useState<string>('UAH');
-  const [amount, setAmount] = useState<string>('100');
-  const [convertedAmount, setConvertedAmount] = useState<string>('');
+  const [fromCurrency, setFromCurrency] = useState<string>("USD");
+  const [toCurrency, setToCurrency] = useState<string>("UAH");
+  const [amount, setAmount] = useState<string>("100");
+  const [convertedAmount, setConvertedAmount] = useState<string>("");
   const [exchangeRates, setExchangeRates] = useState<ExchangeRates>({});
-  const [currencies, setCurrencies] = useState<Currency[]>([{ code: 'UAH', name: 'Украинская гривна', flag: '🇺🇦' }]);
-  const [lastUpdated, setLastUpdated] = useState<string>('');
+  const [currencies, setCurrencies] = useState<Currency[]>([
+    { code: "UAH", name: "Украинская гривна", flag: "🇺🇦" },
+  ]);
+  const [lastUpdated, setLastUpdated] = useState<string>("");
   const [dynamics, setDynamics] = useState<Dynamics>({});
-  const [error, setError] = useState<string>('');
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     fetchExchangeRates();
@@ -59,20 +44,21 @@ export default function CurrencyExchangePage() {
 
   const fetchExchangeRates = async () => {
     try {
-      setError('');
-      const response = await axios.get<RatesResponse>('http://localhost:5000/api/rates');
-      const { date, rates } = response.data;
+      setError("");
+      const response = await ConverterService.RatesGet();
+      const { date, rates } = response;
 
-      // Map rates to exchangeRates state
-      const ratesMap: ExchangeRates = rates.reduce((acc, curr) => ({
-        ...acc,
-        [curr.cc]: { rate: curr.rate, change: 0, trend: 'stable' },
-      }), {});
+      const ratesMap: ExchangeRates = rates.reduce(
+        (acc, curr) => ({
+          ...acc,
+          [curr.cc]: { rate: curr.rate, change: 0, trend: "stable" },
+        }),
+        {}
+      );
       setExchangeRates(ratesMap);
 
-      // Dynamically create currencies list from backend, including UAH
       const fetchedCurrencies: Currency[] = [
-        { code: 'UAH', name: 'Украинская гривна', flag: '🇺🇦' },
+        { code: "UAH", name: "Украинская гривна", flag: "🇺🇦" },
         ...rates.map((rate) => ({
           code: rate.cc,
           name: rate.txt,
@@ -83,91 +69,101 @@ export default function CurrencyExchangePage() {
 
       setLastUpdated(date);
 
-      // Update converted amount if amount is set and currencies are valid
       if (amount && fromCurrency && toCurrency) {
         await handleAmountChange(amount);
       }
     } catch (error) {
-      console.error('Error fetching exchange rates:', error);
-      setError('Не удалось загрузить курсы валют. Пожалуйста, попробуйте позже.');
+      console.error("Error fetching exchange rates:", error);
+      setError(
+        "Не удалось загрузить курсы валют. Пожалуйста, попробуйте позже."
+      );
     }
   };
 
   const fetchDynamics = async () => {
     try {
-      setError('');
-      const currenciesToFetch = ['USD', 'EUR', 'GBP'];
+      setError("");
+      const currenciesToFetch = ["USD", "EUR", "GBP"];
       const dynamicsData: Dynamics = {};
       for (const currency of currenciesToFetch) {
-        const response = await axios.get(`http://localhost:5000/api/dynamics?valcode=${currency}`);
-        dynamicsData[currency] = response.data;
+        const response = await ConverterService.DynamicsGet({ currency });
+        dynamicsData[currency] = response;
       }
       setDynamics(dynamicsData);
     } catch (error) {
-      console.error('Error fetching dynamics:', error);
-      setError('Не удалось загрузить динамику курсов. Пожалуйста, попробуйте позже.');
+      console.error("Error fetching dynamics:", error);
+      setError(
+        "Не удалось загрузить динамику курсов. Пожалуйста, попробуйте позже."
+      );
     }
   };
 
   const handleSwapCurrencies = async () => {
-    setError('');
+    setError("");
     const tempFrom = fromCurrency;
     const tempAmount = amount;
     setFromCurrency(toCurrency);
     setToCurrency(tempFrom);
     if (tempAmount && !isNaN(parseFloat(tempAmount))) {
       try {
-        console.log(`Swapping currencies: from ${toCurrency} to ${tempFrom}, amount: ${tempAmount}`);
-        const response = await axios.get<ConvertResponse>(
-          `http://localhost:5000/api/convert?from=${toCurrency}&to=${tempFrom}&amount=${tempAmount}`
+        console.log(
+          `Swapping currencies: from ${toCurrency} to ${tempFrom}, amount: ${tempAmount}`
         );
-        console.log('Swap API response:', response.data);
-        setConvertedAmount(response.data.result);
-        setAmount(response.data.result);
+        const response = await ConverterService.SwapCurrencies({
+          toCurrency,
+          tempFrom,
+          tempAmount,
+        });
+        console.log("Swap API response:", response);
+        setConvertedAmount(response.result);
+        setAmount(response.result);
       } catch (error) {
-        console.error('Error converting currency during swap:', error);
-        setError('Ошибка при конвертации валют. Пожалуйста, попробуйте снова.');
-        setConvertedAmount('');
+        console.error("Error converting currency during swap:", error);
+        setError("Ошибка при конвертации валют. Пожалуйста, попробуйте снова.");
+        setConvertedAmount("");
       }
     } else {
-      setConvertedAmount('');
+      setConvertedAmount("");
     }
   };
 
   const handleAmountChange = async (value: string) => {
     setAmount(value);
-    setError('');
+    setError("");
     if (!value || isNaN(parseFloat(value)) || parseFloat(value) <= 0) {
-      setConvertedAmount('');
+      setConvertedAmount("");
       return;
     }
     try {
-      console.log(`Converting: from ${fromCurrency} to ${toCurrency}, amount: ${value}`);
-      const response = await axios.get<ConvertResponse>(
-        `http://localhost:5000/api/convert?from=${fromCurrency}&to=${toCurrency}&amount=${value}`
+      console.log(
+        `Converting: from ${fromCurrency} to ${toCurrency}, amount: ${value}`
       );
-      console.log('Convert API response:', response.data);
-      setConvertedAmount(response.data.result);
+      const response = await ConverterService.AmountChange({
+        fromCurrency,
+        toCurrency,
+        value,
+      });
+      setConvertedAmount(response.result);
     } catch (error) {
-      console.error('Error converting currency:', error);
-      setError('Ошибка при конвертации валют. Пожалуйста, попробуйте снова.');
-      setConvertedAmount('');
+      console.error("Error converting currency:", error);
+      setError("Ошибка при конвертации валют. Пожалуйста, попробуйте снова.");
+      setConvertedAmount("");
     }
   };
 
   // Helper function to map currency codes to flags
   const getFlagForCurrency = (code: string): string => {
     const flagMap: { [key: string]: string } = {
-      USD: '🇺🇸',
-      EUR: '🇪🇺',
-      GBP: '🇬🇧',
-      PLN: '🇵🇱',
-      CHF: '🇨🇭',
-      CAD: '🇨🇦',
-      JPY: '🇯🇵',
-      CNY: '🇨🇳',
+      USD: "🇺🇸",
+      EUR: "🇪🇺",
+      GBP: "🇬🇧",
+      PLN: "🇵🇱",
+      CHF: "🇨🇭",
+      CAD: "🇨🇦",
+      JPY: "🇯🇵",
+      CNY: "🇨🇳",
     };
-    return flagMap[code] || '🌐';
+    return flagMap[code] || "🌐";
   };
 
   return (
@@ -185,7 +181,7 @@ export default function CurrencyExchangePage() {
         <p className="text-gray-600">Актуальные курсы валют и конвертер</p>
         <div className="flex items-center gap-2 mt-4 text-sm text-gray-500">
           <Clock className="w-4 h-4" />
-          <span>Обновлено: {lastUpdated || 'Loading...'}</span>
+          <span>Обновлено: {lastUpdated || "Loading..."}</span>
         </div>
       </div>
 
@@ -196,13 +192,17 @@ export default function CurrencyExchangePage() {
             Конвертер валют
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
           </h2>
-          <p className="text-gray-600 text-sm mt-4">Мгновенный расчет по актуальным курсам</p>
+          <p className="text-gray-600 text-sm mt-4">
+            Мгновенный расчет по актуальным курсам
+          </p>
         </div>
 
         <div className="max-w-2xl mx-auto space-y-6">
           {/* From Currency */}
           <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 shadow-md border border-gray-100">
-            <label className="block text-sm font-semibold text-gray-700 mb-4">Из какой валюты</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-4">
+              Из какой валюты
+            </label>
             <div className="flex flex-col sm:flex-row gap-4">
               <select
                 value={fromCurrency}
@@ -238,7 +238,9 @@ export default function CurrencyExchangePage() {
 
           {/* To Currency */}
           <div className="bg-gradient-to-br from-yellow-50 to-white rounded-2xl p-6 shadow-md border border-yellow-100">
-            <label className="block text-sm font-semibold text-gray-700 mb-4">В какую валюту</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-4">
+              В какую валюту
+            </label>
             <div className="flex flex-col sm:flex-row gap-4">
               <select
                 value={toCurrency}
@@ -252,24 +254,31 @@ export default function CurrencyExchangePage() {
                 ))}
               </select>
               <div className="sm:w-40 bg-gradient-to-br from-yellow-100 to-yellow-50 border-2 border-yellow-200 rounded-xl px-4 py-4 font-bold text-xl text-center text-yellow-800">
-                {convertedAmount || '0'}
+                {convertedAmount || "0"}
               </div>
             </div>
           </div>
 
           {/* Exchange Rate Info */}
-          {fromCurrency !== 'UAH' && toCurrency === 'UAH' && exchangeRates[fromCurrency] && (
-            <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-xl p-4 border border-blue-100">
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-2xl">{currencies.find((c) => c.code === fromCurrency)?.flag}</span>
-                <p className="text-sm font-medium text-gray-700">
-                  1 {fromCurrency} ={' '}
-                  <span className="font-bold text-blue-600">{exchangeRates[fromCurrency]?.rate.toFixed(2)}</span> UAH
-                </p>
-                <span className="text-2xl">🇺🇦</span>
+          {fromCurrency !== "UAH" &&
+            toCurrency === "UAH" &&
+            exchangeRates[fromCurrency] && (
+              <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-xl p-4 border border-blue-100">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-2xl">
+                    {currencies.find((c) => c.code === fromCurrency)?.flag}
+                  </span>
+                  <p className="text-sm font-medium text-gray-700">
+                    1 {fromCurrency} ={" "}
+                    <span className="font-bold text-blue-600">
+                      {exchangeRates[fromCurrency]?.rate.toFixed(2)}
+                    </span>{" "}
+                    UAH
+                  </p>
+                  <span className="text-2xl">🇺🇦</span>
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
 
@@ -296,28 +305,37 @@ export default function CurrencyExchangePage() {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <span className="text-3xl group-hover:scale-110 transition-transform duration-300">
-                      {currencies.find((c) => c.code === currency)?.flag || '🌐'}
+                      {currencies.find((c) => c.code === currency)?.flag ||
+                        "🌐"}
                     </span>
-                    <span className="font-bold text-gray-800 text-lg">{currency}</span>
+                    <span className="font-bold text-gray-800 text-lg">
+                      {currency}
+                    </span>
                   </div>
                   <div
                     className={`flex items-center gap-1 px-2 py-1 rounded-lg ${
-                      dynamics[currency]?.direction === 'up' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                      dynamics[currency]?.direction === "up"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
                     }`}
                   >
-                    {dynamics[currency]?.direction === 'up' ? (
+                    {dynamics[currency]?.direction === "up" ? (
                       <TrendingUp className="w-4 h-4" />
                     ) : (
                       <TrendingDown className="w-4 h-4" />
                     )}
                     <span className="text-sm font-bold">
-                      {+dynamics[currency]?.changePercent > 0 ? '+' : ''}
-                      {dynamics[currency]?.changePercent || '0'}%
+                      {+dynamics[currency]?.changePercent > 0 ? "+" : ""}
+                      {dynamics[currency]?.changePercent || "0"}%
                     </span>
                   </div>
                 </div>
-                <div className="text-3xl font-bold text-gray-800 mb-2">{data.rate.toFixed(2)}</div>
-                <div className="text-sm text-gray-500 font-medium">UAH за 1 {currency}</div>
+                <div className="text-3xl font-bold text-gray-800 mb-2">
+                  {data.rate.toFixed(2)}
+                </div>
+                <div className="text-sm text-gray-500 font-medium">
+                  UAH за 1 {currency}
+                </div>
               </div>
             </div>
           ))}
@@ -334,17 +352,21 @@ export default function CurrencyExchangePage() {
             <div className="absolute -bottom-2 left-0 w-16 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
           </h3>
           <div className="space-y-4">
-            {['USD', 'EUR', 'PLN'].map((currency) => (
+            {["USD", "EUR", "PLN"].map((currency) => (
               <div
                 key={currency}
                 className="flex justify-between items-center p-4 bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{currencies.find((c) => c.code === currency)?.flag}➡️🇺🇦</span>
-                  <span className="text-gray-700 font-medium">{currency} → UAH</span>
+                  <span className="text-2xl">
+                    {currencies.find((c) => c.code === currency)?.flag}➡️🇺🇦
+                  </span>
+                  <span className="text-gray-700 font-medium">
+                    {currency} → UAH
+                  </span>
                 </div>
                 <span className="font-bold text-lg text-blue-600">
-                  {exchangeRates[currency]?.rate.toFixed(2) || '0'}
+                  {exchangeRates[currency]?.rate.toFixed(2) || "0"}
                 </span>
               </div>
             ))}
@@ -361,15 +383,30 @@ export default function CurrencyExchangePage() {
               <div
                 key={currency}
                 className={`flex justify-between items-center p-4 bg-gradient-to-br ${
-                  data.direction === 'up' ? 'from-green-50 to-white' : 'from-red-50 to-white'
-                } rounded-xl shadow-md border ${data.direction === 'up' ? 'border-green-100' : 'border-red-100'} hover:shadow-lg transition-all duration-300`}
+                  data.direction === "up"
+                    ? "from-green-50 to-white"
+                    : "from-red-50 to-white"
+                } rounded-xl shadow-md border ${
+                  data.direction === "up"
+                    ? "border-green-100"
+                    : "border-red-100"
+                } hover:shadow-lg transition-all duration-300`}
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{data.direction === 'up' ? '📈' : '📉'}</span>
-                  <span className="text-gray-700 font-medium">{currency} (неделя)</span>
+                  <span className="text-2xl">
+                    {data.direction === "up" ? "📈" : "📉"}
+                  </span>
+                  <span className="text-gray-700 font-medium">
+                    {currency} (неделя)
+                  </span>
                 </div>
-                <span className={`font-bold text-lg ${data.direction === 'up' ? 'text-green-600' : 'text-red-600'}`}>
-                  {+data.changePercent > 0 ? '+' : ''}{data.changePercent}%
+                <span
+                  className={`font-bold text-lg ${
+                    data.direction === "up" ? "text-green-600" : "text-red-600"
+                  }`}
+                >
+                  {+data.changePercent > 0 ? "+" : ""}
+                  {data.changePercent}%
                 </span>
               </div>
             ))}

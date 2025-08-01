@@ -279,7 +279,7 @@ export default function MFOsFilterPage() {
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Оформите лучшие займы на карту не выходя из дома. Здесь собраны самые популярные российские МФО. 
+            Оформите лучшие займы на карту не выходя из дома. Здесь собраны самые популярные украинские МФО. 
             Они принимают заявки онлайн и выдают деньги в течение часа. Получение микрозайма круглосуточное.
           </p>
         </div>
