@@ -17,26 +17,7 @@ import MfoService from "@/app/services/mfos/mfosService";
 import { Mfo } from "@/app/services/mfos/mfoTypes";
 import Image from "next/image";
 
-// Define interfaces for type safety
-interface MFO {
-  id: number;
-  name: string;
-  logo: string;
-  rating: number;
-  reviews: number;
-  minAmount: string;
-  maxAmount: string;
-  term: string;
-  rate: string;
-  approval: string;
-  responseTime: string;
-  advantages: string[];
-  color: string;
-  isTop: boolean;
-  commission: string;
-  ageLimit: string;
-  firstLoanFree: boolean;
-}
+
 
 interface Category {
   name: string;
@@ -53,186 +34,10 @@ export default function MFOsPage() {
   const [sortBy, setSortBy] = useState<string>("rating");
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
   const [visibleCount] = useState<number>(9);
-  const [selectedOffer, setSelectedOffer] = useState<MFO | null>(null);
-  const [selectedMFO, setSelectedMFO] = useState<MFO | null>(null);
+  const [selectedOffer, setSelectedOffer] = useState<Mfo | null>(null);
+  const [selectedMFO, setSelectedMFO] = useState<Mfo | null>(null);
   const [isDetailsPopupOpen, setIsDetailsPopupOpen] = useState(false);
-  const mfoData: MFO[] = [
-    {
-      id: 1,
-      name: "Хурма Кредит",
-      logo: "🍊",
-      rating: 4.8,
-      reviews: 245,
-      minAmount: "5 000",
-      maxAmount: "50 000",
-      term: "5-30 дней",
-      rate: "0.01%",
-      approval: "95%",
-      responseTime: "5 мин",
-      advantages: ["Быстрое одобрение", "Без справок", "Круглосуточно"],
-      color: "from-orange-500 to-orange-600",
-      isTop: true,
-      commission: "Без комиссии",
-      ageLimit: "18-70 лет",
-      firstLoanFree: true,
-    },
-    {
-      id: 2,
-      name: "Джой Мани",
-      logo: "💰",
-      rating: 4.3,
-      reviews: 156,
-      minAmount: "3 000",
-      maxAmount: "100 000",
-      term: "10 дней - 6 месяцев",
-      rate: "0.1%",
-      approval: "87%",
-      responseTime: "10 мин",
-      advantages: ["Гибкие условия", "Онлайн заявка", "Без поручителей"],
-      color: "from-blue-500 to-blue-600",
-      isTop: false,
-      commission: "1-3%",
-      ageLimit: "21-65 лет",
-      firstLoanFree: false,
-    },
-    {
-      id: 3,
-      name: "Быстро Деньги",
-      logo: "⚡",
-      rating: 4.1,
-      reviews: 134,
-      minAmount: "1 000",
-      maxAmount: "30 000",
-      term: "7-30 дней",
-      rate: "0.05%",
-      approval: "92%",
-      responseTime: "3 мин",
-      advantages: ["Моментальное решение", "Минимальные требования", "24/7"],
-      color: "from-yellow-500 to-yellow-600",
-      isTop: false,
-      commission: "Без комиссии",
-      ageLimit: "18-75 лет",
-      firstLoanFree: true,
-    },
-    {
-      id: 4,
-      name: "Мгновенный Займ",
-      logo: "🚀",
-      rating: 4.0,
-      reviews: 98,
-      minAmount: "2 000",
-      maxAmount: "25 000",
-      term: "5-21 день",
-      rate: "0.01%",
-      approval: "89%",
-      responseTime: "2 мин",
-      advantages: ["Сверхбыстро", "Без отказов", "Простая анкета"],
-      color: "from-red-500 to-red-600",
-      isTop: false,
-      commission: "1%",
-      ageLimit: "18-70 лет",
-      firstLoanFree: true,
-    },
-    {
-      id: 5,
-      name: "Займ Экспресс",
-      logo: "💸",
-      rating: 4.2,
-      reviews: 201,
-      minAmount: "3 000",
-      maxAmount: "40 000",
-      term: "10-45 дней",
-      rate: "0.1%",
-      approval: "85%",
-      responseTime: "7 мин",
-      advantages: ["Удобное приложение", "Продление займа", "Бонусы"],
-      color: "from-teal-500 to-teal-600",
-      isTop: false,
-      commission: "1-2%",
-      ageLimit: "20-67 лет",
-      firstLoanFree: false,
-    },
-    {
-      id: 6,
-      name: "Микро Финанс",
-      logo: "💳",
-      rating: 4.6,
-      reviews: 312,
-      minAmount: "1 000",
-      maxAmount: "35 000",
-      term: "7-30 дней",
-      rate: "0.03%",
-      approval: "94%",
-      responseTime: "4 мин",
-      advantages: ["Низкая ставка", "Быстрое решение", "Без скрытых комиссий"],
-      color: "from-green-500 to-green-600",
-      isTop: true,
-      commission: "Без комиссии",
-      ageLimit: "18-65 лет",
-      firstLoanFree: true,
-    },
-    {
-      id: 7,
-      name: "Деньги Сразу",
-      logo: "💎",
-      rating: 4.4,
-      reviews: 187,
-      minAmount: "2 000",
-      maxAmount: "45 000",
-      term: "5-60 дней",
-      rate: "0.08%",
-      approval: "88%",
-      responseTime: "6 мин",
-      advantages: ["Гибкий график", "Лояльные условия", "Программа лояльности"],
-      color: "from-purple-500 to-purple-600",
-      isTop: false,
-      commission: "2%",
-      ageLimit: "21-70 лет",
-      firstLoanFree: false,
-    },
-    {
-      id: 8,
-      name: "Займ Онлайн",
-      logo: "🌟",
-      rating: 4.7,
-      reviews: 423,
-      minAmount: "1 500",
-      maxAmount: "55 000",
-      term: "7-45 дней",
-      rate: "0.02%",
-      approval: "91%",
-      responseTime: "3 мин",
-      advantages: ["Высокий рейтинг", "Надежность", "Удобный интерфейс"],
-      color: "from-indigo-500 to-indigo-600",
-      isTop: true,
-      commission: "Без комиссии",
-      ageLimit: "18-68 лет",
-      firstLoanFree: true,
-    },
-    {
-      id: 9,
-      name: "Быстрый Займ",
-      logo: "🔥",
-      rating: 3.9,
-      reviews: 156,
-      minAmount: "3 000",
-      maxAmount: "30 000",
-      term: "10-30 дней",
-      rate: "0.12%",
-      approval: "83%",
-      responseTime: "8 мин",
-      advantages: [
-        "Простое оформление",
-        "Без справок о доходах",
-        "Онлайн поддержка",
-      ],
-      color: "from-rose-500 to-rose-600",
-      isTop: false,
-      commission: "1-2%",
-      ageLimit: "19-65 лет",
-      firstLoanFree: false,
-    },
-  ];
+ 
 
   const categories: Category[] = [
     { name: "Все займы", count: 234, active: true },
@@ -263,32 +68,14 @@ export default function MFOsPage() {
     { value: "maxAmount", label: "По максимальной сумме" },
   ];
 
-  const sortedOffers = [...mfoData].sort((a: MFO, b: MFO) => {
-    switch (sortBy) {
-      case "rating":
-        return b.rating - a.rating;
-      case "rate":
-        return parseFloat(a.rate) - parseFloat(b.rate);
-      case "approval":
-        return parseFloat(b.approval) - parseFloat(a.approval);
-      case "responseTime":
-        return parseInt(a.responseTime) - parseInt(b.responseTime);
-      case "maxAmount":
-        return (
-          parseInt(b.maxAmount.replace(/\s/g, "")) -
-          parseInt(a.maxAmount.replace(/\s/g, ""))
-        );
-      default:
-        return 0;
-    }
-  });
+
 
   const closeModal = () => {
     setSelectedOffer(null);
   };
   const [mfos, setMfos] = useState<Mfo[]>([]);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [, setIsLoading] = useState(true);
 
   const fetchMfos = async () => {
     setIsLoading(true);
@@ -391,7 +178,7 @@ export default function MFOsPage() {
           <div className="flex items-center gap-6 text-sm text-gray-600">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>Найдено: {mfoData.length}</span>
+              <span>Найдено: {mfos.length}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -529,11 +316,11 @@ export default function MFOsPage() {
         </div>
 
         {/* Show More Button */}
-        {visibleCount < sortedOffers.length && (
+        {visibleCount < mfos.length && (
           <div className="text-center mb-12">
             <GrayButton
               text={`Показать еще займы (${
-                sortedOffers.length - visibleCount
+                mfos.length - visibleCount
               })`}
               // onClick={() => setVisibleCount(prev => prev + 9)}
             />
@@ -598,7 +385,7 @@ export default function MFOsPage() {
 
               <div className="text-center mb-6">
                 <div
-                  className={`w-16 h-16 bg-gradient-to-br ${selectedOffer.color} rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4`}
+                  className={`w-16 h-16 bg-gradient-to-br  rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4`}
                 >
                   {selectedOffer.logo}
                 </div>
@@ -616,19 +403,19 @@ export default function MFOsPage() {
                     <div>
                       <div className="text-gray-500">Срок</div>
                       <div className="font-semibold text-gray-800">
-                        {selectedOffer.term}
+                      to be soon
                       </div>
                     </div>
                     <div>
                       <div className="text-gray-500">Ставка</div>
                       <div className="font-semibold text-green-600">
-                        {selectedOffer.rate}
+                      to be soon
                       </div>
                     </div>
                     <div>
                       <div className="text-gray-500">Время</div>
                       <div className="font-semibold text-gray-800">
-                        {selectedOffer.responseTime}
+                      to be soon
                       </div>
                     </div>
                   </div>
@@ -636,7 +423,7 @@ export default function MFOsPage() {
               </div>
 
               <div className="space-y-4">
-                <div className="bg-blue-50 rounded-2xl p-4">
+                {/* <div className="bg-blue-50 rounded-2xl p-4">
                   <h5 className="font-semibold text-blue-900 mb-2">
                     Преимущества:
                   </h5>
@@ -648,7 +435,7 @@ export default function MFOsPage() {
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
 
                 <div className="text-center">
                   <BlueButton

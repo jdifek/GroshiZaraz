@@ -5,29 +5,12 @@ import { Star, X, Check } from "lucide-react";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 import Image from "next/image";
+import { Mfo } from "@/app/services/mfos/mfoTypes";
 
-interface MFO {
-  id: number;
-  name: string;
-  logo: string;
-  rating: number;
-  reviews: number;
-  minAmount: string;
-  maxAmount: string;
-  term: string;
-  rate: string;
-  approval: string;
-  responseTime: string;
-  advantages: string[];
-  color: string;
-  isTop: boolean;
-  commission: string;
-  ageLimit: string;
-  firstLoanFree: boolean;
-}
+
 
 interface MFODetailsPopupProps {
-  mfo: MFO;
+  mfo: Mfo;
   isOpen: boolean;
   onClose: () => void;
 }
@@ -148,7 +131,7 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600"> Решение по займу</span>
                   <span className="font-semibold text-gray-800">
-                  to be soon {mfo.responseTime}
+                  to be soon 
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2">
@@ -159,7 +142,7 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                 </div>
               </div>
 
-              {mfo.firstLoanFree && (
+              {mfo && (
                 <div className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-lg p-3 mt-4">
                   <div className="flex items-center gap-2 mb-1">
                     <Check className="w-4 h-4 text-green-600" />
@@ -181,19 +164,19 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Ставка в день</span>
                   <span className="font-semibold text-green-600">
-                    {mfo.rate}
+                  to be soon 
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Комиссия</span>
                   <span className="font-semibold text-gray-800">
-                    {mfo.commission}
+                  to be soon
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Одобрение</span>
                   <span className="font-semibold text-blue-600">
-                    {mfo.approval}
+                  to be soon
                   </span>
                 </div>
               </div>
