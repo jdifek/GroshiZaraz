@@ -18,6 +18,11 @@ export default class NewsService {
     return res.data;
   }
 
+  static async getNewsBySlug(slug: string): Promise<News> {
+    const res = await $api.get<News>(`/api/news/slug/${slug}`);
+    return res.data;
+  }
+
   static async deleteNews(id: number): Promise<void> {
     await $api.delete(`/api/news/${id}`);
   }
@@ -26,6 +31,12 @@ export default class NewsService {
     const res = await $api.get<News[]>("/api/news");
     return res.data;
   }
+
+  static async getNewsByCategorySlug(slug: string): Promise<News[]> {
+    const res = await $api.get<News[]>(`/api/news/category/${slug}`);
+    return res.data;
+  }
+
   static async getNewsStatistic(): Promise<NewsStatistic> {
     const res = await $api.get<NewsStatistic>("/api/news/dashboard/statistic");
     return res.data;
