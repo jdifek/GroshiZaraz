@@ -10,24 +10,14 @@ export interface Service {
 interface ServiceCardProps {
   service: Service;
   index: number;
-  activeService: string | number | null;
-  setActiveService: React.Dispatch<React.SetStateAction<string | number | null>>
 }
-
-const ServiceCard: React.FC<ServiceCardProps> = ({
-  service,
-  index,
-  activeService,
-  setActiveService,
-}) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
   return (
     <div
-      className={`group cursor-pointer transform hover:scale-105 transition-all duration-300 ${
+      className={`group transform transition-all duration-300 hover:scale-105 ${
         index < 4 ? "animate-fade-in" : ""
       }`}
       style={{ animationDelay: `${index * 0.1}s` }}
-      onMouseEnter={() => setActiveService(service.id)}
-      onMouseLeave={() => setActiveService(null)}
     >
       <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-blue-500">
         <div
@@ -40,16 +30,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         </h3>
         <div className="mt-2 text-center h-[2px]">
           <div
-            className={`w-full h-0.5 rounded-full transition-opacity duration-300 ${
-              activeService === service.id
-                ? "bg-gradient-to-r from-blue-500 to-yellow-400 opacity-100 animate-pulse"
-                : "opacity-0"
-            }`}
+            className={`w-full h-0.5 rounded-full transition-opacity duration-300 bg-gradient-to-r from-blue-500 to-yellow-400 opacity-0 group-hover:opacity-100`}
           ></div>
         </div>
       </div>
     </div>
   );
 };
+
 
 export default ServiceCard;

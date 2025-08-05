@@ -1,5 +1,4 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
 import { CurrencyWidget } from "./CurrencyWidget";
 import { FeaturedCards } from "../FinancialServicesBlocks/FeaturedCards";
 import ServiceCard from "../FinancialServicesBlocks/ServiceCard";
@@ -81,9 +80,6 @@ const services = [
 ];
 
 const FinancialServicesBlocks = () => {
-  const [activeService, setActiveService] = useState<string | number | null>(
-    null
-  );
 
   return (
     <div className="min-h-screen ">
@@ -109,8 +105,6 @@ const FinancialServicesBlocks = () => {
                 key={service.id}
                 service={service}
                 index={index}
-                activeService={activeService}
-                setActiveService={setActiveService}
               />
             ))}
           </div>
@@ -124,22 +118,6 @@ const FinancialServicesBlocks = () => {
         <MfoSection />
       </div>
 
-      <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in {
-          animation: fade-in 0.6s ease-out forwards;
-        }
-      `}</style>
     </div>
   );
 };

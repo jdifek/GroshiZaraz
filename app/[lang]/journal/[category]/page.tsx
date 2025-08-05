@@ -1,5 +1,4 @@
 'use client';
-import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { useRouter } from 'next/navigation';
 import { notFound } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
@@ -305,10 +304,6 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
               </>
             )}
 
-            {/* Load More Button */}
-            <div className="text-center mt-12">
-              <BlueButton text="Показать еще статьи" />
-            </div>
           </div>
 
           {/* Sidebar */}

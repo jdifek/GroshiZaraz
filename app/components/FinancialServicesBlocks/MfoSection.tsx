@@ -1,57 +1,28 @@
-import { MfoCard } from "./MfoCard";
+import { MfoCard, MfoCompany } from "./MfoCard";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
+import MfoService from "@/app/services/mfos/mfosService";
 
-export const MfoSection = () => {
-  const mfoCompanies = [
-    {
-      id: 1,
-      name: "Хурма Кредит",
-      rating: 5.0,
-      reviews: 1,
-      logo: "🍊",
-      color: "bg-gradient-to-br from-orange-500 to-orange-600",
-    },
-    {
-      id: 2,
-      name: "Эквазайм",
-      rating: 4.9,
-      reviews: 13,
-      logo: "🌊",
-      color: "bg-gradient-to-br from-teal-500 to-teal-600",
-    },
-    {
-      id: 3,
-      name: "Джой Мани",
-      rating: 5.0,
-      reviews: 55,
-      logo: "💎",
-      color: "bg-gradient-to-br from-blue-500 to-blue-600",
-    },
-    {
-      id: 4,
-      name: "БериБеру",
-      rating: 5.0,
-      reviews: 1,
-      logo: "⚡",
-      color: "bg-gradient-to-br from-purple-500 to-purple-600",
-    },
-    {
-      id: 5,
-      name: "Финтерс",
-      rating: 4.8,
-      reviews: 17,
-      logo: "💰",
-      color: "bg-gradient-to-br from-green-500 to-green-600",
-    },
-    {
-      id: 6,
-      name: "До зарплаты",
-      rating: 4.3,
-      reviews: 181,
-      logo: "📊",
-      color: "bg-gradient-to-br from-red-500 to-red-600",
-    },
-  ];
+export const MfoSection = async () => {
+  let mfos: MfoCompany[] = [];
+
+  try {
+    const response = await MfoService.getAllMfos();
+console.log(response, 'res');
+
+    mfos = response.map((mfo) => ({
+      id: mfo.id,
+      name: mfo.name,
+      rating: mfo.rating,
+      reviews: mfo.reviews,
+      logo: mfo.logo || "🏦",
+    }));
+  } catch (error) {
+    console.error("Ошибка при загрузке МФО", error);
+  }
+
+  console.log(mfos, 'mfosmfos');
+
+
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -62,13 +33,12 @@ export const MfoSection = () => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {mfoCompanies.map((mfo, index) => (
+        {mfos.map((mfo, index) => (
           <MfoCard key={mfo.id} mfo={mfo} index={index} />
         ))}
       </div>
 
       <div className="text-center space-x-4">
-
         <BlueButton link="/mfos" text="Показать еще МФО" />
       </div>
     </div>

@@ -1,5 +1,4 @@
 'use client';
-import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -259,10 +258,7 @@ const JournalPage = () => {
               ))}
             </div>
 
-            {/* Load More Button */}
-            <div className="text-center mt-12">
-              <BlueButton text="Показать еще статьи" />
-            </div>
+        
           </div>
 
           {/* Sidebar */}

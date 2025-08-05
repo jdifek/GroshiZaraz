@@ -2,14 +2,14 @@
 import React from "react";
 import { GrayToBlueButton } from "@/app/ui/Buttons/GrayToBlueButton";
 import { renderStars } from "@/app/utils/renderStars"; // адаптируй путь
+import Image from "next/image";
 
 export type MfoCompany = {
   id: number;
   name: string;
   rating: number;
   reviews: number;
-  logo: React.ReactNode;
-  color: string;
+  logo: string;
 };
 
 type MfoCardProps = {
@@ -25,9 +25,16 @@ export const MfoCard: React.FC<MfoCardProps> = ({ mfo, index }) => {
     >
       <div className="flex items-center gap-4 mb-4">
         <div
-          className={`w-12 h-12 ${mfo.color} rounded-xl flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-200`}
+          className={`w-12 h-12  rounded-xl flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-200`}
         >
-          {mfo.logo}
+          <Image
+            unoptimized
+            src={mfo.logo}
+            alt={`${mfo.name} logo`}
+            width={64}
+            height={64}
+            className="object-cover  rounded-2xl"
+          />
         </div>
         <div className="flex-1">
           <h3 className="font-semibold text-gray-800 text-sm">{mfo.name}</h3>
@@ -38,8 +45,8 @@ export const MfoCard: React.FC<MfoCardProps> = ({ mfo, index }) => {
         </div>
       </div>
       <div className="text-sm text-gray-600 mb-4">Отзывы: {mfo.reviews}</div>
-         
-          <GrayToBlueButton text="Подробнее"   link='/mfos/test'/>
+
+      <GrayToBlueButton text="Подробнее" link="/mfos/test" />
     </div>
   );
 };
