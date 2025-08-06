@@ -240,7 +240,7 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
               <BlueButton text="Получить деньги" />
             </div>
             <div className="">
-              <GrayButton link="/mfos/test" text="Подробнее" />
+              <GrayButton link={`/mfos/${mfo.slug}`} text="Подробнее" />
             </div>
           </div>
 

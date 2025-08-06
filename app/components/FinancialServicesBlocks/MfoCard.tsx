@@ -10,6 +10,7 @@ export type MfoCompany = {
   rating: number;
   reviews: number;
   logo: string;
+  slug:string
 };
 
 type MfoCardProps = {
@@ -46,7 +47,7 @@ export const MfoCard: React.FC<MfoCardProps> = ({ mfo, index }) => {
       </div>
       <div className="text-sm text-gray-600 mb-4">Отзывы: {mfo.reviews}</div>
 
-      <GrayToBlueButton text="Подробнее" link="/mfos/test" />
+      <GrayToBlueButton text="Подробнее" link={`/mfos/${mfo.slug}`} />
     </div>
   );
 };

@@ -1,28 +1,33 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CheckCircle } from "lucide-react";
+import MfoService from "@/app/services/mfos/mfosService";
+type MfoDetailsPageProps = {
+  params: Promise<{ slug: string }>;
+};
+type MappedMfo = {
+  name: string;
+  logo: string; // у тебя сейчас emoji 🍎, но скорее всего будет string URL
+  rating: number;
+  reviews: number;
+  color: string;
+  minAmount: string;
+  maxAmount: string;
+  term: string;
+  rate: string;
+  approval: string;
+  responseTime: string;
+  commission: string;
+  ageLimit: string;
+  firstLoanFree: boolean;
+  phone: string;
+  website: string;
+  license: string;
+};
+const MfoDetails: React.FC<MfoDetailsPageProps> = ({ params }) => {
+ 
 
-const HurmaCreditDetails = () => {
-
-  const companyInfo = {
-    name: "Hurma Credit",
-    logo: "🍎",
-    rating: 5.0,
-    reviews: 1,
-    color: "from-orange-400 to-orange-600",
-    minAmount: "5 000",
-    maxAmount: "30 000",
-    term: "5-30 дней",
-    rate: "0 - 292%",
-    approval: "98%",
-    responseTime: "5 минут",
-    commission: "0%",
-    ageLimit: "18-75 лет",
-    firstLoanFree: true,
-    phone: "8 800 550-72-68",
-    website: "hurmacredit.ru",
-    license: "№ 22-033-22-009972",
-  };
+  const [companyInfo, setCompanyInfo] = useState<MappedMfo | null>(null);
 
   const advantages = [
     "Первый займ 0%",
@@ -33,12 +38,46 @@ const HurmaCreditDetails = () => {
     "Гибкие условия",
   ];
 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const { slug } = await params;
+        const response = await MfoService.getMfoBySlug(slug);
+        console.log(response);
+        const mapCompany = {
+          name: response.name,
+          logo: "🍎",
+          rating: response.rating,
+          reviews: response.reviews,
+          color: "from-orange-400 to-orange-600",
+          minAmount: "5 000",
+          maxAmount: "30 000",
+          term: "5-30 дней",
+          rate: "0 - 292%",
+          approval: "98%",
+          responseTime: "5 минут",
+          commission: "0%",
+          ageLimit: "18-75 лет",
+          firstLoanFree: true,
+          phone: "8 800 550-72-68",
+          website: "hurmacredit.ru",
+          license: "№ 22-033-22-009972",
+        };
+
+        setCompanyInfo(mapCompany)
+      } catch (err) {
+        console.error("Error loading news:", err);
+      }
+    };
+    loadData();
+  }, [params]);
+
   return (
     <div className="min-h-screen ">
       <div className="max-w-7xl mx-auto">
         <div>
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
-            О займе в Hurma Credit
+            О займе в {companyInfo && companyInfo.name}
           </h2>
 
           <div className="grid lg:grid-cols-2 gap-8 mb-8">
@@ -50,37 +89,37 @@ const HurmaCreditDetails = () => {
                 <div className="flex justify-between py-2 border-b border-gray-100">
                   <span className="text-gray-600">Максимальная сумма</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo.maxAmount} ₽
+                    {companyInfo?.maxAmount} ₽
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-100">
                   <span className="text-gray-600">Минимальная сумма</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo.minAmount} ₽
+                    {companyInfo?.minAmount} ₽
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-100">
                   <span className="text-gray-600">Срок займа</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo.term}
+                    {companyInfo?.term}
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-100">
                   <span className="text-gray-600">Процентная ставка</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo.rate}
+                    {companyInfo?.rate}
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-100">
                   <span className="text-gray-600">Возраст заемщика</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo.ageLimit}
+                    {companyInfo?.ageLimit}
                   </span>
                 </div>
                 <div className="flex justify-between py-2">
                   <span className="text-gray-600">Решение по займу</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo.responseTime}
+                    {companyInfo?.responseTime}
                   </span>
                 </div>
               </div>
@@ -106,7 +145,7 @@ const HurmaCreditDetails = () => {
               О компании
             </h3>
             <p className="text-gray-700 leading-relaxed">
-              ООО «Hurma Credit МКК» — украинская микрофинансовая организация,
+              ООО «{companyInfo &&  companyInfo.name}» — украинская микрофинансовая организация,
               которая выдает срочные займы на карту по всей Украины. Компания
               специализируется на предоставлении быстрых микрозаймов с
               минимальными требованиями к заемщикам. Особенностью является
@@ -119,4 +158,4 @@ const HurmaCreditDetails = () => {
   );
 };
 
-export default HurmaCreditDetails;
+export default MfoDetails;

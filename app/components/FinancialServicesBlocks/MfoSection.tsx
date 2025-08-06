@@ -15,6 +15,7 @@ console.log(response, 'res');
       rating: mfo.rating,
       reviews: mfo.reviews,
       logo: mfo.logo || "🏦",
+      slug:mfo.slug
     }));
   } catch (error) {
     console.error("Ошибка при загрузке МФО", error);

@@ -10,6 +10,15 @@ export default class MfoService {
       throw error;
     }
   }
+  static async getMfoBySlug(slug: string): Promise<Mfo> {
+    try {
+      const response = await $api.get<Mfo>(`/api/mfos/slug/${slug}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Ошибка при получении МФО по slug="${slug}":`, error);
+      throw error;
+    }
+  }
 
   static async updateMfo(id: number, params: MfoPayload): Promise<void> {
     try {
