@@ -37,15 +37,15 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
           </div>
 
           <div className="flex items-center gap-4 mb-6">
-          <div className="relative w-20 h-20 rounded-2xl overflow-hidden shadow-lg">
-  <Image
-    unoptimized
-    src={companyInfo.logo}
-    alt={`${companyInfo.name} logo`}
-    fill
-    className="object-cover"
-  />
-</div>
+            <div className="md:block hidden relative w-20 h-20 rounded-2xl overflow-hidden shadow-lg">
+              <Image
+                unoptimized
+                src={companyInfo.logo}
+                alt={`${companyInfo.name} logo`}
+                fill
+                className="object-cover"
+              />
+            </div>
 
             <div>
               <h1 className="text-3xl font-bold text-gray-800 mb-2">
