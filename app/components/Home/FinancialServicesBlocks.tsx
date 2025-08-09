@@ -80,15 +80,14 @@ const services = [
 ];
 
 const FinancialServicesBlocks = () => {
-
   return (
     <div className="min-h-screen ">
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Financial Services Section */}
         <div className="space-y-8">
           <div className="text-center">
-          <h1 className="!text-[1.95rem] md:!text-[42px] font-bold text-gray-800 mb-4 relative inline-block">
-          GroshiZaraz — агрегатор кредитов и займов онлайн, умный подбор
+            <h1 className="!text-[1.95rem] md:!text-[42px] font-bold text-gray-800 mb-4 relative inline-block">
+              Фіногляд — агрегатор кредитов и займов онлайн, умный подбор
               финансовых услуг
               <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
             </h1>
@@ -101,11 +100,7 @@ const FinancialServicesBlocks = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {services.map((service, index) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                index={index}
-              />
+              <ServiceCard key={service.id} service={service} index={index} />
             ))}
           </div>
 
@@ -117,7 +112,6 @@ const FinancialServicesBlocks = () => {
         {/* MFO Section */}
         <MfoSection />
       </div>
-
     </div>
   );
 };

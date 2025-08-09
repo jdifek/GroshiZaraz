@@ -1,25 +1,44 @@
+import MfoService from "@/app/services/mfos/mfosService";
 import { Award, Globe, Phone } from "lucide-react";
 
-export default function ContactsPage() {
-  const companyInfo = {
-    name: "Hurma Credit",
-    logo: "🍎",
-    rating: 5.0,
-    reviews: 1,
-    color: "from-orange-400 to-orange-600",
-    minAmount: "5 000",
-    maxAmount: "30 000",
-    term: "5-30 дней",
-    rate: "0 - 292%",
-    approval: "98%",
-    responseTime: "5 минут",
-    commission: "0%",
-    ageLimit: "18-75 лет",
-    firstLoanFree: true,
-    phone: "8 800 550-72-68",
-    website: "hurmacredit.ru",
-    license: "№ 22-033-22-009972",
-  };
+export default async function ContactsPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  let companyInfo;
+  const { slug } =await  params;
+
+  try {
+    const response = await MfoService.getMfoBySlug(slug);
+
+    console.log(response, 'rdsadsaddas');
+    
+    companyInfo = {
+      name: response.name,
+      logo: response.logo,
+      rating: response.rating,
+      reviews: response.reviews,
+      minAmount: response.minAmount,
+      maxAmount: response.maxAmount,
+      term: response.minTerm + '-' + response.maxTerm,
+      rate: response.rating,
+      approval: response.approvalRate,
+      responseTime: response.decisionTime,
+      commission: "0% to be",
+      ageLimit: `${response.ageFrom} - ${response.ageTo}`,
+      firstLoanFree: true,
+      phone: response.phone,
+      website: response.website,
+      license: response.licenseNumber,
+      workTimeWeekdays: response.workTimeWeekdays,
+      workTimeWeekend: response.workTimeWeekend,
+      workTimeOnline: response.workTimeOnline
+    };
+  } catch (error) {
+    console.error("Error loading company:", error);
+  }
+
   return (
     <div>
     <h2 className="text-2xl font-bold text-gray-800 mb-6">
@@ -31,14 +50,14 @@ export default function ContactsPage() {
           <Phone className="w-8 h-8 text-blue-600" />
           <div>
             <div className="font-semibold text-gray-800">Телефон</div>
-            <div className="text-blue-600">{companyInfo.phone}</div>
+            <div className="text-blue-600">{companyInfo?.phone}</div>
           </div>
         </div>
         <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
           <Globe className="w-8 h-8 text-blue-600" />
           <div>
             <div className="font-semibold text-gray-800">Сайт</div>
-            <div className="text-blue-600">{companyInfo.website}</div>
+            <div className="text-blue-600">{companyInfo?.website}</div>
           </div>
         </div>
         <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl">
@@ -47,7 +66,7 @@ export default function ContactsPage() {
             <div className="font-semibold text-gray-800">
               Лицензия
             </div>
-            <div className="text-gray-600">{companyInfo.license}</div>
+            <div className="text-gray-600">{companyInfo?.license}</div>
           </div>
         </div>
       </div>
@@ -58,15 +77,15 @@ export default function ContactsPage() {
         <div className="space-y-2">
           <div className="flex justify-between">
             <span className="text-gray-600">Пн-Пт:</span>
-            <span className="font-semibold">09:00 - 21:00</span>
+            <span className="font-semibold">{companyInfo?.workTimeWeekdays}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">Сб-Вс:</span>
-            <span className="font-semibold">10:00 - 18:00</span>
+            <span className="font-semibold">{companyInfo?.workTimeWeekend}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">Онлайн заявки:</span>
-            <span className="font-semibold text-green-600">24/7</span>
+            <span className="font-semibold text-green-600">{companyInfo?.workTimeOnline}</span>
           </div>
         </div>
       </div>

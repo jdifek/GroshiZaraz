@@ -101,12 +101,12 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
           <div className="flex items-center text-sm text-gray-600 mb-4">
             <span>Главная</span>
             <span className="mx-2">-</span>
-            <span>Журнал GroshiZaraz</span>
+            <span>Журнал Фіногляд</span>
             <span className="mx-2">-</span>
             <span>{categoryName}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Журнал GroshiZaraz - {categoryName}
+            Журнал Фіногляд - {categoryName}
           </h1>
         </div>
       </div>
@@ -136,7 +136,9 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {articles.slice(0, 3).map((article, index) => (
                 <article
-                  onClick={() => router.push(`/journal/article/${article.slug}`)}
+                  onClick={() =>
+                    router.push(`/journal/article/${article.slug}`)
+                  }
                   key={article.id}
                   className={`${
                     index === 0 ? "md:col-span-2 lg:col-span-2" : ""
@@ -193,7 +195,9 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {articles.slice(3).map((article, index) => (
                 <article
-                  onClick={() => router.push(`/journal/article/${article.slug}`)}
+                  onClick={() =>
+                    router.push(`/journal/article/${article.slug}`)
+                  }
                   key={article.id}
                   className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200"
                 >

@@ -47,7 +47,7 @@ function generateUrl(
 ) {
   return `
     <url>
-      <loc>https://GroshiZaraz.com.ua/${url}</loc>
+      <loc>https://Фіногляд.com.ua/${url}</loc>
       <lastmod>${lastmod}</lastmod>
       <changefreq>${changefreq}</changefreq>
       <priority>${priority.toFixed(1)}</priority>
@@ -63,7 +63,7 @@ export async function GET() {
     .map(
       (company) => `
     <url>
-      <loc>https://GroshiZaraz.com.ua/mfo/${company.slug}</loc>
+      <loc>https://Фіногляд.com.ua/mfo/${company.slug}</loc>
       <lastmod>${company.updatedAt}</lastmod>
       <changefreq>${
         company.slug === "sgroshi" ? "daily" : "weekly"

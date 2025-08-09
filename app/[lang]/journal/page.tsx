@@ -23,8 +23,6 @@ const JournalPage = async () => {
     console.error("❌ Ошибка при получении категорий:", error);
   }
 
-  
-
   const formatViews = (views: number) => {
     if (views >= 1000) {
       return `${(views / 1000).toFixed(1)}K`;
@@ -40,10 +38,10 @@ const JournalPage = async () => {
           <div className="flex items-center text-sm text-gray-600 mb-4">
             <span>Главная</span>
             <span className="mx-2">-</span>
-            <span>Журнал GroshiZaraz</span>
+            <span>Журнал Фіногляд</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Журнал GroshiZaraz
+            Журнал Фіногляд
           </h1>
         </div>
       </div>

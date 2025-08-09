@@ -25,14 +25,14 @@ export async function generateMetadata({
       openGraph: {
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
-        url: "https://GroshiZaraz.com.ua",
-        siteName: "GroshiZaraz",
+        url: "https://Фіногляд.com.ua",
+        siteName: "Фіногляд",
         images: [
           {
-            url: "https://GroshiZaraz.com.ua/og-image.jpg",
+            url: "https://Фіногляд.com.ua/og-image.jpg",
             width: 1200,
             height: 630,
-            alt: "GroshiZaraz - Финансовый маркетплейс",
+            alt: "Фіногляд - Финансовый маркетплейс",
           },
         ],
         locale: lang === "ua" ? "uk_UA" : "ru_UA",
@@ -45,7 +45,7 @@ export async function generateMetadata({
         card: "summary_large_image",
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
-        images: ["https://GroshiZaraz.com.ua/og-image.jpg"],
+        images: ["https://Фіногляд.com.ua/og-image.jpg"],
       },
     } as Metadata;
   } catch (error) {

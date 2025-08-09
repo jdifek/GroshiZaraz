@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://GroshiZaraz.com.ua
+Host: https://Фіногляд.com.ua
 
 # Sitemaps
-Sitemap: https://GroshiZaraz.com.ua/sitemap.xml
+Sitemap: https://Фіногляд.com.ua/sitemap.xml

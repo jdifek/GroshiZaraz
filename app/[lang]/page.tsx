@@ -28,10 +28,10 @@ export async function generateMetadata({
     openGraph: {
       title: t("home.title"),
       description: t("home.description"),
-      url: "https://GroshiZaraz.com.ua",
+      url: "https://Фіногляд.com.ua",
       images: [
         {
-          url: "https://GroshiZaraz.com.ua/og-main.jpg",
+          url: "https://Фіногляд.com.ua/og-main.jpg",
           width: 1200,
           height: 630,
           alt: t("home.title"),
@@ -39,14 +39,13 @@ export async function generateMetadata({
       ],
     },
     alternates: {
-      canonical: "https://GroshiZaraz.com.ua",
+      canonical: "https://Фіногляд.com.ua",
     },
   };
 }
 
-export default async function Home({
-  // params,
-}: {
+export default async function Home({}: // params,
+{
   params: Promise<{ lang: string }>;
 }) {
   // const { lang } = await params;

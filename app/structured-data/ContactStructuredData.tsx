@@ -5,14 +5,14 @@ export const ContactStructuredData = () => {
   const data = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "GroshiZaraz",
-    url: "https://GroshiZaraz.com.ua/contacts",
-    logo: "https://GroshiZaraz.com.ua/logo.png", // если есть логотип, можно добавить
+    name: "Фіногляд",
+    url: "https://Фіногляд.com.ua/contacts",
+    logo: "https://Фіногляд.com.ua/logo.png", // если есть логотип, можно добавить
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+38 (093) 000-00-00",
       contactType: "Customer Support",
-      email: "admin@GroshiZaraz.com.ua",
+      email: "admin@Фіногляд.com.ua",
       areaServed: "UA",
       availableLanguage: ["Russian", "Ukrainian"],
     },

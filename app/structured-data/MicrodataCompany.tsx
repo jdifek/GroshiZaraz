@@ -8,8 +8,8 @@ export const MicrodataCompany = ({ company }: { company: string }) => {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: isSgroshi ? "Швидко Гроші" : "Название компании",
-    url: `https://GroshiZaraz.com.ua/mfo/${company}`,
-    logo: "https://GroshiZaraz.com.ua/logo.png",
+    url: `https://Фіногляд.com.ua/mfo/${company}`,
+    logo: "https://Фіногляд.com.ua/logo.png",
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+38 (063) 178-64-56",

@@ -46,22 +46,21 @@ const MfoDetails: React.FC<MfoDetailsPageProps> = ({ params }) => {
         console.log(response);
         const mapCompany = {
           name: response.name,
-          logo: "🍎",
+          logo: response.logo,
           rating: response.rating,
           reviews: response.reviews,
-          color: "from-orange-400 to-orange-600",
-          minAmount: "5 000",
-          maxAmount: "30 000",
-          term: "5-30 дней",
-          rate: "0 - 292%",
-          approval: "98%",
-          responseTime: "5 минут",
-          commission: "0%",
-          ageLimit: "18-75 лет",
+          minAmount: response.minAmount,
+          maxAmount: response.maxAmount,
+          term: response.minTerm + '-' + response.maxTerm,
+          rate: response.rating,
+          approval: response.approvalRate,
+          responseTime: response.decisionTime,
+          commission: "0% to be",
+          ageLimit: `${response.ageFrom} - ${response.ageTo}`,
           firstLoanFree: true,
-          phone: "8 800 550-72-68",
-          website: "hurmacredit.ru",
-          license: "№ 22-033-22-009972",
+          phone: response.phone,
+          website: response.website,
+          license: response.licenseNumber,
         };
 
         setCompanyInfo(mapCompany)
@@ -89,13 +88,13 @@ const MfoDetails: React.FC<MfoDetailsPageProps> = ({ params }) => {
                 <div className="flex justify-between py-2 border-b border-gray-100">
                   <span className="text-gray-600">Максимальная сумма</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo?.maxAmount} ₽
+                    {companyInfo?.maxAmount} ₴
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-100">
                   <span className="text-gray-600">Минимальная сумма</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo?.minAmount} ₽
+                    {companyInfo?.minAmount} ₴
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-100">
@@ -107,13 +106,13 @@ const MfoDetails: React.FC<MfoDetailsPageProps> = ({ params }) => {
                 <div className="flex justify-between py-2 border-b border-gray-100">
                   <span className="text-gray-600">Процентная ставка</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo?.rate}
+                    {companyInfo?.rate} %
                   </span>
                 </div>
                 <div className="flex justify-between py-2 border-b border-gray-100">
                   <span className="text-gray-600">Возраст заемщика</span>
                   <span className="font-semibold text-gray-800">
-                    {companyInfo?.ageLimit}
+                    {companyInfo?.ageLimit} лет
                   </span>
                 </div>
                 <div className="flex justify-between py-2">

@@ -18,7 +18,7 @@ const AuthorPage = () => {
     const fetchAuthor = async () => {
       try {
         const response = await AuthorService.AuthorGet({ authorSlug });
-       
+
         setAuthor(response);
         setLoading(false);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -124,7 +124,7 @@ const AuthorPage = () => {
               onClick={() => router.push("/journal")}
               className="hover:text-blue-600 transition-colors whitespace-nowrap"
             >
-              Журнал GroshiZaraz
+              Журнал Фіногляд
             </button>
             <span className="mx-1 sm:mx-2">-</span>
             <span className="whitespace-nowrap">Авторы</span>

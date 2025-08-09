@@ -12,11 +12,12 @@ export const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-              GZ
-            </div>
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+  FO
+</div>
+
             <span className="text-xl font-bold tracking-tight text-[#1A4D8F] hover:text-[#00AEEF] transition-colors">
-              Groshi<span className="text-[#00AEEF]">Zaraz</span>
+            Фіногляд<span className="text-[#00AEEF]">.ua</span>
             </span>
           </Link>
 

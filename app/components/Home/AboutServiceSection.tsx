@@ -6,7 +6,7 @@ const AboutServiceSection = () => {
     {
       id: 1,
       icon: "🔍",
-      title: "GroshiZaraz не банк",
+      title: "Фіногляд не банк",
       description:
         "Наш сервис создан для помощи в поиске и сравнении самых выгодных условий по финансовым продуктам среди проверенных организаций.",
       color: "bg-gradient-to-br from-blue-500 to-blue-600",
@@ -34,7 +34,7 @@ const AboutServiceSection = () => {
       <div className="max-w-7xl mx-auto ">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 relative inline-block">
-            GroshiZaraz — помогаем в подборе финансовых услуг
+            Фіногляд — помогаем в подборе финансовых услуг
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-36 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
           </h2>
           <p className="text-gray-600 text-lg max-w-3xl mx-auto">
@@ -70,7 +70,7 @@ const AboutServiceSection = () => {
         <div className=" rounded-3xl p-8 md:p-12 shadow-lg">
           <div className="max-w-4xl mx-auto text-center">
             <h3 className="text-3xl font-bold text-gray-800 mb-6">
-              Почему выбирают GroshiZaraz?
+              Почему выбирают Фіногляд?
             </h3>
             <div className="grid md:grid-cols-2 gap-8 text-left">
               <div className="space-y-6">
@@ -181,7 +181,7 @@ const AboutServiceSection = () => {
                   💡 Полезно знать:
                 </h4>
                 <p className="text-sm text-gray-700">
-                  GroshiZaraz анализирует более 50 финансовых организаций и
+                  Фіногляд анализирует более 50 финансовых организаций и
                   обновляет данные ежедневно, чтобы предоставить вам самую
                   актуальную информацию о процентных ставках и условиях.
                 </p>
