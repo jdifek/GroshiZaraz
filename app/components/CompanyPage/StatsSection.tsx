@@ -11,7 +11,7 @@ export const StatsSection = ({companyInfo} : {companyInfo: any}) => {
       <div className="p-4">
         <div className="text-3xl font-bold text-blue-600 mb-2 flex items-center justify-center gap-2">
           <TrendingUp className="w-8 h-8" />
-          {companyInfo.approval}
+          {companyInfo.approval}%
         </div>
         <div className="text-gray-600">Процент одобрения</div>
       </div>
