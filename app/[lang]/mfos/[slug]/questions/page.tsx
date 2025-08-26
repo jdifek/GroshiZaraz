@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import MfoService from "@/app/services/mfos/mfosService";
-import { MessageCircle, User, Calendar, CheckCircle, Star, Reply } from "lucide-react";
+import { MessageCircle, User, Calendar, CheckCircle, Reply } from "lucide-react";
 
 export default async function QuestionsPage({
   params,
