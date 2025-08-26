@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer: React.FC = () => {
   return (
@@ -8,11 +9,8 @@ const Footer: React.FC = () => {
         <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-8 mb-12">
           {/* Логотип и краткое описание */}
           <div className="space-y-4">
-            <Link href="/">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-yellow-400 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                GZ
-              </div>
-            </Link>
+          <Image src={'/logoNew.svg'}  width={55} height={55}/>
+
             <p className="text-gray-600 text-sm leading-relaxed max-w-xs">
               Сравнивайте лучшие предложения от банков и МФО Украины. Помогаем
               найти выгодное решение быстро и бесплатно.
