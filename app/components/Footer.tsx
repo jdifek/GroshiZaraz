@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
         <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-8 mb-12">
           {/* Логотип и краткое описание */}
           <div className="space-y-4">
-          <Image src={'/logoNew.svg'}  width={55} height={55}/>
+          <Image src={'/logoNew.svg'} alt="Логотип" width={55} height={55}/>
 
             <p className="text-gray-600 text-sm leading-relaxed max-w-xs">
               Сравнивайте лучшие предложения от банков и МФО Украины. Помогаем

@@ -13,7 +13,7 @@ export const Header: React.FC = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <Image src={'/logoNew.svg'}  width={35} height={35}/>
+            <Image src={'/logoNew.svg'} alt="Логотип" width={35} height={35}/>
 
             <span className="text-xl font-bold tracking-tight text-[#1A4D8F] hover:text-[#00AEEF] transition-colors">
               Фіногляд<span className="text-[#00AEEF]">.ua</span>
