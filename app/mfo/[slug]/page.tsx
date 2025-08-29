@@ -25,16 +25,19 @@ interface SortOption {
   label: string;
 }
 
-export default function MFOsPage() {
+type MFOSattelitePageProps = {
+  params: { slug: string };
+}
+
+export default async function MFOSattelitePage({params} : MFOSattelitePageProps) {
   const [sortBy, setSortBy] = useState<string>("rating");
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
   const [visibleCount] = useState<number>(9);
   const [selectedOffer, setSelectedOffer] = useState<Mfo | null>(null);
   const [selectedMFO, setSelectedMFO] = useState<Mfo | null>(null);
   const [isDetailsPopupOpen, setIsDetailsPopupOpen] = useState(false);
- 
+ const slug = params.slug
 
- 
 
   const sortOptions: SortOption[] = [
     { value: "rating", label: "По рейтингу" },

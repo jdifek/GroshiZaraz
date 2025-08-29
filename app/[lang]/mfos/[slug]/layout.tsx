@@ -4,7 +4,7 @@ import { NavigationTabs } from "@/app/components/CompanyPage/NavigationTabs";
 import { StatsSection } from "@/app/components/CompanyPage/StatsSection";
 import MfoService from "@/app/services/mfos/mfosService";
 
-export default async function CompanyLayout ({
+export default async function CompanyLayout({
   children,
   params,
 }: {
@@ -12,13 +12,13 @@ export default async function CompanyLayout ({
   params: Promise<{ slug: string }>;
 }) {
   let companyInfo;
-  const { slug } =await  params;
+  const { slug } = await params;
 
   try {
     const response = await MfoService.getMfoBySlug(slug);
 
-    console.log(response, 'rdsadsaddas');
-    
+    console.log(response, "rdsadsaddas");
+
     companyInfo = {
       name: response.name,
       logo: response.logo,
@@ -26,7 +26,7 @@ export default async function CompanyLayout ({
       reviews: response.reviews,
       minAmount: response.minAmount,
       maxAmount: response.maxAmount,
-      term: response.minTerm + '-' + response.maxTerm,
+      term: response.minTerm + "-" + response.maxTerm,
       rate: response.rating,
       approval: response.approvalRate,
       responseTime: response.decisionTime,
@@ -40,7 +40,6 @@ export default async function CompanyLayout ({
   } catch (error) {
     console.error("Error loading company:", error);
   }
-
 
   return (
     <div className="min-h-screen">

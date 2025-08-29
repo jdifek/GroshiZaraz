@@ -41,3 +41,9 @@ export interface Mfo {
 }
 
 export type MfoPayload = Omit<Mfo, 'id' | 'createdAt' | 'updatedAt'>;
+export interface RandomKey {
+  nameRu: string;
+  nameUk: string;
+  slugRu: string;
+  slugUk: string;
+}

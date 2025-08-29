@@ -34,40 +34,38 @@ const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
 
     companyInfo = {
       name: response.name,
+      description: response.description,
       logo: response.logo,
       rating: response.rating,
       reviews: response.reviews,
       minAmount: response.minAmount,
       maxAmount: response.maxAmount,
       term: response.minTerm + "-" + response.maxTerm,
-      rate: response.rating,
+      rate: response.rateMin, // или среднее значение rateMin/rateMax
       approval: response.approvalRate,
       responseTime: response.decisionTime,
-      commission: "0% to be",
+      commission: response.commission ? `${response.commission}%` : "0%", 
       ageLimit: `${response.ageFrom} - ${response.ageTo}`,
-      firstLoanFree: true,
+      firstLoanFree: response.isFirstLoanZero,
+      instantApproval: response.isInstantApproval,
+      noIncomeProof: response.isNoIncomeProof,
+      support24: response.is24Support,
+      safeTransactions: response.isSafeTransactions,
+      flexibleTerms: response.isFlexibleTerms,
       phone: response.phone,
       website: response.website,
       license: response.licenseNumber,
       color: "", // если есть цвет, добавь сюда
     };
+    
   } catch (err) {
     console.error("Error loading company info:", err);
     // Тут можно вернуть 404 или fallback UI
     return <div>Компания не найдена</div>;
   }
 
-  const advantages = [
-    "Первый займ 0%",
-    "Мгновенное одобрение",
-    "Без справок о доходах",
-    "Круглосуточная поддержка",
-    "Безопасные транзакции",
-    "Гибкие условия",
-  ];
-
   return (
-    <div className="min-h-screen ">
+    <div className="">
       <div className="max-w-7xl mx-auto">
         <div>
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
@@ -120,27 +118,55 @@ const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
             </div>
 
             <div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                Преимущества
-              </h3>
-              <div className="space-y-3">
-                {advantages.map((advantage, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-700">{advantage}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+  <h3 className="text-xl font-semibold text-gray-800 mb-4">Преимущества</h3>
+  <div className="space-y-3">
+    {companyInfo.firstLoanFree && (
+      <div className="flex items-start gap-3">
+        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+        <span className="text-gray-700">Первый займ 0%</span>
+      </div>
+    )}
+    {companyInfo.instantApproval && (
+      <div className="flex items-start gap-3">
+        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+        <span className="text-gray-700">Мгновенное одобрение</span>
+      </div>
+    )}
+    {companyInfo.noIncomeProof && (
+      <div className="flex items-start gap-3">
+        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+        <span className="text-gray-700">Без справок о доходах</span>
+      </div>
+    )}
+    {companyInfo.support24 && (
+      <div className="flex items-start gap-3">
+        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+        <span className="text-gray-700">Круглосуточная поддержка</span>
+      </div>
+    )}
+    {companyInfo.safeTransactions && (
+      <div className="flex items-start gap-3">
+        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+        <span className="text-gray-700">Безопасные транзакции</span>
+      </div>
+    )}
+    {companyInfo.flexibleTerms && (
+      <div className="flex items-start gap-3">
+        <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+        <span className="text-gray-700">Гибкие условия</span>
+      </div>
+    )}
+  </div>
+</div>
+
           </div>
 
           <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">О компании</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              О компании
+            </h3>
             <p className="text-gray-700 leading-relaxed">
-              ООО «{companyInfo.name}» — украинская микрофинансовая организация, которая
-              выдает срочные займы на карту по всей Украине. Компания специализируется
-              на предоставлении быстрых микрозаймов с минимальными требованиями к заемщикам.
-              Особенностью является предоставление первого займа под 0% для новых клиентов.
+              {companyInfo.description}
             </p>
           </div>
         </div>

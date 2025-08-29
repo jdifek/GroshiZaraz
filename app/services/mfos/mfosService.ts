@@ -1,5 +1,5 @@
 import $api from "../http";
-import { Mfo, MfoPayload } from "./mfoTypes";
+import { Mfo, MfoPayload, RandomKey } from "./mfoTypes";
 
 export default class MfoService {
   static async createMfo(params: MfoPayload): Promise<void> {
@@ -54,6 +54,15 @@ export default class MfoService {
       return response.data;
     } catch (error) {
       console.error('Ошибка при получении списка МФО:', error);
+      throw error;
+    }
+  }
+  static async getRandomKeys(): Promise<RandomKey[]> {
+    try {
+      const response = await $api.get<RandomKey[]>('/api/mfos/all-20-random-keys');
+      return response.data;
+    } catch (error) {
+      console.error('Ошибка при получении случайных ключей:', error);
       throw error;
     }
   }
