@@ -161,13 +161,14 @@ const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
 
           </div>
 
-          <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
+          <div className="bg-gradient-to-r h-auto from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
             <h3 className="text-xl font-semibold text-gray-800 mb-4">
               О компании
             </h3>
-            <p className="text-gray-700 leading-relaxed">
-              {companyInfo.description}
-            </p>
+            <p className="text-gray-700 break-words">
+  {companyInfo.description}
+</p>
+
           </div>
         </div>
       </div>

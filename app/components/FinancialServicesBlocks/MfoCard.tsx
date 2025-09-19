@@ -1,8 +1,8 @@
-// components/MfoCard.tsx
 import React from "react";
 import { GrayToBlueButton } from "@/app/ui/Buttons/GrayToBlueButton";
-import { renderStars } from "@/app/utils/renderStars"; // адаптируй путь
+import { renderStars } from "@/app/utils/renderStars";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
 export type MfoCompany = {
   id: number;
@@ -10,31 +10,33 @@ export type MfoCompany = {
   rating: number;
   reviews: number;
   logo: string;
-  slug:string
+  slug: string;
+  UtmLink: string;
 };
 
 type MfoCardProps = {
   mfo: MfoCompany;
   index: number;
+  lang: string;
 };
 
-export const MfoCard: React.FC<MfoCardProps> = ({ mfo, index }) => {
+export const MfoCard: React.FC<MfoCardProps> = async  ({ mfo, index, lang }) => {
+  const t = await getTranslations({ locale: lang, namespace: "MfoCard" });
+
   return (
     <div
       className="bg-white rounded-3xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-blue-500 group animate-fade-in"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       <div className="flex items-center gap-4 mb-4">
-        <div
-          className={`w-12 h-12  rounded-xl flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-200`}
-        >
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg group-hover:scale-110 transition-transform duration-200">
           <Image
             unoptimized
             src={mfo.logo}
             alt={`${mfo.name} logo`}
             width={64}
             height={64}
-            className="object-cover  rounded-2xl"
+            className="object-cover rounded-2xl"
           />
         </div>
         <div className="flex-1">
@@ -45,9 +47,12 @@ export const MfoCard: React.FC<MfoCardProps> = ({ mfo, index }) => {
           </div>
         </div>
       </div>
-      <div className="text-sm text-gray-600 mb-4">Отзывы: {mfo.reviews}</div>
 
-      <GrayToBlueButton text="Подробнее" link={`/mfos/${mfo.slug}`} />
+      <div className="text-sm text-gray-600 mb-4">
+        {t("reviews")}: {mfo.reviews}
+      </div>
+
+      <GrayToBlueButton text={t("more")} link={mfo.UtmLink} />
     </div>
   );
 };

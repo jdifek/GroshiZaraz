@@ -20,10 +20,10 @@ export default async function CompanyLayout({
     console.log(response, "rdsadsaddas");
 
     companyInfo = {
+      id: response.id,
       name: response.name,
       logo: response.logo,
       rating: response.rating,
-      reviews: response.reviews,
       minAmount: response.minAmount,
       maxAmount: response.maxAmount,
       term: response.minTerm + "-" + response.maxTerm,
@@ -36,6 +36,7 @@ export default async function CompanyLayout({
       phone: response.phone,
       website: response.website,
       license: response.licenseNumber,
+      UtmLink: response.UtmLink,
     };
   } catch (error) {
     console.error("Error loading company:", error);

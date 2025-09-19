@@ -1,8 +1,11 @@
 import React from "react";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 
-const NewsSection = () => {
+const NewsSection = async ({ lang }: { lang: string }) => {
+  const t = await getTranslations({ locale: lang, namespace: "NewsSection" });
+
   const news = [
     {
       id: 1,
@@ -12,7 +15,7 @@ const NewsSection = () => {
       date: "10.07",
       views: "15.2K",
       comments: 8,
-      category: "Законодательство",
+      category: t("categories.legislation"),
       image: "📊",
       color: "bg-gradient-to-br from-blue-500 to-blue-600",
     },
@@ -24,7 +27,7 @@ const NewsSection = () => {
       date: "09.07",
       views: "12.8K",
       comments: 15,
-      category: "Рейтинги",
+      category: t("categories.ratings"),
       image: "🏆",
       color: "bg-gradient-to-br from-yellow-400 to-yellow-500",
     },
@@ -36,7 +39,7 @@ const NewsSection = () => {
       date: "08.07",
       views: "8.9K",
       comments: 12,
-      category: "Руководства",
+      category: t("categories.guides"),
       image: "📈",
       color: "bg-gradient-to-br from-green-500 to-green-600",
     },
@@ -48,7 +51,7 @@ const NewsSection = () => {
       date: "07.07",
       views: "22.4K",
       comments: 28,
-      category: "Займы",
+      category: t("categories.loans"),
       image: "💰",
       color: "bg-gradient-to-br from-purple-500 to-purple-600",
     },
@@ -60,7 +63,7 @@ const NewsSection = () => {
       date: "06.07",
       views: "9.3K",
       comments: 6,
-      category: "Карты",
+      category: t("categories.cards"),
       image: "💳",
       color: "bg-gradient-to-br from-red-500 to-red-600",
     },
@@ -72,7 +75,7 @@ const NewsSection = () => {
       date: "05.07",
       views: "11.7K",
       comments: 9,
-      category: "Вклады",
+      category: t("categories.deposits"),
       image: "🛡️",
       color: "bg-gradient-to-br from-teal-500 to-teal-600",
     },
@@ -83,19 +86,18 @@ const NewsSection = () => {
       <div className="max-w-7xl mx-auto ">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4 relative inline-block">
-            Финансовые новости
+            {t("title")}
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Актуальная информация о финансовом рынке Украины
+            {t("subtitle")}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {news.map((article, index) => (
-            <Link    key={article.id} href={'/journal'}>
+            <Link key={article.id} href={"/journal"}>
               <article
-             
                 className="bg-white rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer border-2 border-transparent hover:border-blue-500"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
@@ -143,7 +145,7 @@ const NewsSection = () => {
         </div>
 
         <div className="text-center mt-12">
-          <BlueButton link="/journal" text="Все новости" />
+          <BlueButton link="/journal" text={t("allNews")} />
         </div>
       </div>
     </section>

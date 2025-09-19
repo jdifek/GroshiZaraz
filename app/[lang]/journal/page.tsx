@@ -23,6 +23,15 @@ const JournalPage = async () => {
     console.error("❌ Ошибка при получении категорий:", error);
   }
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("ru-RU", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
   const formatViews = (views: number) => {
     if (views >= 1000) {
       return `${(views / 1000).toFixed(1)}K`;
@@ -175,9 +184,11 @@ const JournalPage = async () => {
                       <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
                         {article.title}
                       </h3>
-                      <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-                        {article.body}
-                      </p>
+                      <p
+  className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
+  dangerouslySetInnerHTML={{ __html: article.body }}
+/>
+
 
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -242,8 +253,8 @@ const JournalPage = async () => {
                             {article.title}
                           </h4>
                           <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
-                            <span>{article.createdAt}</span>
-                            <span>•</span>
+                          <span>{formatDate(article.createdAt)}</span>
+                          <span>•</span>
                             <span>{formatViews(article.views)} просмотров</span>
                           </div>
                         </div>

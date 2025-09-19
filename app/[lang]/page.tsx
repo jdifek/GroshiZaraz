@@ -44,19 +44,20 @@ export async function generateMetadata({
   };
 }
 
-export default async function Home({}: // params,
-{
+export default async function Home({
+  params,
+}: {
   params: Promise<{ lang: string }>;
 }) {
-  // const { lang } = await params;
+  const { lang } = await params;
 
   return (
     <div>
-      <FinancialServicesBlocks />
-      <ClientReviews />
-      <NewsSection />
-      <AboutServiceSection />
-      <PromotedOffersSection />
+      <FinancialServicesBlocks lang={lang} />
+      <ClientReviews lang={lang} />
+      <NewsSection lang={lang}/>
+      <AboutServiceSection lang={lang}/>
+      <PromotedOffersSection lang={lang}/>
     </div>
   );
 }

@@ -7,6 +7,37 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
+/* ----------------- СКЕЛЕТОНЫ ----------------- */
+const SkeletonCard = ({ large = false }: { large?: boolean }) => (
+  <div
+    className={`bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden animate-pulse ${
+      large ? "md:col-span-2 lg:col-span-2" : ""
+    }`}
+  >
+    <div className={`${large ? "h-64" : "h-48"} bg-gray-200`}></div>
+    <div className="p-6 space-y-3">
+      <div className="h-5 bg-gray-200 rounded w-3/4"></div>
+      <div className="h-4 bg-gray-200 rounded w-full"></div>
+      <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+      <div className="flex gap-4 mt-4">
+        <div className="h-4 w-10 bg-gray-200 rounded"></div>
+        <div className="h-4 w-16 bg-gray-200 rounded"></div>
+      </div>
+    </div>
+  </div>
+);
+
+const SkeletonSidebarItem = () => (
+  <div className="flex items-start gap-3 p-3 rounded-lg animate-pulse">
+    <div className="flex-shrink-0 w-2 h-2 bg-gray-200 rounded-full mt-2"></div>
+    <div className="flex-1 space-y-2">
+      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+      <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+    </div>
+  </div>
+);
+
+/* ----------------- СТРАНИЦА ----------------- */
 type CategoryPageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -14,17 +45,9 @@ type CategoryPageProps = {
 const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
   const router = useRouter();
   const [categoriesFromApi, setCategoriesFromApi] = useState<Category[]>([]);
-
   const [categorySlug, setCategorySlug] = useState<string | null>(null);
   const [articles, setArticles] = useState<News[]>([]);
-
-  // Асинхронно разрешаем params и загружаем данные
-
-  try {
-    console.log("✅ Категории успешно получены:", categoriesFromApi);
-  } catch (error) {
-    console.error("❌ Ошибка при получении категорий:", error);
-  }
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
@@ -32,12 +55,13 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
         const { slug } = await params;
         const response = await CategoryService.getAllCategories();
         setCategoriesFromApi(response);
-        console.log("Category slug from params:", slug);
         setCategorySlug(slug);
         const newsData = await NewsService.getNewsByCategorySlug(slug);
         setArticles(newsData);
       } catch (err) {
         console.error("Error loading news:", err);
+      } finally {
+        setLoading(false);
       }
     };
     loadData();
@@ -115,133 +139,144 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Main Content */}
           <div className="flex-1">
+            {/* Категории */}
             <div className="mb-8">
               <div className="flex flex-wrap gap-2">
-                {categoriesFromApi.map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    href={`/journal/${cat.slug}`}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                      cat.slug === "all"
-                        ? "bg-blue-500 text-white shadow-md"
-                        : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
-                    }`}
-                  >
-                    {cat.name}
-                  </Link>
-                ))}
+                {loading
+                  ? [...Array(6)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="h-8 w-24 bg-gray-200 rounded-full animate-pulse"
+                      ></div>
+                    ))
+                  : categoriesFromApi.map((cat) => (
+                      <Link
+                        key={cat.slug}
+                        href={`/journal/${cat.slug}`}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                          cat.slug === "all"
+                            ? "bg-blue-500 text-white shadow-md"
+                            : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                        }`}
+                      >
+                        {cat.name}
+                      </Link>
+                    ))}
               </div>
             </div>
+
             {/* Featured Articles Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {articles.slice(0, 3).map((article, index) => (
-                <article
-                  onClick={() =>
-                    router.push(`/journal/article/${article.slug}`)
-                  }
-                  key={article.id}
-                  className={`${
-                    index === 0 ? "md:col-span-2 lg:col-span-2" : ""
-                  } bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200`}
-                >
-                  <div className="relative">
-                    <div
-                      className={`${getArticleColor(index)} ${
-                        index === 0 ? "h-64" : "h-48"
-                      } flex items-center justify-center text-6xl text-white relative overflow-hidden`}
-                    >
-                      {getArticleEmoji(article.NewsCategory?.name || "")}
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white">
-                          {article.NewsCategory?.name}
-                        </span>
-                      </div>
-                      <div className="absolute top-4 right-4 text-white/80 text-sm">
-                        {formatDate(article.createdAt)}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-6">
-                    <h3
+              {loading
+                ? [0, 1, 2].map((i) => <SkeletonCard key={i} large={i === 0} />)
+                : articles.slice(0, 3).map((article, index) => (
+                    <article
+                      onClick={() =>
+                        router.push(`/journal/article/${article.slug}`)
+                      }
+                      key={article.id}
                       className={`${
-                        index === 0 ? "text-2xl" : "text-xl"
-                      } font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors`}
+                        index === 0 ? "md:col-span-2 lg:col-span-2" : ""
+                      } bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200`}
                     >
-                      {article.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-                      {article.body.replace(/<[^>]*>/g, "").substring(0, 150)}
-                      ...
-                    </p>
+                      <div className="relative">
+                        <div
+                          className={`${getArticleColor(index)} ${
+                            index === 0 ? "h-64" : "h-48"
+                          } flex items-center justify-center text-6xl text-white relative overflow-hidden`}
+                        >
+                          {getArticleEmoji(article.NewsCategory?.name || "")}
+                          <div className="absolute top-4 left-4">
+                            <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white">
+                              {article.NewsCategory?.name}
+                            </span>
+                          </div>
+                          <div className="absolute top-4 right-4 text-white/80 text-sm">
+                            {formatDate(article.createdAt)}
+                          </div>
+                        </div>
+                      </div>
 
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <span className="flex items-center gap-1">
-                          👁️ {formatViews(article.views)}
-                        </span>
-                        <span>{article.author?.name}</span>
+                      <div className="p-6">
+                        <h3
+                          className={`${
+                            index === 0 ? "text-2xl" : "text-xl"
+                          } font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors`}
+                        >
+                          {article.title}
+                        </h3>
+                        <p
+                          className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
+                          dangerouslySetInnerHTML={{ __html: article.body }}
+                        />
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-4 text-sm text-gray-500">
+                            <span className="flex items-center gap-1">
+                              👁️ {formatViews(article.views)}
+                            </span>
+                            <span>{article.author?.name}</span>
+                          </div>
+                          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all">
+                            →
+                          </div>
+                        </div>
                       </div>
-                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all">
-                        →
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              ))}
+                    </article>
+                  ))}
             </div>
 
             {/* Regular Articles List */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {articles.slice(3).map((article, index) => (
-                <article
-                  onClick={() =>
-                    router.push(`/journal/article/${article.slug}`)
-                  }
-                  key={article.id}
-                  className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200"
-                >
-                  <div className="relative">
-                    <div
-                      className={`${getArticleColor(
-                        index + 3
-                      )} h-48 flex items-center justify-center text-6xl text-white relative overflow-hidden`}
+              {loading
+                ? [...Array(6)].map((_, i) => <SkeletonCard key={i} />)
+                : articles.slice(3).map((article, index) => (
+                    <article
+                      onClick={() =>
+                        router.push(`/journal/article/${article.slug}`)
+                      }
+                      key={article.id}
+                      className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200"
                     >
-                      {getArticleEmoji(article.NewsCategory?.name || "")}
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white">
-                          {article.NewsCategory?.name}
-                        </span>
+                      <div className="relative">
+                        <div
+                          className={`${getArticleColor(
+                            index + 3
+                          )} h-48 flex items-center justify-center text-6xl text-white relative overflow-hidden`}
+                        >
+                          {getArticleEmoji(article.NewsCategory?.name || "")}
+                          <div className="absolute top-4 left-4">
+                            <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white">
+                              {article.NewsCategory?.name}
+                            </span>
+                          </div>
+                          <div className="absolute top-4 right-4 text-white/80 text-sm">
+                            {formatDate(article.createdAt)}
+                          </div>
+                        </div>
                       </div>
-                      <div className="absolute top-4 right-4 text-white/80 text-sm">
-                        {formatDate(article.createdAt)}
-                      </div>
-                    </div>
-                  </div>
 
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                      {article.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-                      {article.body.replace(/<[^>]*>/g, "").substring(0, 150)}
-                      ...
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <span className="flex items-center gap-1">
-                          👁️ {formatViews(article.views)}
-                        </span>
-                        <span>{article.author?.name}</span>
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                          {article.title}
+                        </h3>
+                        <p
+                          className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
+                          dangerouslySetInnerHTML={{ __html: article.body }}
+                        />
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-4 text-sm text-gray-500">
+                            <span className="flex items-center gap-1">
+                              👁️ {formatViews(article.views)}
+                            </span>
+                            <span>{article.author?.name}</span>
+                          </div>
+                          <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all">
+                            →
+                          </div>
+                        </div>
                       </div>
-                      <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all">
-                        →
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              ))}
+                    </article>
+                  ))}
             </div>
           </div>
 
@@ -255,30 +290,36 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
                   <div className="absolute -bottom-2 left-0 w-12 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
                 </h3>
                 <div className="space-y-4">
-                  {articles
-                    .sort((a, b) => b.views - a.views)
-                    .slice(0, 4)
-                    .map((article) => (
-                      <div
-                        key={article.id}
-                        onClick={() =>
-                          router.push(`/journal/article/${article.slug}`)
-                        }
-                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer group"
-                      >
-                        <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                        <div className="flex-1">
-                          <h4 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 line-clamp-2 transition-colors">
-                            {article.title}
-                          </h4>
-                          <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
-                            <span>{formatDate(article.createdAt)}</span>
-                            <span>•</span>
-                            <span>{formatViews(article.views)} просмотров</span>
+                  {loading
+                    ? [...Array(4)].map((_, i) => (
+                        <SkeletonSidebarItem key={i} />
+                      ))
+                    : articles
+                        .sort((a, b) => b.views - a.views)
+                        .slice(0, 4)
+                        .map((article) => (
+                          <div
+                            key={article.id}
+                            onClick={() =>
+                              router.push(`/journal/article/${article.slug}`)
+                            }
+                            className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer group"
+                          >
+                            <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                            <div className="flex-1">
+                              <h4 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 line-clamp-2 transition-colors">
+                                {article.title}
+                              </h4>
+                              <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
+                                <span>{formatDate(article.createdAt)}</span>
+                                <span>•</span>
+                                <span>
+                                  {formatViews(article.views)} просмотров
+                                </span>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
-                    ))}
+                        ))}
                 </div>
               </div>
             </div>

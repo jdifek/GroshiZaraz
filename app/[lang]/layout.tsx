@@ -74,7 +74,7 @@ export default async function Layout({
     messages = (await import("../messages/ru.json")).default;
   }
   return (
-    <html lang={lang}>
+    <html lang={lang === 'ru' ? 'ru' : 'uk' }>
       <body className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
         <Toaster position="top-right" reverseOrder={false} />
         <NextIntlClientProvider locale={lang} messages={messages}>
@@ -84,7 +84,7 @@ export default async function Layout({
           <main className="min-h-[60vh] max-w-[1280px] mx-auto px-4  md:px-8 py-8">
             {children}
           </main>
-          <Footer />
+          <Footer lang={lang}/>
         </NextIntlClientProvider>
       </body>
     </html>

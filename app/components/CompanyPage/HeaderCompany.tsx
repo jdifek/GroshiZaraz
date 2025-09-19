@@ -1,6 +1,7 @@
 "use client";
 import { Calculator, CheckCircle, Star } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -188,9 +189,9 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 </span>
               </div>
 
-              <button className="w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 hover:shadow-lg hover:scale-105">
+              <Link href={companyInfo.UtmLink} className="block text-center w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 hover:shadow-lg hover:scale-105">
                 Получить деньги
-              </button>
+              </Link>
             </div>
           </div>
         </div>

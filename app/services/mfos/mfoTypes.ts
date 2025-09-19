@@ -35,12 +35,12 @@ export interface Mfo {
   workTimeWeekdays?: string;
   workTimeWeekend?: string;
   workTimeOnline?: string;
-
+  UtmLink: string;
   createdAt: string;
   updatedAt: string;
 }
 
-export type MfoPayload = Omit<Mfo, 'id' | 'createdAt' | 'updatedAt'>;
+export type MfoPayload = Omit<Mfo, "id" | "createdAt" | "updatedAt">;
 export interface RandomKey {
   nameRu: string;
   nameUk: string;

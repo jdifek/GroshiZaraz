@@ -50,6 +50,16 @@ export default class MfoSatelliteKeyService {
       throw error;
     }
   }
+  static async getSatelliteKeyBySlug(slug: string): Promise<MfoSatelliteKey> {
+    try {
+      const response = await $api.get<MfoSatelliteKey>(`/api/mfo-satellite-keys/slug/${slug}`);
+      return response.data;
+    } catch (error) {
+      console.error(`Ошибка при получении ключа сателлита по slug="${slug}":`, error);
+      throw error;
+    }
+  }
+
 
   static async getAllSatelliteKeys(): Promise<MfoSatelliteKey[]> {
     try {

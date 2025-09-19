@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface MfoSatelliteKey {
   id: number;
   keyUk: string;
   keyRu: string;
   slugUk: string;
   slugRu: string;
+  mfoLinks: any[];
   metaTitleUk: string;
   metaTitleRu: string;
   metaDescUk: string;
@@ -14,10 +16,10 @@ export interface MfoSatelliteKey {
   descriptionRu: string;
   createdAt: string;
   updatedAt: string;
-  satellites?: Array<{
+  satellites: Array<{
     id: number;
-    titleUk?: string;
-    titleRu?: string;
+    titleUk: string;
+    titleRu: string;
   }>;
 }
 

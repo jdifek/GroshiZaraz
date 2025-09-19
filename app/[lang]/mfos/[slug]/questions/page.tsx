@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import MfoService from "@/app/services/mfos/mfosService";
+import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { MessageCircle, User, Calendar, CheckCircle, Reply } from "lucide-react";
 
 export default async function QuestionsPage({
@@ -234,10 +235,7 @@ export default async function QuestionsPage({
           <p className="text-gray-600 mb-6">
             Задайте вопрос напрямую представителям компании
           </p>
-          <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:shadow-lg transition-all duration-300 flex items-center gap-2 mx-auto">
-            <MessageCircle className="w-5 h-5" />
-            Задать вопрос
-          </button>
+        <BlueButton text="     Задать вопрос"/>
         </div>
       </div>
     </div>
