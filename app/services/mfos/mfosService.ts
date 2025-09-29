@@ -47,13 +47,14 @@ export default class MfoService {
       throw error;
     }
   }
-
-  static async getAllMfos(): Promise<Mfo[]> {
+  static async getAllMfos(sortBy: string = "rating"): Promise<Mfo[]> {
     try {
-      const response = await $api.get<Mfo[]>('/api/mfos');
+      const response = await $api.get<Mfo[]>("/api/mfos", {
+        params: { sortBy }
+      });
       return response.data;
     } catch (error) {
-      console.error('Ошибка при получении списка МФО:', error);
+      console.error("Ошибка при получении списка МФО:", error);
       throw error;
     }
   }

@@ -12,6 +12,7 @@ import MFOInteractiveElements from "@/app/components/MFOInteractiveElements";
 import MfoSatelliteKeyService from "@/app/services/MfoSatelliteKey/MfoSatelliteKeyService";
 import { MfoSatelliteKey } from "@/app/services/MfoSatelliteKey/mfoSatelliteKeyTypes";
 import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({
   params,
@@ -30,7 +31,7 @@ export async function generateMetadata({
       };
     }
 
-    const isUa = lang === "ua";
+    const isUa = lang === "uk";
 
     const title = isUa
       ? satellite.metaTitleUk || satellite.titleUk
@@ -78,12 +79,20 @@ export default async function MFOSattelitePage({
   let satellite: MfoSatelliteKey | null = null;
   let mfos: Mfo[] = [];
   let randomKeys: RandomKey[] = [];
+  console.log("📌 MFOSattelitePage params:", params);
+  console.log("📌 MFOSattelitePage searchParams:", searchParams);
+
   const { lang, slug } = await params;
 
+  console.log(
+    `📌 Extracted lang="${lang}", slug="${slug}", sortBy="${sortBy}"`
+  );
+
   try {
+    console.log(slug + lang, "slugslugslug");
     // грузим ключ по slug и рандомные категории
     [satellite, randomKeys] = await Promise.all([
-      MfoSatelliteKeyService.getSatelliteKeyBySlug(slug),
+      MfoSatelliteKeyService.getSatelliteKeyBySlug(slug, sortBy),
       MfoService.getRandomKeys(),
     ]);
 
@@ -95,25 +104,9 @@ export default async function MFOSattelitePage({
     console.error("❌ Ошибка при загрузке страницы сателлита:", error);
   }
 
-  // Функция сортировки на сервере
-  const getSortedMfos = (mfos: Mfo[], sortBy: string): Mfo[] => {
-    const sorted = [...mfos];
-    switch (sortBy) {
-      case "rating":
-        return sorted.sort((a, b) => b.rating - a.rating);
-      case "rate":
-        return sorted.sort((a, b) => a.rateMin - b.rateMin);
-      case "approval":
-        return sorted.sort((a, b) => b.approvalRate - a.approvalRate);
-      case "maxAmount":
-        return sorted.sort((a, b) => b.maxAmount - a.maxAmount);
-      default:
-        return sorted;
-    }
-  };
-
-  const sortedMfos = getSortedMfos(mfos, sortBy);
   const visibleCount = 9;
+  const t = await  getTranslations({ locale: lang, namespace: "MFOsPage" });
+
 
   return (
     <div className="min-h-screen">
@@ -121,26 +114,34 @@ export default async function MFOSattelitePage({
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 relative inline-block">
-            {lang === "ru" ? satellite.titleRu : satellite.titleUk}
+            {satellite && (lang === "ru" ? satellite.titleRu : satellite.titleUk)}
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            {lang === "ru" ? satellite.descriptionRu : satellite.descriptionUk}
+            {satellite && (lang === "ru" ? satellite.descriptionRu : satellite.descriptionUk)}
           </p>
         </div>
 
         <div className="mb-12">
           <div className="flex flex-wrap gap-3">
             {[
-              ...randomKeys.filter((key) => slug === key.slugRu), // активная в начале
-              ...randomKeys.filter((key) => slug !== key.slugRu), // остальные после
+              // активная категория в начале
+              ...randomKeys.filter((key) =>
+                lang === "uk" ? slug === key.slugUk : slug === key.slugRu
+              ),
+              // остальные после
+              ...randomKeys.filter((key) =>
+                lang === "uk" ? slug !== key.slugUk : slug !== key.slugRu
+              ),
             ].map((key, index) => {
-              const isActive = slug === key.slugRu;
+              const currentSlug = lang === "uk" ? key.slugUk : key.slugRu;
+              const currentName = lang === "uk" ? key.nameUk : key.nameRu;
+              const isActive = slug === currentSlug;
 
               return (
                 <Link
                   key={index}
-                  href={`/mfo/${key.slugRu}`}
+                  href={`/mfo/${currentSlug}`}
                   className={`px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-200 border-2 
             ${
               isActive
@@ -148,7 +149,7 @@ export default async function MFOSattelitePage({
                 : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300"
             }`}
                 >
-                  {key.nameRu}
+                  {currentName}
                 </Link>
               );
             })}
@@ -175,7 +176,7 @@ export default async function MFOSattelitePage({
 
         {/* Offers Grid - Server Rendered Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
-          {sortedMfos.slice(0, visibleCount).map((offer, index) => (
+          {mfos.slice(0, visibleCount).map((offer, index) => (
             <div
               key={offer.id}
               className="bg-white rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-blue-500 group animate-fade-in"
@@ -286,7 +287,7 @@ export default async function MFOSattelitePage({
                 </div>
 
                 <div className="flex justify-between">
-                  <BlueButton text="Получить займ" link={offer.UtmLink}/>
+                  <BlueButton text="Получить займ" link={offer.UtmLink} />
                   <MFOInteractiveElements offer={offer} />
                 </div>
               </div>
@@ -295,16 +296,14 @@ export default async function MFOSattelitePage({
         </div>
 
         {/* Show More Button - будет работать через URL параметры */}
-        {visibleCount < sortedMfos.length && (
+        {visibleCount < mfos.length && (
           <div className="text-center mb-12">
             <Link
               href={`?sort=${sortBy}&show=${visibleCount + 9}`}
               className="inline-block"
             >
               <GrayButton
-                text={`Показать еще займы (${
-                  sortedMfos.length - visibleCount
-                })`}
+                text={`Показать еще займы (${mfos.length - visibleCount})`}
               />
             </Link>
           </div>
@@ -314,37 +313,39 @@ export default async function MFOSattelitePage({
         <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-3xl p-8 text-white shadow-xl mb-12">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-              Как выбрать лучший займ?
+              {t("infoSection.title")}
             </h2>
             <p className="text-lg text-blue-100 max-w-2xl mx-auto">
-              Наши эксперты помогут вам сделать правильный выбор
+              {t("infoSection.subtitle")}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
               <TrendingUp className="w-8 h-8 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Сравните условия</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                {t("infoSection.compareConditions.title")}
+              </h3>
               <p className="text-blue-100">
-                Обратите внимание на процентную ставку, сроки и комиссии
+                {t("infoSection.compareConditions.text")}
               </p>
             </div>
 
             <div className="bg-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
               <Users className="w-8 h-8 mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Изучите отзывы</h3>
-              <p className="text-blue-100">
-                Почитайте мнения других клиентов о качестве обслуживания
-              </p>
+              <h3 className="text-lg font-semibold mb-2">
+                {t("infoSection.reviews.title")}
+              </h3>
+              <p className="text-blue-100">{t("infoSection.reviews.text")}</p>
             </div>
 
             <div className="bg-white/10 rounded-2xl p-6 backdrop-blur-sm hover:bg-white/20 transition-all duration-300">
               <Shield className="w-8 h-8 mb-4" />
               <h3 className="text-lg font-semibold mb-2">
-                Проверьте надежность
+                {t("infoSection.reliability.title")}
               </h3>
               <p className="text-blue-100">
-                Убедитесь, что компания имеет все необходимые лицензии
+                {t("infoSection.reliability.text")}
               </p>
             </div>
           </div>

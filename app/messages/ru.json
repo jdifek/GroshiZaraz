@@ -419,6 +419,14 @@
       }
     ]
   },
+  "PromoCodes": {
+    "title": "Актуальные промокоды",
+    "code": "Промокод",
+    "discount": "Скидка",
+    "condition": "Условия",
+    "notFound": "Промокоды не найдены",
+    "go": "Перейти"
+  },
   "FeaturedCards": {
     "firstLoan": {
       "title": "Первый займ бесплатно",
@@ -443,6 +451,51 @@
     "contacts": {
       "title": "Контакты — Фіногляд",
       "description": "Свяжитесь с нашей командой по любым вопросам."
+    }
+  },
+  "MFODetailsPopup": {
+    "tabs": {
+      "conditions": "Условия",
+      "rates": "Проценты",
+      "requirements": "Требования"
+    },
+    "advantages": {
+      "firstLoanFree": "Первый займ 0%",
+      "instantApproval": "Мгновенное одобрение",
+      "noIncomeProof": "Без справок о доходах",
+      "support24": "Круглосуточная поддержка",
+      "safeTransactions": "Безопасные транзакции",
+      "flexibleTerms": "Гибкие условия"
+    }
+,
+    "top": "ТОП",
+    "conditions": {
+      "maxAmount": "Максимальная сумма",
+      "minAmount": "Минимальная сумма микрозайма",
+      "loanTerm": "Срок займа",
+      "application": "Подача заявки",
+      "decision": "Решение по займу",
+      "collateral": "Залог",
+      "firstLoanTitle": "Первый займ без процентов",
+      "firstLoanDesc": "Новые клиенты получают займ под 0%"
+    },
+    "rates": {
+      "dailyRate": "Ставка в день",
+      "commission": "Комиссия",
+      "approval": "Одобрение",
+      "importantTitle": "⚠️ Важная информация",
+      "importantText": "Займы выдаются лицам старше 18 лет. Помните о необходимости своевременного погашения. Просрочка может негативно повлиять на вашу кредитную историю."
+    },
+    "requirements": {
+      "age": "Возраст",
+      "citizenship": "Гражданство",
+      "documents": "Документы",
+      "advantages": "Преимущества"
+    },
+    "actions": {
+      "getMoney": "Получить деньги",
+      "moreDetails": "Подробнее",
+      "redirectNotice": "Нажимая «Получить деньги», вы будете перенаправлены на сайт партнера"
     }
   }
 }

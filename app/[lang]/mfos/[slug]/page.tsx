@@ -9,7 +9,14 @@ type MfoDetailsPageProps = {
 type MappedMfo = {
   name: string;
   logo: string;
+  description?: string;
+  instantApproval?: boolean;
+  support24?: boolean;
+  noIncomeProof?: boolean;
+  flexibleTerms?: boolean;
+  safeTransactions?: boolean;
   rating: number;
+
   reviews: number;
   color: string;
   minAmount: number;
@@ -20,7 +27,7 @@ type MappedMfo = {
   responseTime: string;
   commission: string;
   ageLimit: string;
-  firstLoanFree: boolean;
+  isFirstLoanZero: boolean;
   phone?: string;
   website?: string;
   license?: string;
@@ -46,7 +53,7 @@ const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
       responseTime: response.decisionTime,
       commission: response.commission ? `${response.commission}%` : "0%", 
       ageLimit: `${response.ageFrom} - ${response.ageTo}`,
-      firstLoanFree: response.isFirstLoanZero,
+      isFirstLoanZero: response.isFirstLoanZero,
       instantApproval: response.isInstantApproval,
       noIncomeProof: response.isNoIncomeProof,
       support24: response.is24Support,
@@ -120,7 +127,7 @@ const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
             <div>
   <h3 className="text-xl font-semibold text-gray-800 mb-4">Преимущества</h3>
   <div className="space-y-3">
-    {companyInfo.firstLoanFree && (
+    {companyInfo.isFirstLoanZero && (
       <div className="flex items-start gap-3">
         <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
         <span className="text-gray-700">Первый займ 0%</span>

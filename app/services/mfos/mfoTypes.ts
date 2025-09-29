@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface Mfo {
   id: number;
   name: string;
   slug: string;
+  commission: string;
   rating: number;
   reviews: number;
   logo: string;
@@ -16,6 +18,9 @@ export interface Mfo {
   rateMax: number;
   approvalRate: number;
   decisionTime: string;
+  application: string;
+  collateral: string;
+  dailyRate: string;
 
   isFirstLoanZero: boolean;
   isInstantApproval: boolean;
@@ -38,6 +43,8 @@ export interface Mfo {
   UtmLink: string;
   createdAt: string;
   updatedAt: string;
+  promoCodes: any[]
+  questions: any[]
 }
 
 export type MfoPayload = Omit<Mfo, "id" | "createdAt" | "updatedAt">;

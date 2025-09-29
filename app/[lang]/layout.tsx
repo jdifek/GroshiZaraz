@@ -35,7 +35,7 @@ export async function generateMetadata({
             alt: "Фіногляд - Финансовый маркетплейс",
           },
         ],
-        locale: lang === "ua" ? "uk_UA" : "ru_UA",
+        locale: lang === "uk" ? "uk_UA" : "ru_UA",
         type: "website",
       },
       icons: {
@@ -71,10 +71,10 @@ export default async function Layout({
     messages = (await import(`../messages/${lang}.json`)).default;
   } catch (error) {
     console.error(`Failed to load messages for lang ${lang}:`, error);
-    messages = (await import("../messages/ru.json")).default;
+    messages = (await import("../messages/uk.json")).default;
   }
   return (
-    <html lang={lang === 'ru' ? 'ru' : 'uk' }>
+    <html lang={lang === 'uk' ? 'uk' : 'ru' }>
       <body className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
         <Toaster position="top-right" reverseOrder={false} />
         <NextIntlClientProvider locale={lang} messages={messages}>
@@ -92,5 +92,5 @@ export default async function Layout({
 }
 
 export async function generateStaticParams() {
-  return [{ lang: "ru" }, { lang: "ua" }];
+  return [{ lang: "uk" }, { lang: "ru" }];
 }

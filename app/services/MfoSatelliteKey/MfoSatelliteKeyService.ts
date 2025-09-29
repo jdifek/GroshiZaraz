@@ -50,12 +50,27 @@ export default class MfoSatelliteKeyService {
       throw error;
     }
   }
-  static async getSatelliteKeyBySlug(slug: string): Promise<MfoSatelliteKey> {
+  static async getSatelliteKeyBySlug(
+    slug: string,
+    sortBy: string = "rating"
+  ): Promise<MfoSatelliteKey> {
+
+    console.log(slug);
+    
     try {
-      const response = await $api.get<MfoSatelliteKey>(`/api/mfo-satellite-keys/slug/${slug}`);
+      
+      const response = await $api.get<MfoSatelliteKey>(
+        `/api/mfo-satellite-keys/slug/${slug}`,
+        {
+          params: { sortBy }, // передаем сортировку на бэкенд
+        }
+      );
       return response.data;
     } catch (error) {
-      console.error(`Ошибка при получении ключа сателлита по slug="${slug}":`, error);
+      console.error(
+        `Ошибка при получении ключа сателлита по slug="${slug}":`,
+        error
+      );
       throw error;
     }
   }

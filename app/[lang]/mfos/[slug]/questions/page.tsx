@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @next/next/no-img-element */
 import MfoService from "@/app/services/mfos/mfosService";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
@@ -18,7 +19,7 @@ export default async function QuestionsPage({
     console.error("Error loading questions:", error);
   }
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: any) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("uk-UA", {
       day: "numeric",
@@ -29,7 +30,7 @@ export default async function QuestionsPage({
     });
   };
 
-  const renderAnswer = (answer) => {
+  const renderAnswer = (answer: any) => {
     const isExpert = answer.expert !== null;
     
     return (
@@ -90,6 +91,8 @@ export default async function QuestionsPage({
       </div>
     );
   };
+
+  
 
   return (
     <div>
@@ -179,12 +182,12 @@ export default async function QuestionsPage({
                     <div className="space-y-3">
                       {/* Сначала показываем ответы экспертов */}
                       {question.answers
-                        .filter(answer => answer.expert !== null)
+                        .filter((answer: { expert: null; }) => answer.expert !== null)
                         .map(renderAnswer)}
                       
                       {/* Затем ответы пользователей */}
                       {question.answers
-                        .filter(answer => answer.expert === null)
+                        .filter((answer: { expert: null; }) => answer.expert === null)
                         .map(renderAnswer)}
                     </div>
                     

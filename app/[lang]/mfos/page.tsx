@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+
 "use client";
 import React, { useEffect, useState } from "react";
 import {
@@ -19,6 +19,7 @@ import { Mfo, RandomKey } from "@/app/services/mfos/mfoTypes";
 import Image from "next/image";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
+import SEOLoansContent from "@/app/components/SEOLoansContent";
 
 interface SortOption {
   value: string;
@@ -48,12 +49,12 @@ export default function MFOsPage() {
 
   const [mfos, setMfos] = useState<Mfo[]>([]);
   const [randomKeys, setRandomKeys] = useState<RandomKey[]>([]);
-  const [, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchMfos = async () => {
     setIsLoading(true);
     try {
-      const data = await MfoService.getAllMfos();
+      const data = await MfoService.getAllMfos(sortBy);
       setMfos(data);
       const keys = await MfoService.getRandomKeys();
       setRandomKeys(keys);
@@ -63,12 +64,12 @@ export default function MFOsPage() {
       setIsLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchMfos();
-  }, []);
+  }, [sortBy]);
 
-  const isLoading = mfos.length === 0 || randomKeys.length === 0;
 
   return (
     <div className="min-h-screen">
@@ -97,8 +98,8 @@ export default function MFOsPage() {
                   </div>
                 ))
               :randomKeys.map((key, index) => {
-                const slug = locale === "ua" ? key.slugUk : key.slugRu;
-                const name = locale === "ua" ? key.nameUk : key.nameRu;
+                const slug = locale === "uk" ? key.slugUk : key.slugRu;
+                const name = locale === "uk" ? key.nameUk : key.nameRu;
                 return (
                   <Link
                     key={index}
@@ -118,7 +119,7 @@ export default function MFOsPage() {
           <div className="relative">
             <button
               onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-              className="bg-white border-2 border-gray-200 rounded-2xl px-6 py-3 flex items-center gap-3 hover:border-blue-300 transition-all duration-200 shadow-sm"
+              className="bg-white cursor-pointer  border-2 border-gray-200 rounded-2xl px-6 py-3 flex items-center gap-3 hover:border-blue-300 transition-all duration-200 shadow-sm"
             >
               <span className="text-gray-700 font-medium">
                 {sortOptions.find((opt) => opt.value === sortBy)?.label}
@@ -139,7 +140,7 @@ export default function MFOsPage() {
                       setSortBy(option.value);
                       setIsSortDropdownOpen(false);
                     }}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-50 first:rounded-t-2xl last:rounded-b-2xl text-gray-700 transition-colors duration-200"
+                    className="w-full cursor-pointer  text-left px-4 py-2 hover:bg-gray-50 first:rounded-t-2xl last:rounded-b-2xl text-gray-700 transition-colors duration-200"
                   >
                     {option.label}
                   </button>
@@ -167,13 +168,63 @@ export default function MFOsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-12">
           {isLoading
             ? Array.from({ length: 6 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="bg-white rounded-3xl shadow-lg border-2 border-transparent p-6 animate-pulse"
-                >
-                  {/* Skeleton content */}
+              <div
+                key={i}
+                className="bg-white rounded-3xl shadow-lg border-2 border-transparent p-6 animate-pulse space-y-4"
+              >
+                {/* Header */}
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-gray-200" />
+                    <div className="space-y-2">
+                      <div className="h-4 w-32 bg-gray-200 rounded" />
+                      <div className="h-3 w-20 bg-gray-200 rounded" />
+                    </div>
+                  </div>
+                  <div className="w-16 h-6 bg-gray-200 rounded-full" />
                 </div>
-              ))
+      
+                {/* Key Info */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="h-12 bg-gray-100 rounded-2xl" />
+                  <div className="h-12 bg-gray-100 rounded-2xl" />
+                </div>
+      
+                {/* Rate and Approval */}
+                <div className="flex justify-between items-center">
+                  <div className="space-y-1">
+                    <div className="h-5 w-20 bg-gray-200 rounded" />
+                    <div className="h-3 w-14 bg-gray-100 rounded" />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="h-5 w-14 bg-gray-200 rounded" />
+                    <div className="h-3 w-10 bg-gray-100 rounded" />
+                  </div>
+                </div>
+      
+                {/* Special Offer */}
+                <div className="h-6 bg-gray-100 rounded-2xl" />
+      
+                {/* Advantages */}
+                <div className="flex flex-wrap gap-2">
+                  <div className="h-6 w-16 bg-gray-200 rounded-full" />
+                  <div className="h-6 w-20 bg-gray-200 rounded-full" />
+                  <div className="h-6 w-14 bg-gray-200 rounded-full" />
+                </div>
+      
+                {/* Footer */}
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <div className="h-4 w-20 bg-gray-200 rounded" />
+                    <div className="h-4 w-16 bg-gray-200 rounded" />
+                  </div>
+                  <div className="flex justify-between gap-2">
+                    <div className="h-10 flex-1 bg-gray-300 rounded-2xl" />
+                    <div className="h-10 w-10 bg-gray-300 rounded-full" />
+                  </div>
+                </div>
+              </div>
+            ))
             : mfos.slice(0, visibleCount).map((offer, index) => (
                 <div
                   key={offer.id}
@@ -359,6 +410,8 @@ export default function MFOsPage() {
             </div>
           </div>
         </div>
+
+        <SEOLoansContent />
 
         {/* Modals */}
         {selectedOffer && (

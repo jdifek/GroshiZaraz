@@ -10,9 +10,7 @@ const nextConfig = {
       "mfo.qissseee.tech"
     ],
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+
 };
 
 module.exports = withNextIntl(nextConfig);

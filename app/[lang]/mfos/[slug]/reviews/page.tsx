@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState, useEffect } from "react";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import ReviewService from "@/app/services/reviews/reviewsService";
 import MfoService from "@/app/services/mfos/mfosService";
 import { MessageCircle, User, Calendar, CheckCircle, Reply, Star } from "lucide-react";
+import { Spinner } from "@/app/ui/Spinner";
+
 
 export default function ReviewsPage({ params }: { params: { slug: string } }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,7 +44,7 @@ export default function ReviewsPage({ params }: { params: { slug: string } }) {
           responseTime: response.decisionTime,
           commission: "0% to be",
           ageLimit: `${response.ageFrom}-${response.ageTo}`,
-          firstLoanFree: true,
+          isFirstLoanZero: response.isFirstLoanZero,
           phone: response.phone,
           website: response.website,
           license: response.licenseNumber,
@@ -167,7 +170,7 @@ export default function ReviewsPage({ params }: { params: { slug: string } }) {
       
       // Обновляем список отзывов
       const updatedResponse = await MfoService.getMfoBySlug(params.slug);
-      setCompanyInfo(prev => ({ ...prev, reviews: updatedResponse.reviews }));
+      setCompanyInfo((prev: any) => ({ ...prev, reviews: updatedResponse.reviews }));
     } catch (error) {
       console.error("Ошибка при создании отзыва:", error);
     }
@@ -186,7 +189,9 @@ export default function ReviewsPage({ params }: { params: { slug: string } }) {
       
       // Обновляем список отзывов
       const updatedResponse = await MfoService.getMfoBySlug(params.slug);
-      setCompanyInfo(prev => ({ ...prev, reviews: updatedResponse.reviews }));
+      setCompanyInfo((prev: any) => 
+        prev ? { ...prev, reviews: updatedResponse.reviews } : null
+      );
     } catch (error) {
       console.error("Ошибка при создании ответа:", error);
     }
@@ -196,6 +201,10 @@ export default function ReviewsPage({ params }: { params: { slug: string } }) {
     setSelectedReviewId(reviewId);
     setIsAnswerModalOpen(true);
   };
+
+  if (!companyInfo) {
+  return <Spinner />; // или <Spinner />
+}
 
   return (
     <div>
