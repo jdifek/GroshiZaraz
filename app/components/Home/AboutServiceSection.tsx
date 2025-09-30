@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { getTranslations, getMessages } from "next-intl/server";

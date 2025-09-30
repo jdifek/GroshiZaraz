@@ -1,6 +1,7 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation"; // <- вот здесь поменял
 import React, { useState } from "react";
+export const dynamic = "force-dynamic";
 
 export default function QuestionAnswersPage() {
   const [newAnswer, setNewAnswer] = useState("");

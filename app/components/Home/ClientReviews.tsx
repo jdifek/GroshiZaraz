@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import ReviewCard from "../Reviews/ReviewCard";
 import StatCard from "../Reviews/StatCard";
@@ -30,7 +31,7 @@ const ClientReviews = async ({ lang }: { lang: string }) => {
         </div>
 
         <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          {reviews.map((r, i) => (
+          {reviews.map((r: any, i: any) => (
             <ReviewCard key={i} review={r} index={i} />
           ))}
         </div>

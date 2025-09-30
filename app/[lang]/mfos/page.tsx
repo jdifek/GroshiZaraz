@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   ChevronDown,
   Star,
@@ -20,13 +21,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import SEOLoansContent from "@/app/components/SEOLoansContent";
+export const dynamic = "force-dynamic";
 
 interface SortOption {
   value: string;
   label: string;
 }
+interface MFOsPageProps {
+  params: Promise<{ lang: string }>;
+}
 
-export default function MFOsPage() {
+async function getResolvedParams(params: Promise<{ lang: string }>) {
+  return await params;
+}
+
+export default function MFOsPage({
+  params,
+}: MFOsPageProps) {
+  const { lang } = use(getResolvedParams(params));
+  console.log(lang);
   const t = useTranslations("MFOsPage");
 
   const [sortBy, setSortBy] = useState<string>("rating");

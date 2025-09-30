@@ -3,7 +3,7 @@ import { CheckCircle } from "lucide-react";
 import MfoService from "@/app/services/mfos/mfosService";
 
 type MfoDetailsPageProps = {
-  params: { slug: string };
+  params: Promise<{ lang: string; slug: string }>;
 };
 
 type MappedMfo = {
@@ -35,9 +35,10 @@ type MappedMfo = {
 
 const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
   let companyInfo: MappedMfo | null = null;
+  const { slug } = await params; // Await params for async resolution
 
   try {
-    const response = await MfoService.getMfoBySlug(params.slug);
+    const response = await MfoService.getMfoBySlug(slug);
 
     companyInfo = {
       name: response.name,

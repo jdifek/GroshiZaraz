@@ -1,4 +1,3 @@
-// MFOSattelitePage.tsx - Server Component
 import React from "react";
 import { Star, Clock, Percent, TrendingUp, Shield, Users } from "lucide-react";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
@@ -14,12 +13,17 @@ import { MfoSatelliteKey } from "@/app/services/MfoSatelliteKey/mfoSatelliteKeyT
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 
+type MFOSattelitePageProps = {
+  params: Promise<{ lang: string; slug: string }>;
+  searchParams: Promise<{ sort?: string } | undefined>;
+};
+
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ lang: string; slug: string }>;
 }): Promise<Metadata> {
-  const { lang, slug } = await params;
+  const { lang, slug } = await params; // Await params for async resolution
 
   try {
     const satellite = await MfoSatelliteKeyService.getSatelliteKeyBySlug(slug);
@@ -65,29 +69,24 @@ export async function generateMetadata({
     };
   }
 }
-type MFOSattelitePageProps = {
-  params: Promise<{ lang: string; slug: string }>;
-  searchParams?: { sort?: string };
-};
 
 export default async function MFOSattelitePage({
   params,
   searchParams,
 }: MFOSattelitePageProps) {
-  const sortBy = searchParams?.sort || "rating";
+  const { lang, slug } = await params;
+  const resolvedSearchParams = await searchParams ?? {};
+  const sortBy = resolvedSearchParams?.sort || "rating";
+
+  console.log("✅ Extracted", { lang, slug, sortBy });
+  console.log("📌 MFOSattelitePage params (resolved):", { lang, slug });
+  console.log("📌 MFOSattelitePage searchParams (resolved):", resolvedSearchParams);
 
   let satellite: MfoSatelliteKey | null = null;
   let mfos: Mfo[] = [];
   let randomKeys: RandomKey[] = [];
-  console.log("📌 MFOSattelitePage params:", params);
-  console.log("📌 MFOSattelitePage searchParams:", searchParams);
 
-  const { lang, slug } = await params;
-
-  console.log(
-    `📌 Extracted lang="${lang}", slug="${slug}", sortBy="${sortBy}"`
-  );
-
+  console.log(`📌 Extracted lang="${lang}", slug="${slug}", sortBy="${sortBy}"`);
   try {
     console.log(slug + lang, "slugslugslug");
     // грузим ключ по slug и рандомные категории

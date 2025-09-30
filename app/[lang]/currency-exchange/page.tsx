@@ -1,12 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useState, useEffect } from "react";
-import { ArrowUpDown, TrendingUp, TrendingDown, RefreshCw, Clock } from "lucide-react";
+import {
+  ArrowUpDown,
+  TrendingUp,
+  TrendingDown,
+  RefreshCw,
+  Clock,
+} from "lucide-react";
 import { RateNbu } from "@/app/components/CurrencyExchange/RateNbu";
 import { Dynamics } from "@/app/services/converter/converterTypes";
 import ConverterService from "@/app/services/converter/converterService";
 import { useTranslations } from "next-intl";
+import { use } from "react";
 
-// TypeScript interfaces
+// Типизация для params
+interface CurrencyExchangePageProps {
+  params: Promise<{ lang: string }>;
+}
+
+// Интерфейсы
 interface Currency {
   code: string;
   name: string;
@@ -17,7 +30,17 @@ interface ExchangeRates {
   [key: string]: { rate: number; change: number; trend: string };
 }
 
-export default function CurrencyExchangePage() {
+// Асинхронное получение params
+async function getResolvedParams(params: Promise<{ lang: string }>) {
+  return await params;
+}
+
+export default function CurrencyExchangePage({
+  params,
+}: CurrencyExchangePageProps) {
+  const { lang } = use(getResolvedParams(params));
+  console.log(lang);
+
   const t = useTranslations("CurrencyExchangePage");
 
   const [fromCurrency, setFromCurrency] = useState<string>("USD");
@@ -150,15 +173,23 @@ export default function CurrencyExchangePage() {
 
   return (
     <div className="space-y-8">
-      {error && <div className="bg-red-100 text-red-700 p-4 rounded-xl text-center">{error}</div>}
+      {error && (
+        <div className="bg-red-100 text-red-700 p-4 rounded-xl text-center">
+          {error}
+        </div>
+      )}
 
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl p-6 border border-gray-100">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">{t("header.title")}</h1>
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+          {t("header.title")}
+        </h1>
         <p className="text-gray-600">{t("header.subtitle")}</p>
         <div className="flex items-center gap-2 mt-4 text-sm text-gray-500">
           <Clock className="w-4 h-4" />
-          <span>{t("header.lastUpdated")}: {lastUpdated || "Loading..."}</span>
+          <span>
+            {t("header.lastUpdated")}: {lastUpdated || "Loading..."}
+          </span>
         </div>
       </div>
 
@@ -169,13 +200,17 @@ export default function CurrencyExchangePage() {
             {t("converter.title")}
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
           </h2>
-          <p className="text-gray-600 text-sm mt-4">{t("converter.subtitle")}</p>
+          <p className="text-gray-600 text-sm mt-4">
+            {t("converter.subtitle")}
+          </p>
         </div>
 
         <div className="max-w-2xl mx-auto space-y-6">
           {/* From Currency */}
           <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 shadow-md border border-gray-100">
-            <label className="block text-sm font-semibold text-gray-700 mb-4">{t("converter.fromLabel")}</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-4">
+              {t("converter.fromLabel")}
+            </label>
             <div className="flex flex-col sm:flex-row gap-4">
               <select
                 value={fromCurrency}
@@ -211,7 +246,9 @@ export default function CurrencyExchangePage() {
 
           {/* To Currency */}
           <div className="bg-gradient-to-br from-yellow-50 to-white rounded-2xl p-6 shadow-md border border-yellow-100">
-            <label className="block text-sm font-semibold text-gray-700 mb-4">{t("converter.toLabel")}</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-4">
+              {t("converter.toLabel")}
+            </label>
             <div className="flex flex-col sm:flex-row gap-4">
               <select
                 value={toCurrency}
@@ -231,19 +268,25 @@ export default function CurrencyExchangePage() {
           </div>
 
           {/* Exchange Rate Info */}
-          {fromCurrency !== "UAH" && toCurrency === "UAH" && exchangeRates[fromCurrency] && (
-            <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-xl p-4 border border-blue-100">
-              <div className="flex items-center justify-center gap-2">
-                <span className="text-2xl">
-                  {currencies.find((c) => c.code === fromCurrency)?.flag}
-                </span>
-                <p className="text-sm font-medium text-gray-700">
-                  1 {fromCurrency} = <span className="font-bold text-blue-600">{exchangeRates[fromCurrency]?.rate.toFixed(2)}</span> UAH
-                </p>
-                <span className="text-2xl">🇺🇦</span>
+          {fromCurrency !== "UAH" &&
+            toCurrency === "UAH" &&
+            exchangeRates[fromCurrency] && (
+              <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-xl p-4 border border-blue-100">
+                <div className="flex items-center justify-center gap-2">
+                  <span className="text-2xl">
+                    {currencies.find((c) => c.code === fromCurrency)?.flag}
+                  </span>
+                  <p className="text-sm font-medium text-gray-700">
+                    1 {fromCurrency} ={" "}
+                    <span className="font-bold text-blue-600">
+                      {exchangeRates[fromCurrency]?.rate.toFixed(2)}
+                    </span>{" "}
+                    UAH
+                  </p>
+                  <span className="text-2xl">🇺🇦</span>
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
 
@@ -259,7 +302,9 @@ export default function CurrencyExchangePage() {
             className="flex cursor-pointer items-center gap-2 bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105"
           >
             <RefreshCw className="w-4 h-4" />
-            <span className="text-sm font-medium">{t("mainCurrencies.refresh")}</span>
+            <span className="text-sm font-medium">
+              {t("mainCurrencies.refresh")}
+            </span>
           </button>
         </div>
 
@@ -270,9 +315,12 @@ export default function CurrencyExchangePage() {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <span className="text-3xl group-hover:scale-110 transition-transform duration-300">
-                      {currencies.find((c) => c.code === currency)?.flag || "🌐"}
+                      {currencies.find((c) => c.code === currency)?.flag ||
+                        "🌐"}
                     </span>
-                    <span className="font-bold text-gray-800 text-lg">{currency}</span>
+                    <span className="font-bold text-gray-800 text-lg">
+                      {currency}
+                    </span>
                   </div>
                   <div
                     className={`flex items-center gap-1 px-2 py-1 rounded-lg ${
@@ -292,8 +340,12 @@ export default function CurrencyExchangePage() {
                     </span>
                   </div>
                 </div>
-                <div className="text-3xl font-bold text-gray-800 mb-2">{data.rate.toFixed(2)}</div>
-                <div className="text-sm text-gray-500 font-medium">UAH за 1 {currency}</div>
+                <div className="text-3xl font-bold text-gray-800 mb-2">
+                  {data.rate.toFixed(2)}
+                </div>
+                <div className="text-sm text-gray-500 font-medium">
+                  UAH за 1 {currency}
+                </div>
               </div>
             </div>
           ))}
@@ -343,17 +395,27 @@ export default function CurrencyExchangePage() {
               <div
                 key={currency}
                 className={`flex justify-between items-center p-4 bg-gradient-to-br ${
-                  data.direction === "up" ? "from-green-50 to-white" : "from-red-50 to-white"
+                  data.direction === "up"
+                    ? "from-green-50 to-white"
+                    : "from-red-50 to-white"
                 } rounded-xl shadow-md border ${
-                  data.direction === "up" ? "border-green-100" : "border-red-100"
+                  data.direction === "up"
+                    ? "border-green-100"
+                    : "border-red-100"
                 } hover:shadow-lg transition-all duration-300`}
               >
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{data.direction === "up" ? "📈" : "📉"}</span>
-                  <span className="text-gray-700 font-medium">{currency} ({t("dynamics.week")})</span>
+                  <span className="text-2xl">
+                    {data.direction === "up" ? "📈" : "📉"}
+                  </span>
+                  <span className="text-gray-700 font-medium">
+                    {currency} ({t("dynamics.week")})
+                  </span>
                 </div>
                 <span
-                  className={`font-bold text-lg ${data.direction === "up" ? "text-green-600" : "text-red-600"}`}
+                  className={`font-bold text-lg ${
+                    data.direction === "up" ? "text-green-600" : "text-red-600"
+                  }`}
                 >
                   {+data.changePercent > 0 ? "+" : ""}
                   {data.changePercent}%

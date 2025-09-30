@@ -4,6 +4,7 @@ import { Author } from "@/app/services/authors/authorsTypes";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { useRouter, useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
+export const dynamic = "force-dynamic";
 
 const AuthorPage = () => {
   const router = useRouter();

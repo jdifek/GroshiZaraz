@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState, useEffect } from "react";
@@ -6,9 +7,19 @@ import ReviewService from "@/app/services/reviews/reviewsService";
 import MfoService from "@/app/services/mfos/mfosService";
 import { MessageCircle, User, Calendar, CheckCircle, Reply, Star } from "lucide-react";
 import { Spinner } from "@/app/ui/Spinner";
+import { use } from "react"; // Добавляем use для асинхронных параметров
 
+type ReviewsPageProps = {
+  params: Promise<{ lang: string; slug: string }>;
+};
 
-export default function ReviewsPage({ params }: { params: { slug: string } }) {
+// Серверная функция для получения params
+async function getResolvedParams(params: Promise<{ lang: string; slug: string }>) {
+  return await params;
+}
+
+export default function ReviewsPage({ params }: ReviewsPageProps) {
+  const {  slug } = use(getResolvedParams(params));
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAnswerModalOpen, setIsAnswerModalOpen] = useState(false);
   const [selectedReviewId, setSelectedReviewId] = useState<number | null>(null);
@@ -29,7 +40,7 @@ export default function ReviewsPage({ params }: { params: { slug: string } }) {
   useEffect(() => {
     async function fetchCompany() {
       try {
-        const response = await MfoService.getMfoBySlug(params.slug);
+        const response = await MfoService.getMfoBySlug(slug);
         setCompanyInfo({
           id: response.id,
           name: response.name,
@@ -54,7 +65,7 @@ export default function ReviewsPage({ params }: { params: { slug: string } }) {
       }
     }
     fetchCompany();
-  }, [params.slug]);
+  }, [slug]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -169,7 +180,7 @@ export default function ReviewsPage({ params }: { params: { slug: string } }) {
       setFormData({ name: "", email: "", rating: "", text: "" });
       
       // Обновляем список отзывов
-      const updatedResponse = await MfoService.getMfoBySlug(params.slug);
+      const updatedResponse = await MfoService.getMfoBySlug(slug);
       setCompanyInfo((prev: any) => ({ ...prev, reviews: updatedResponse.reviews }));
     } catch (error) {
       console.error("Ошибка при создании отзыва:", error);
@@ -188,7 +199,7 @@ export default function ReviewsPage({ params }: { params: { slug: string } }) {
       setSelectedReviewId(null);
       
       // Обновляем список отзывов
-      const updatedResponse = await MfoService.getMfoBySlug(params.slug);
+      const updatedResponse = await MfoService.getMfoBySlug(slug);
       setCompanyInfo((prev: any) => 
         prev ? { ...prev, reviews: updatedResponse.reviews } : null
       );
