@@ -12,12 +12,6 @@ import { RateNbu } from "@/app/components/CurrencyExchange/RateNbu";
 import { Dynamics } from "@/app/services/converter/converterTypes";
 import ConverterService from "@/app/services/converter/converterService";
 import { useTranslations } from "next-intl";
-import { use } from "react";
-
-// Типизация для params
-interface CurrencyExchangePageProps {
-  params: Promise<{ lang: string }>;
-}
 
 // Интерфейсы
 interface Currency {
@@ -30,16 +24,11 @@ interface ExchangeRates {
   [key: string]: { rate: number; change: number; trend: string };
 }
 
-// Асинхронное получение params
-async function getResolvedParams(params: Promise<{ lang: string }>) {
-  return await params;
-}
+
 
 export default function CurrencyExchangePage({
-  params,
-}: CurrencyExchangePageProps) {
-  const { lang } = use(getResolvedParams(params));
-  console.log(lang);
+}) {
+
 
   const t = useTranslations("CurrencyExchangePage");
 

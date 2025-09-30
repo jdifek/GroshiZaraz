@@ -45,7 +45,7 @@ const Footer = async ({ lang }: { lang: string }) => {
               </li>
               <li>
                 <Link
-                  href="/news"
+                  href="/journal"
                   className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:translate-x-1 inline-block"
                 >
                   → {t("navigation.news")}

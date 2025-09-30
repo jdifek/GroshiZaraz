@@ -2,19 +2,12 @@
 "use client";
 import SiteQuestionService from "@/app/services/siteQuestion/SiteQuestionService";
 import { usePathname, useRouter } from "next/navigation";
-import React, { use, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 export const dynamic = "force-dynamic";
 
-interface AskQuestionPageProps {
-  params: Promise<{ lang: string }>;
-}
-async function getResolvedParams(params: Promise<{ lang: string }>) {
-  return await params;
-}
-export default function AskQuestionPage({ params }: AskQuestionPageProps) {
-  const { lang } = use(getResolvedParams(params));
-  console.log(lang);
-  
+
+export default function AskQuestionPage() {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("Все категории");
