@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 "use client";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ChevronDown,
   Star,
@@ -27,19 +27,9 @@ interface SortOption {
   value: string;
   label: string;
 }
-interface MFOsPageProps {
-  params: Promise<{ lang: string }>;
-}
-
-async function getResolvedParams(params: Promise<{ lang: string }>) {
-  return await params;
-}
 
 export default function MFOsPage({
-  params,
-}: MFOsPageProps) {
-  const { lang } = use(getResolvedParams(params));
-  console.log(lang);
+}) {
   const t = useTranslations("MFOsPage");
 
   const [sortBy, setSortBy] = useState<string>("rating");
