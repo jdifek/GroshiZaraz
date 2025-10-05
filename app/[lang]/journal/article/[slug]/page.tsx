@@ -5,7 +5,6 @@ import { notFound } from "next/navigation";
 import NewsService from "@/app/services/news/newsService";
 import { News } from "@/app/services/news/newsTypes";
 import Image from "next/image";
-import toast from "react-hot-toast";
 import CopyLinkButton from "@/app/components/News/CopyLinkButton";
 
 interface ArticleDetailPageProps {

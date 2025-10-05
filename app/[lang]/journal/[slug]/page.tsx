@@ -99,23 +99,7 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
     return colors[index % colors.length];
   };
 
-  const getArticleEmoji = (categoryName: string) => {
-    const emojiMap: { [key: string]: string } = {
-      Новости: "🏦",
-      Пособия: "💳",
-      Аналитика: "📈",
-      Займы: "💰",
-      "Дебетовые карты": "💳",
-      Вклады: "🛡️",
-      Автокредиты: "🚗",
-      Акции: "🎯",
-      Пенсия: "👴",
-      Бизнес: "💼",
-      Видео: "🎥",
-    };
-    return emojiMap[categoryName] || "📰";
-  };
-
+ 
   const categoryName = articles[0]?.NewsCategory?.name || categorySlug;
 
   return (
