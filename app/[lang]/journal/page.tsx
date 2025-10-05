@@ -2,6 +2,7 @@ import CategoryService from "@/app/services/categories/categoriesService";
 import { Category } from "@/app/services/categories/categoriesTypes";
 import NewsService from "@/app/services/news/newsService";
 import { News } from "@/app/services/news/newsTypes";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -11,16 +12,12 @@ const JournalPage = async () => {
 
   try {
     categoriesFromApi = await CategoryService.getAllCategories();
-    console.log("✅ Категории успешно получены:", categoriesFromApi);
-  } catch (error) {
-    console.error("❌ Ошибка при получении категорий:", error);
+  } catch  {
   }
 
   try {
     articlesFromApi = await NewsService.getAllNews();
-    console.log("✅ Новости успешно получены:", articlesFromApi);
-  } catch (error) {
-    console.error("❌ Ошибка при получении категорий:", error);
+  } catch  {
   }
 
   const formatDate = (dateString: string) => {
@@ -95,15 +92,26 @@ const JournalPage = async () => {
                       <div
                         className={`bg-gradient-to-br from-indigo-500 to-indigo-600 ${
                           index === 0 ? "h-64" : "h-48"
-                        } flex items-center justify-center text-6xl text-white relative overflow-hidden`}
+                        } relative overflow-hidden`}
                       >
-                        🛡️
-                        <div className="absolute top-4 left-4">
-                          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white">
+                        <Image
+                          src={article.image || "/placeholder-news.svg"}
+                          alt={article.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+                          className="object-cover"
+                          priority={index === 0} // priority только для первой новости
+                        />
+
+                        {/* Оверлей для лучшей читаемости бейджей */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+
+                        <div className="absolute top-4 left-4 z-10">
+                          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white shadow-lg">
                             {article?.NewsCategory?.name}
                           </span>
                         </div>
-                        <div className="absolute top-4 right-4 text-white/80 text-sm">
+                        <div className="absolute top-4 right-4 text-white text-sm z-10 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
                           {new Date(article.createdAt).toLocaleDateString(
                             "ru-RU",
                             {
@@ -158,16 +166,24 @@ const JournalPage = async () => {
                     className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200"
                   >
                     <div className="relative">
-                      <div
-                        className={`bg-gradient-to-br from-indigo-500 to-indigo-600 h-48 flex items-center justify-center text-6xl text-white relative overflow-hidden`}
-                      >
-                        🛡️
-                        <div className="8 top-4 left-4">
-                          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white">
+                      <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 h-48 relative overflow-hidden">
+                        <Image
+                          src={article.image || "/placeholder-news.svg"}
+                          alt={article.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+                          className="object-cover"
+                        />
+
+                        {/* Оверлей для лучшей читаемости бейджей */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+
+                        <div className="absolute top-4 left-4 z-10">
+                          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white shadow-lg">
                             {article?.NewsCategory?.name}
                           </span>
                         </div>
-                        <div className="absolute top-4 right-4 text-white/80 text-sm">
+                        <div className="absolute top-4 right-4 text-white text-sm z-10 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
                           {new Date(article.createdAt).toLocaleDateString(
                             "ru-RU",
                             {
@@ -175,7 +191,7 @@ const JournalPage = async () => {
                               month: "long",
                               day: "numeric",
                             }
-                          )}{" "}
+                          )}
                         </div>
                       </div>
                     </div>
@@ -185,10 +201,9 @@ const JournalPage = async () => {
                         {article.title}
                       </h3>
                       <p
-  className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
-  dangerouslySetInnerHTML={{ __html: article.body }}
-/>
-
+                        className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
+                        dangerouslySetInnerHTML={{ __html: article.body }}
+                      />
 
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -253,8 +268,8 @@ const JournalPage = async () => {
                             {article.title}
                           </h4>
                           <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
-                          <span>{formatDate(article.createdAt)}</span>
-                          <span>•</span>
+                            <span>{formatDate(article.createdAt)}</span>
+                            <span>•</span>
                             <span>{formatViews(article.views)} просмотров</span>
                           </div>
                         </div>

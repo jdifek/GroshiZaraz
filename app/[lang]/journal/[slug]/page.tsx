@@ -3,6 +3,7 @@ import CategoryService from "@/app/services/categories/categoriesService";
 import { Category } from "@/app/services/categories/categoriesTypes";
 import NewsService from "@/app/services/news/newsService";
 import { News } from "@/app/services/news/newsTypes";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -183,15 +184,26 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
                         <div
                           className={`${getArticleColor(index)} ${
                             index === 0 ? "h-64" : "h-48"
-                          } flex items-center justify-center text-6xl text-white relative overflow-hidden`}
+                          } relative overflow-hidden`}
                         >
-                          {getArticleEmoji(article.NewsCategory?.name || "")}
-                          <div className="absolute top-4 left-4">
-                            <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white">
+                          <Image
+                            src={article.image || "/placeholder-news.svg"}
+                            alt={article.title}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+                            className="object-cover"
+                            priority={index === 0} // priority только для первой новости
+                          />
+
+                          {/* Оверлей для лучшей читаемости бейджей */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+
+                          <div className="absolute top-4 left-4 z-10">
+                            <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white shadow-lg">
                               {article.NewsCategory?.name}
                             </span>
                           </div>
-                          <div className="absolute top-4 right-4 text-white/80 text-sm">
+                          <div className="absolute top-4 right-4 text-white text-sm z-10 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
                             {formatDate(article.createdAt)}
                           </div>
                         </div>
@@ -241,15 +253,26 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ params }) => {
                         <div
                           className={`${getArticleColor(
                             index + 3
-                          )} h-48 flex items-center justify-center text-6xl text-white relative overflow-hidden`}
+                          )} h-48 relative overflow-hidden`}
                         >
-                          {getArticleEmoji(article.NewsCategory?.name || "")}
-                          <div className="absolute top-4 left-4">
-                            <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white">
+                          <Image
+                            src={article.image || "/placeholder-news.svg"}
+                            alt={article.title}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+                            className="object-cover"
+                            priority={index === 0} // priority только для первой новости
+                          />
+
+                          {/* Оверлей для лучшей читаемости бейджей */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+
+                          <div className="absolute top-4 left-4 z-10">
+                            <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white shadow-lg">
                               {article.NewsCategory?.name}
                             </span>
                           </div>
-                          <div className="absolute top-4 right-4 text-white/80 text-sm">
+                          <div className="absolute top-4 right-4 text-white text-sm z-10 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
                             {formatDate(article.createdAt)}
                           </div>
                         </div>

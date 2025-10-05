@@ -78,9 +78,6 @@ export default async function MFOSattelitePage({
   const resolvedSearchParams = await searchParams ?? {};
   const sortBy = resolvedSearchParams?.sort || "rating";
 
-  console.log("✅ Extracted", { lang, slug, sortBy });
-  console.log("📌 MFOSattelitePage params (resolved):", { lang, slug });
-  console.log("📌 MFOSattelitePage searchParams (resolved):", resolvedSearchParams);
 
   let satellite: MfoSatelliteKey | null = null;
   let mfos: Mfo[] = [];
@@ -88,7 +85,6 @@ export default async function MFOSattelitePage({
 
   console.log(`📌 Extracted lang="${lang}", slug="${slug}", sortBy="${sortBy}"`);
   try {
-    console.log(slug + lang, "slugslugslug");
     // грузим ключ по slug и рандомные категории
     [satellite, randomKeys] = await Promise.all([
       MfoSatelliteKeyService.getSatelliteKeyBySlug(slug, sortBy),

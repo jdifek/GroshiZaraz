@@ -68,7 +68,6 @@ export default function QuestionAnswersPage() {
 
   const handleLikeQuestion = () => {
     // Логика лайка вопроса
-    console.log("Like question");
   };
 
   const handleLikeAnswer = (answerId: number) => {

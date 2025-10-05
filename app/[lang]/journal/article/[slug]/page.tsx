@@ -4,6 +4,9 @@ import React from "react";
 import { notFound } from "next/navigation";
 import NewsService from "@/app/services/news/newsService";
 import { News } from "@/app/services/news/newsTypes";
+import Image from "next/image";
+import toast from "react-hot-toast";
+import CopyLinkButton from "@/app/components/News/CopyLinkButton";
 
 interface ArticleDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -53,19 +56,8 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
     ];
     return colors[id % colors.length];
   };
-
-  // Функция для создания эмодзи на основе категории
-  const getCategoryEmoji = (categoryName?: string) => {
-    const emojiMap: { [key: string]: string } = {
-      Новости: "📰",
-      Пособия: "📋",
-      Аналитика: "📊",
-      "Дебетовые карты": "💳",
-      Кредиты: "💰",
-      Банки: "🏦",
-    };
-    return emojiMap[categoryName || ""] || "📄";
-  };
+  
+ 
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -110,14 +102,20 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
           <div
             className={`${getArticleColor(
               article.id
-            )} h-64 sm:h-80 md:h-96 lg:h-[500px] flex items-center justify-center text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-white relative overflow-hidden`}
+            )} h-64 sm:h-80 md:h-96 lg:h-[500px] relative overflow-hidden bg-gray-200`}
           >
-            <div className="text-center transform hover:scale-110 transition-transform duration-300">
-              {getCategoryEmoji(article.NewsCategory?.name)}
-            </div>
+            <Image
+              src={article.image || "/placeholder-news.svg"}
+              alt={article.title}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px"
+              className="object-cover relative z-0"
+              priority={true} // это главное изображение страницы
+            />
 
+           
             {/* Category Badge */}
-            <div className="absolute top-3 sm:top-4 md:top-6 left-3 sm:left-4 md:left-6">
+            <div className="absolute top-3 sm:top-4 md:top-6 left-3 sm:left-4 md:left-6 z-10">
               <span className="bg-white text-gray-800 px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg">
                 {article.NewsCategory?.name || "Статья"}
               </span>
@@ -189,9 +187,8 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
                   <button className="w-10 h-10 md:w-12 md:h-12 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-all duration-200 hover:scale-110 shadow-lg text-sm md:text-base">
                     💬
                   </button>
-                  <button className="w-10 h-10 md:w-12 md:h-12 bg-gray-600 text-white rounded-full flex items-center justify-center hover:bg-gray-700 transition-all duration-200 hover:scale-110 shadow-lg text-sm md:text-base">
-                    🔗
-                  </button>
+                  <CopyLinkButton />
+
                 </div>
               </div>
             </div>
@@ -273,24 +270,32 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
                       <div
                         className={`${getArticleColor(
                           relatedArticle.id
-                        )} h-32 sm:h-40 md:h-48 flex items-center justify-center text-4xl sm:text-5xl md:text-6xl text-white relative overflow-hidden`}
+                        )} h-32 sm:h-40 md:h-48 relative overflow-hidden bg-gray-200`}
                       >
-                        <div className="transform group-hover:scale-110 transition-transform duration-300">
-                          {getCategoryEmoji(relatedArticle.NewsCategory?.name)}
-                        </div>
-                        <div className="absolute top-2 sm:top-3 md:top-4 left-2 sm:left-3 md:left-4">
-                          <span className="bg-white text-gray-800 px-2 md:px-3 py-0.5 md:py-1 rounded-full text-xs md:text-sm font-bold shadow-lg">
+                        <Image
+                          src={relatedArticle.image || "/placeholder-news.svg"} // статичный placeholder
+                          alt={relatedArticle.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+                          className="object-cover z-0 group-hover:scale-105 transition-transform duration-300"
+                          priority={false}
+                        />
+
+                        {/* Оверлей */}
+
+                        <div className="absolute top-2 sm:top-3 md:top-4 left-2 sm:left-3 md:left-4 z-10">
+                          <span className="bg-white select-text text-gray-800 px-2 md:px-3 py-0.5 md:py-1 rounded-full text-xs md:text-sm font-bold shadow-lg">
                             {relatedArticle.NewsCategory?.name || "Статья"}
                           </span>
                         </div>
-                        <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 text-white/80 text-xs md:text-sm bg-white/20 backdrop-blur-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full">
-                          {formatDate(relatedArticle.createdAt)}
-                        </div>
+                        <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 z-10 pointer-events-auto text-white text-xs md:text-sm bg-black/20 backdrop-blur-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full shadow-lg">
+    {formatDate(relatedArticle.createdAt)}
+  </div>
                       </div>
                     </div>
 
                     <div className="p-4 md:p-6">
-                      <h3 className="text-base md:text-xl font-bold text-gray-800 mb-2 md:mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-base select-text md:text-xl font-bold text-gray-800 mb-2 md:mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
                         {relatedArticle.title}
                       </h3>
                       <p className="text-gray-600 mb-3 md:mb-4 text-xs md:text-sm leading-relaxed line-clamp-3">

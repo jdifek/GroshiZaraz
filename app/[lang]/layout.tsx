@@ -13,7 +13,6 @@ export async function generateMetadata({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-  console.log("generateMetadata lang:", lang);
   try {
     const messages = (await import(`../messages/${lang}.json`)).default;
     return {
@@ -65,7 +64,6 @@ export default async function Layout({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-  console.log("Layout lang:", lang);
   let messages;
   try {
     messages = (await import(`../messages/${lang}.json`)).default;
