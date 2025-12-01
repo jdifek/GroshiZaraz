@@ -18,7 +18,7 @@ module.exports = {
     
     try {
       // Fetch MFO
-      const mfosResponse = await fetch(`${API_URL}/api/mfos/sitemap`, {
+      const mfosResponse = await fetch(`${API_URL}api/mfos/sitemap`, {
         signal: AbortSignal.timeout(5000) // ✅ Таймаут 5 секунд
       });
       
@@ -45,7 +45,7 @@ module.exports = {
       }
       
       // Fetch News
-      const newsResponse = await fetch(`${API_URL}/api/news/sitemap`, {
+      const newsResponse = await fetch(`${API_URL}api/news/sitemap`, {
         signal: AbortSignal.timeout(5000)
       });
       
