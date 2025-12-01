@@ -2,23 +2,32 @@
 module.exports = {
   siteUrl: process.env.BASE || 'http://localhost:3000',
   generateRobotsTxt: true,
-  generateIndexSitemap: true, // ✅ Добавьте это для создания sitemap index
-  exclude: ['/admin/*', '/api/*', '/sitemaps/*'], // ✅ Исключите ваши ручные sitemap
-  siteUrl: (() => {
-    const url = process.env.BASE || 'http://localhost:3000';
-    console.log('🌐 Using siteUrl:', url);
-    return url;
-  })(),
-  // Динамические маршруты
+  exclude: ['/admin/*', '/api/*'],
+  
   additionalPaths: async () => {
     const result = [];
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    
+    // ✅ Проверка доступности API
+    if (!API_URL || API_URL.includes('localhost')) {
+      console.log(API_URL, 'API_URL');
+      
+      console.log('⚠️ Skipping dynamic routes: API not available');
+      return result;
+    }
     
     try {
       // Fetch MFO
-      const mfos = await fetch(`${API_URL}/api/mfos/sitemap`)
-        .then(r => r.json())
-        .catch(() => []); // ✅ Обработка ошибок
+      const mfosResponse = await fetch(`${API_URL}/api/mfos/sitemap`, {
+        signal: AbortSignal.timeout(5000) // ✅ Таймаут 5 секунд
+      });
+      
+      if (!mfosResponse.ok) {
+        throw new Error(`MFO API returned ${mfosResponse.status}`);
+      }
+      
+      const mfos = await mfosResponse.json();
+      console.log(`✅ Fetched ${mfos.length} MFOs`);
       
       for (const mfo of mfos) {
         result.push({
@@ -36,9 +45,16 @@ module.exports = {
       }
       
       // Fetch News
-      const news = await fetch(`${API_URL}/api/news/sitemap`)
-        .then(r => r.json())
-        .catch(() => []); // ✅ Обработка ошибок
+      const newsResponse = await fetch(`${API_URL}/api/news/sitemap`, {
+        signal: AbortSignal.timeout(5000)
+      });
+      
+      if (!newsResponse.ok) {
+        throw new Error(`News API returned ${newsResponse.status}`);
+      }
+      
+      const news = await newsResponse.json();
+      console.log(`✅ Fetched ${news.length} news items`);
       
       for (const post of news) {
         result.push({
@@ -55,21 +71,12 @@ module.exports = {
         });
       }
       
-      console.log(`✅ Generated ${result.length} dynamic sitemap entries`);
+      console.log(`✅ Total generated: ${result.length} dynamic entries`);
     } catch (error) {
-      console.error('❌ Error fetching dynamic routes:', error);
+      console.error('❌ Error fetching dynamic routes:', error.message);
+      console.log('⚠️ Sitemap will be generated without dynamic routes');
     }
     
     return result;
-  },
-  
-  // ✅ Трансформация URL для правильного формата
-  transform: async (config, path) => {
-    return {
-      loc: path,
-      changefreq: config.changefreq,
-      priority: config.priority,
-      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
-    }
-  },
+  }
 }
