@@ -2,27 +2,37 @@ import CategoryService from "@/app/services/categories/categoriesService";
 import { Category } from "@/app/services/categories/categoriesTypes";
 import NewsService from "@/app/services/news/newsService";
 import { News } from "@/app/services/news/newsTypes";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const JournalPage = async () => {
+type JournalPageProps = {
+  params: Promise<{ lang: string }>;
+};
+
+const JournalPage = async ({ params }: JournalPageProps) => {
+  const { lang } = await params;
+  const t = await getTranslations({ locale: lang, namespace: "JournalPage" });
+
   let categoriesFromApi: Category[] = [];
   let articlesFromApi: News[] = [];
 
   try {
     categoriesFromApi = await CategoryService.getAllCategories();
-  } catch  {
+  } catch (error) {
+    console.error("Error loading categories:", error);
   }
 
   try {
     articlesFromApi = await NewsService.getAllNews();
-  } catch  {
+  } catch (error) {
+    console.error("Error loading news:", error);
   }
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("ru-RU", {
+    return date.toLocaleDateString(lang === "uk" ? "uk-UA" : "ru-RU", {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -36,18 +46,33 @@ const JournalPage = async () => {
     return views.toString();
   };
 
+  const getArticleColor = (index: number) => {
+    const colors = [
+      "bg-gradient-to-br from-blue-500 to-blue-600",
+      "bg-gradient-to-br from-purple-500 to-purple-600",
+      "bg-gradient-to-br from-green-500 to-green-600",
+      "bg-gradient-to-br from-yellow-400 to-yellow-500",
+      "bg-gradient-to-br from-teal-500 to-teal-600",
+      "bg-gradient-to-br from-orange-500 to-orange-600",
+      "bg-gradient-to-br from-red-500 to-red-600",
+      "bg-gradient-to-br from-indigo-500 to-indigo-600",
+      "bg-gradient-to-br from-cyan-500 to-cyan-600",
+    ];
+    return colors[index % colors.length];
+  };
+
   return (
     <div className="min-h-screen">
       {/* Header */}
       <div className="">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center text-sm text-gray-600 mb-4">
-            <span>Главная</span>
+            <span>{t("breadcrumbs.home")}</span>
             <span className="mx-2">-</span>
-            <span>Журнал Фіногляд</span>
+            <span>{t("breadcrumbs.journal")}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Журнал Фіногляд
+            {t("title")}
           </h1>
         </div>
       </div>
@@ -62,7 +87,7 @@ const JournalPage = async () => {
                 {categoriesFromApi.map((cat) => (
                   <Link
                     key={cat.slug}
-                    href={`/journal/${cat.slug}`}
+                    href={`/${lang}/journal/${cat.slug}`}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                       cat.slug === "all"
                         ? "bg-blue-500 text-white shadow-md"
@@ -80,8 +105,7 @@ const JournalPage = async () => {
               {articlesFromApi.slice(0, 3).map((article, index) => (
                 <Link
                   key={article.id}
-                  href={`/journal/article/${article.slug}`}
-                  passHref
+                  href={`/${lang}/journal/article/${article.slug}`}
                 >
                   <article
                     className={`${
@@ -90,7 +114,7 @@ const JournalPage = async () => {
                   >
                     <div className="relative">
                       <div
-                        className={`bg-gradient-to-br from-indigo-500 to-indigo-600 ${
+                        className={`${getArticleColor(index)} ${
                           index === 0 ? "h-64" : "h-48"
                         } relative overflow-hidden`}
                       >
@@ -100,7 +124,7 @@ const JournalPage = async () => {
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
                           className="object-cover"
-                          priority={index === 0} // priority только для первой новости
+                          priority={index === 0}
                         />
 
                         {/* Оверлей для лучшей читаемости бейджей */}
@@ -112,14 +136,7 @@ const JournalPage = async () => {
                           </span>
                         </div>
                         <div className="absolute top-4 right-4 text-white text-sm z-10 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
-                          {new Date(article.createdAt).toLocaleDateString(
-                            "ru-RU",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            }
-                          )}
+                          {formatDate(article.createdAt)}
                         </div>
                       </div>
                     </div>
@@ -132,9 +149,10 @@ const JournalPage = async () => {
                       >
                         {article.title}
                       </h3>
-                      <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-                        {article.body}
-                      </p>
+                      <p
+                        className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
+                        dangerouslySetInnerHTML={{ __html: article.body }}
+                      />
 
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -155,18 +173,18 @@ const JournalPage = async () => {
 
             {/* Regular Articles List */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {articlesFromApi.slice(3).map((article) => (
+              {articlesFromApi.slice(3).map((article, index) => (
                 <Link
                   key={article.id}
-                  href={`/journal/article/${article.slug}`}
-                  passHref
+                  href={`/${lang}/journal/article/${article.slug}`}
                 >
-                  <article
-                    key={article.id}
-                    className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200"
-                  >
+                  <article className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200">
                     <div className="relative">
-                      <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 h-48 relative overflow-hidden">
+                      <div
+                        className={`${getArticleColor(
+                          index + 3
+                        )} h-48 relative overflow-hidden`}
+                      >
                         <Image
                           src={article.image || "/placeholder-news.svg"}
                           alt={article.title}
@@ -184,14 +202,7 @@ const JournalPage = async () => {
                           </span>
                         </div>
                         <div className="absolute top-4 right-4 text-white text-sm z-10 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
-                          {new Date(article.createdAt).toLocaleDateString(
-                            "ru-RU",
-                            {
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
-                            }
-                          )}
+                          {formatDate(article.createdAt)}
                         </div>
                       </div>
                     </div>
@@ -229,14 +240,14 @@ const JournalPage = async () => {
               {/* Categories Sidebar */}
               <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
                 <h3 className="text-lg font-bold text-gray-800 mb-4 relative inline-block">
-                  Рубрики журнала
+                  {t("sidebar.categories")}
                   <div className="absolute -bottom-2 left-0 w-12 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
                 </h3>
                 <div className="space-y-2">
                   {categoriesFromApi.slice(1).map((category) => (
                     <Link
                       key={category.slug}
-                      href={`/journal/${category.slug}`}
+                      href={`/${lang}/journal/${category.slug}`}
                       className="block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 text-gray-600 hover:bg-gray-50 hover:text-blue-600"
                     >
                       {category.name}
@@ -248,34 +259,36 @@ const JournalPage = async () => {
               {/* Popular Articles */}
               <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
                 <h3 className="text-lg font-bold text-gray-800 mb-4 relative inline-block">
-                  Популярные статьи
+                  {t("sidebar.popular")}
                   <div className="absolute -bottom-2 left-0 w-12 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
                 </h3>
                 <div className="space-y-4">
-                  {articlesFromApi.slice(0, 4).map((article) => (
-                    <Link
-                      key={article.id}
-                      href={`/journal/article/${article.slug}`}
-                      passHref
-                    >
-                      <div
+                  {articlesFromApi
+                    .sort((a, b) => b.views - a.views)
+                    .slice(0, 4)
+                    .map((article) => (
+                      <Link
                         key={article.id}
-                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer group"
+                        href={`/${lang}/journal/article/${article.slug}`}
                       >
-                        <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
-                        <div className="flex-1">
-                          <h4 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 line-clamp-2 transition-colors">
-                            {article.title}
-                          </h4>
-                          <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
-                            <span>{formatDate(article.createdAt)}</span>
-                            <span>•</span>
-                            <span>{formatViews(article.views)} просмотров</span>
+                        <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer group">
+                          <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+                          <div className="flex-1">
+                            <h4 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 line-clamp-2 transition-colors">
+                              {article.title}
+                            </h4>
+                            <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
+                              <span>{formatDate(article.createdAt)}</span>
+                              <span>•</span>
+                              <span>
+                                {formatViews(article.views)}{" "}
+                                {t("sidebar.views")}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    ))}
                 </div>
               </div>
             </div>

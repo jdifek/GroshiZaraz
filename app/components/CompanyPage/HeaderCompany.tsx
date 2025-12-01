@@ -75,7 +75,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div className="bg-blue-50 rounded-2xl p-4 text-center">
               <div className="text-2xl font-bold text-blue-600 mb-1">
-                {companyInfo.maxAmount} ₽
+                {companyInfo.maxAmount} ₴
               </div>
               <div className="text-sm text-gray-600">Максимум</div>
             </div>
@@ -125,7 +125,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Сумма займа: {loanAmount.toLocaleString()} ₽
+                  Сумма займа: {loanAmount.toLocaleString()} ₴
                 </label>
                 <input
                   type="range"
@@ -137,8 +137,8 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                   className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
-                  <span>5 000 ₽</span>
-                  <span>30 000 ₽</span>
+                  <span>5 000 ₴</span>
+                  <span>30 000 ₴</span>
                 </div>
               </div>
 
@@ -165,19 +165,19 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 <div className="flex justify-between">
                   <span className="text-gray-600">Вы берете:</span>
                   <span className="font-semibold">
-                    {loanAmount.toLocaleString()} ₽
+                    {loanAmount.toLocaleString()} ₴
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-600">Переплата:</span>
                   <span className="font-semibold">
-                    {overpayment.toLocaleString()} ₽
+                    {overpayment.toLocaleString()} ₴
                   </span>
                 </div>
                 <div className="flex justify-between text-lg font-bold">
                   <span className="text-gray-800">К возврату:</span>
                   <span className="text-blue-600">
-                    {totalAmount.toLocaleString()} ₽
+                    {totalAmount.toLocaleString()} ₴
                   </span>
                 </div>
               </div>
@@ -189,7 +189,10 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 </span>
               </div>
 
-              <Link href={companyInfo.UtmLink} className="block text-center w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 hover:shadow-lg hover:scale-105">
+              <Link
+                href={companyInfo.UtmLink}
+                className="block text-center w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 hover:shadow-lg hover:scale-105"
+              >
                 Получить деньги
               </Link>
             </div>

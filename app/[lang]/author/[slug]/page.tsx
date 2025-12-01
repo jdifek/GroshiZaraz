@@ -1,4 +1,5 @@
 "use client";
+import { authorArticles } from "@/app/data/authorArticles";
 import AuthorService from "@/app/services/authors/authorsService";
 import { Author } from "@/app/services/authors/authorsTypes";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
@@ -35,43 +36,7 @@ const AuthorPage = () => {
   }, [authorSlug]);
 
   // Заглушка для статей автора (пока не трогаем API для статей)
-  const authorArticles = [
-    {
-      id: 1,
-      title: "Альфа-Банк представил новое приложение для айфонов",
-      excerpt:
-        "Обновленное мобильное приложение с расширенным функционалом и улучшенным интерфейсом",
-      date: "11.07.2025",
-      category: "Новости",
-      views: 36000,
-      image: "🏦",
-      color: "bg-gradient-to-br from-blue-500 to-blue-600",
-      readTime: "5 мин",
-    },
-    {
-      id: 2,
-      title: "Как выбрать лучшую дебетовую карту в 2025 году",
-      excerpt:
-        "Подробное сравнение популярных дебетовых карт украинских банков",
-      date: "08.07.2025",
-      category: "Дебетовые карты",
-      views: 24000,
-      image: "💳",
-      color: "bg-gradient-to-br from-green-500 to-green-600",
-      readTime: "7 мин",
-    },
-    {
-      id: 3,
-      title: "Тренды мобильного банкинга в Украине",
-      excerpt: "Анализ новых функций и возможностей банковских приложений",
-      date: "05.07.2025",
-      category: "Аналитика",
-      views: 18000,
-      image: "📱",
-      color: "bg-gradient-to-br from-purple-500 to-purple-600",
-      readTime: "6 мин",
-    },
-  ];
+
 
   const formatNumber = (num: number) => {
     if (num >= 1000000) {

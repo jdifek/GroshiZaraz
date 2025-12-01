@@ -5,7 +5,7 @@ export interface Mfo {
   slug: string;
   commission: string;
   rating: number;
-  reviews: number;
+  reviews: any;
   logo: string;
   licenseNumber?: string;
   isActive: boolean;

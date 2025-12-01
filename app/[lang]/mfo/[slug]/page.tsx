@@ -50,7 +50,7 @@ export async function generateMetadata({
       openGraph: {
         title,
         description,
-        url: `https://фіногляд.com.ua/mfo/${slug}`,
+        url: `https://groshi-zaraz.vercel.app/mfo/${slug}`,
         siteName: "Фіногляд",
         locale: isUa ? "uk_UA" : "ru_RU",
         type: "website",
@@ -75,15 +75,16 @@ export default async function MFOSattelitePage({
   searchParams,
 }: MFOSattelitePageProps) {
   const { lang, slug } = await params;
-  const resolvedSearchParams = await searchParams ?? {};
+  const resolvedSearchParams = (await searchParams) ?? {};
   const sortBy = resolvedSearchParams?.sort || "rating";
-
 
   let satellite: MfoSatelliteKey | null = null;
   let mfos: Mfo[] = [];
   let randomKeys: RandomKey[] = [];
 
-  console.log(`📌 Extracted lang="${lang}", slug="${slug}", sortBy="${sortBy}"`);
+  console.log(
+    `📌 Extracted lang="${lang}", slug="${slug}", sortBy="${sortBy}"`
+  );
   try {
     // грузим ключ по slug и рандомные категории
     [satellite, randomKeys] = await Promise.all([
@@ -100,8 +101,7 @@ export default async function MFOSattelitePage({
   }
 
   const visibleCount = 9;
-  const t = await  getTranslations({ locale: lang, namespace: "MFOsPage" });
-
+  const t = await getTranslations({ locale: lang, namespace: "MFOsPage" });
 
   return (
     <div className="min-h-screen">
@@ -109,11 +109,15 @@ export default async function MFOSattelitePage({
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 relative inline-block">
-            {satellite && (lang === "ru" ? satellite.titleRu : satellite.titleUk)}
+            {satellite &&
+              (lang === "ru" ? satellite.titleRu : satellite.titleUk)}
             <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            {satellite && (lang === "ru" ? satellite.descriptionRu : satellite.descriptionUk)}
+            {satellite &&
+              (lang === "ru"
+                ? satellite.descriptionRu
+                : satellite.descriptionUk)}
           </p>
         </div>
 

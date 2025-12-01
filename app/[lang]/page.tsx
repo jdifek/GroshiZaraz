@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 import ClientReviews from "../components/Home/ClientReviews";
 import FinancialServicesBlocks from "../components/Home/FinancialServicesBlocks";
 import NewsSection from "../components/Home/NewsSection";
-import AboutServiceSection from "../components/Home/AboutServiceSection";
+import AboutServiceSection from "../components/Home/PromotedOffersSection";
 import PromotedOffersSection from "../components/Home/PromotedOffersSection";
 
 export async function generateMetadata({
@@ -16,8 +16,8 @@ export async function generateMetadata({
   const t = await getTranslations({ locale: lang, namespace: "Metadata" });
 
   return {
-    title: t("home.title"),
-    description: t("home.description"),
+    title: t("root.title"),
+    description: t("root.description"),
     keywords: [
       "займы онлайн",
       "МФО Украина",
@@ -26,25 +26,25 @@ export async function generateMetadata({
       "деньги в долг",
     ],
     openGraph: {
-      title: t("home.title"),
-      description: t("home.description"),
-      url: "https://Фіногляд.com.ua",
+      title: t("root.title"),
+      description: t("root.description"),
+      url: "https://groshi-zaraz.vercel.app",
       images: [
         {
-          url: "https://Фіногляд.com.ua/og-main.jpg",
+          url: "https://groshi-zaraz.vercel.app/og-main.jpg",
           width: 1200,
           height: 630,
-          alt: t("home.title"),
+          alt: t("root.title"),
         },
       ],
     },
     alternates: {
-      canonical: "https://Фіногляд.com.ua",
+      canonical: "https://groshi-zaraz.vercel.app",
     },
   };
 }
 
-export default async function Home({
+export default async function root({
   params,
 }: {
   params: Promise<{ lang: string }>;
@@ -55,9 +55,9 @@ export default async function Home({
     <div>
       <FinancialServicesBlocks lang={lang} />
       <ClientReviews lang={lang} />
-      <NewsSection lang={lang}/>
-      <AboutServiceSection lang={lang}/>
-      <PromotedOffersSection lang={lang}/>
+      <NewsSection lang={lang} />
+      <AboutServiceSection lang={lang} />
+      <PromotedOffersSection lang={lang} />
     </div>
   );
 }

@@ -348,7 +348,4 @@ const ReviewsPage = ({ params }: ReviewsPageProps) => {
   );
 };
 
-// Отключаем статическую генерацию
-export const dynamic = "force-dynamic";
-
 export default ReviewsPage;

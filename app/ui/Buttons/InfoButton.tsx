@@ -1,4 +1,4 @@
-
+'use client'
 import { Info } from "lucide-react";
 interface InfoButtonProps {
   onClick?: () => void;

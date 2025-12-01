@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://groshi-zaraz.vercel.app
+
+# Sitemaps
+Sitemap: https://groshi-zaraz.vercel.app/sitemap.xml

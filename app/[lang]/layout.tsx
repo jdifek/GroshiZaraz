@@ -6,7 +6,6 @@ import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-export const dynamic = "force-dynamic";
 export async function generateMetadata({
   params,
 }: {
@@ -24,11 +23,11 @@ export async function generateMetadata({
       openGraph: {
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
-        url: "https://Фіногляд.com.ua",
+        url: "https://groshi-zaraz.vercel.app",
         siteName: "Фіногляд",
         images: [
           {
-            url: "https://Фіногляд.com.ua/og-image.jpg",
+            url: "https://groshi-zaraz.vercel.app/og-image.jpg",
             width: 1200,
             height: 630,
             alt: "Фіногляд - Финансовый маркетплейс",
@@ -44,7 +43,7 @@ export async function generateMetadata({
         card: "summary_large_image",
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
-        images: ["https://Фіногляд.com.ua/og-image.jpg"],
+        images: ["https://groshi-zaraz.vercel.app/og-image.jpg"],
       },
     } as Metadata;
   } catch (error) {
@@ -72,7 +71,7 @@ export default async function Layout({
     messages = (await import("../messages/uk.json")).default;
   }
   return (
-    <html lang={lang === 'uk' ? 'uk' : 'ru' }>
+    <html lang={lang === "uk" ? "uk" : "ru"}>
       <body className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
         <Toaster position="top-right" reverseOrder={false} />
         <NextIntlClientProvider locale={lang} messages={messages}>
@@ -82,7 +81,7 @@ export default async function Layout({
           <main className="min-h-[60vh] max-w-[1280px] mx-auto px-4  md:px-8 py-8">
             {children}
           </main>
-          <Footer lang={lang}/>
+          <Footer lang={lang} />
         </NextIntlClientProvider>
       </body>
     </html>
