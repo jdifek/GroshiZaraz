@@ -3,7 +3,7 @@ module.exports = {
   siteUrl: process.env.BASE || 'http://localhost:3000',
   generateRobotsTxt: true,
   exclude: ['/admin/*', '/api/*'],
-  
+
   additionalPaths: async () => {
     const result = [];
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
