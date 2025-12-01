@@ -51,7 +51,7 @@ module.exports = {
         for (const sat of satellitesKeys) {
           if (sat.slugUk) {
             result.push({
-              loc: `/uk/satellite/${sat.slugUk}`,
+              loc: `/uk/mfo/${sat.slugUk}`,
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
@@ -59,7 +59,7 @@ module.exports = {
           }
           if (sat.slugRu) {
             result.push({
-              loc: `/ru/satellite/${sat.slugRu}`,
+              loc: `/ru/mfo/${sat.slugRu}`,
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
@@ -81,7 +81,7 @@ module.exports = {
         for (const sat of satellites) {
           if (sat.slugUk) {
             result.push({
-              loc: `/uk/satellite/${sat.slugUk}`,
+              loc: `/uk/mfo/${sat.slugUk}`,
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
@@ -89,7 +89,7 @@ module.exports = {
           }
           if (sat.slugRu) {
             result.push({
-              loc: `/ru/satellite/${sat.slugRu}`,
+              loc: `/ru/mfo/${sat.slugRu}`,
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
