@@ -6,24 +6,23 @@ import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
+
+export async function generateMetadata({ params, request }: { params: { lang: string }, request: Request }) {
+  const { lang } = params;
+  const path = request.url.replace(/^https?:\/\/[^/]+/, ''); // извлекаем путь после домена
+
   try {
     const messages = (await import(`../messages/${lang}.json`)).default;
+
     return {
       title: messages.Metadata.root.title,
       description: messages.Metadata.root.description,
-      keywords:
-        "займы, кредиты, МФО, микрокредиты, деньги онлайн, Украина, быстрые займы",
+      keywords: "займы, кредиты, МФО, микрокредиты, деньги онлайн, Украина, быстрые займы",
       robots: "index, follow",
       openGraph: {
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
-        url: "https://groshi-zaraz.vercel.app",
+        url: `https://groshi-zaraz.vercel.app${path}`,
         siteName: "Фіногляд",
         images: [
           {
@@ -36,9 +35,7 @@ export async function generateMetadata({
         locale: lang === "uk" ? "uk_UA" : "ru_UA",
         type: "website",
       },
-      icons: {
-        icon: "/favicon.svg",
-      },
+      icons: { icon: "/favicon.svg" },
       twitter: {
         card: "summary_large_image",
         title: messages.Metadata.root.title,
@@ -46,14 +43,13 @@ export async function generateMetadata({
         images: ["https://groshi-zaraz.vercel.app/og-image.jpg"],
       },
       alternates: {
-        canonical: `https://groshi-zaraz.vercel.app/${lang}`,
+        canonical: `https://groshi-zaraz.vercel.app/${lang}${path.replace(/^\/(uk|ru)/, '')}`,
         languages: {
-          "uk-UA": "https://groshi-zaraz.vercel.app/uk",
-          "ru-UA": "https://groshi-zaraz.vercel.app/ru",
-          "x-default": "https://groshi-zaraz.vercel.app",
+          "uk-UA": `https://groshi-zaraz.vercel.app/uk${path.replace(/^\/(uk|ru)/, '')}`,
+          "ru-UA": `https://groshi-zaraz.vercel.app/ru${path.replace(/^\/(uk|ru)/, '')}`,
+          "x-default": `https://groshi-zaraz.vercel.app${path.replace(/^\/(uk|ru)/, '')}`,
         },
       },
-      
     } as Metadata;
   } catch (error) {
     console.error(`Failed to load metadata for lang ${lang}:`, error);
@@ -64,14 +60,8 @@ export async function generateMetadata({
   }
 }
 
-export default async function Layout({
-  children,
-  params,
-}: {
-  children: ReactNode;
-  params: Promise<{ lang: string }>;
-}) {
-  const { lang } = await params;
+export default async function Layout({ children, params }: { children: ReactNode, params: { lang: string } }) {
+  const { lang } = params;
   let messages;
   try {
     messages = (await import(`../messages/${lang}.json`)).default;
@@ -79,6 +69,7 @@ export default async function Layout({
     console.error(`Failed to load messages for lang ${lang}:`, error);
     messages = (await import("../messages/uk.json")).default;
   }
+
   return (
     <html lang={lang === "uk" ? "uk" : "ru"}>
       <body className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
@@ -86,8 +77,7 @@ export default async function Layout({
         <NextIntlClientProvider locale={lang} messages={messages}>
           <StructuredData />
           <Header />
-
-          <main className="min-h-[60vh] max-w-[1280px] mx-auto px-4  md:px-8 py-8">
+          <main className="min-h-[60vh] max-w-[1280px] mx-auto px-4 md:px-8 py-8">
             {children}
           </main>
           <Footer lang={lang} />
