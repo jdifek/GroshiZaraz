@@ -45,6 +45,15 @@ export async function generateMetadata({
         description: messages.Metadata.root.description,
         images: ["https://groshi-zaraz.vercel.app/og-image.jpg"],
       },
+      alternates: {
+        canonical: `https://groshi-zaraz.vercel.app/${lang}`,
+        languages: {
+          "uk-UA": "https://groshi-zaraz.vercel.app/uk",
+          "ru-UA": "https://groshi-zaraz.vercel.app/ru",
+          "x-default": "https://groshi-zaraz.vercel.app",
+        },
+      },
+      
     } as Metadata;
   } catch (error) {
     console.error(`Failed to load metadata for lang ${lang}:`, error);

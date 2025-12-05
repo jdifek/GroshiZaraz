@@ -7,6 +7,12 @@ module.exports = {
   additionalPaths: async () => {
     const result = [];
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const subPaths = [
+      "reviews",
+      "contacts",
+      "questions",
+      "promocodes",
+    ];
 
     if (!API_URL || API_URL.includes('localhost')) {
       console.log('⚠️ API недоступен – динамические пути пропускаем');
@@ -23,8 +29,24 @@ module.exports = {
         for (const mfo of mfos) {
           result.push({ loc: `/uk/mfo/${mfo.slug}`, lastmod: mfo.updatedAt, priority: 0.9 });
           result.push({ loc: `/ru/mfo/${mfo.slug}`, lastmod: mfo.updatedAt, priority: 0.9 });
+
+          // 🔥 вложенные пути
+          for (const sub of subPaths) {
+            result.push({
+              loc: `/uk/mfos/${mfo.slug}/${sub}`,
+              lastmod: mfo.updatedAt,
+              priority: 0.7,
+            });
+            result.push({
+              loc: `/ru/mfos/${mfo.slug}/${sub}`,
+              lastmod: mfo.updatedAt,
+              priority: 0.7,
+            });
+          }
         }
+
       }
+
 
       //
       // 2) NEWS

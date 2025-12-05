@@ -56,15 +56,15 @@ export const navigationItems: NavigationItem[] = [
     dropdown: {
       "Займы": [
         { name: "Займы", href: "/mfos", isBold: true },
-        { name: "Быстрые займы", href: "/mfos/filters/fast" },
-        { name: "Займы без процентов", href: "/mfos/filters/no-interest" },
-        { name: "Займы без отказа", href: "/mfos/filters/guaranteed" },
-        { name: "На карту онлайн", href: "/mfos/filters/online" },
+        { name: "Быстрые займы", href: "/mfo/fast" },
+        { name: "Займы без процентов", href: "/mfo/no-interest" },
+        { name: "Займы без отказа", href: "/mfo/guaranteed" },
+        { name: "На карту онлайн", href: "/mfo/online" },
       ],
       "Микрокредиты": [
-        { name: "Микрокредиты", href: "/mfos/filters/micro", isBold: true },
-        { name: "До зарплаты", href: "/mfos/filters/payday" },
-        { name: "На длительный срок", href: "/mfos/filters/long-term" },
+        { name: "Микрокредиты", href: "/mfo/micro", isBold: true },
+        { name: "До зарплаты", href: "/mfo/payday" },
+        { name: "На длительный срок", href: "/mfo/long-term" },
       ],
     },
   },
