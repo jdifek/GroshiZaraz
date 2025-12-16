@@ -1,17 +1,23 @@
 export interface Author {
   id: number;
   name: string;
+  nameUk: string;
   slug: string;
   avatar: string;
   color: string;
   position: string;
+  positionUk: string;
   bio: string;
+  bioUk: string;
   experience: string;
+  experienceUk: string;
   followers: number;
   totalViews: number;
   totalPosts: number;
   expertise: string[];
+  expertiseUk: string[];
   achievements: string[];
+  achievementsUk: string[];
   telegram?: string;
   linkedin?: string;
   twitter?: string;

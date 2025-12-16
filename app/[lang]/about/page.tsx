@@ -1,5 +1,57 @@
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { getTranslations } from "next-intl/server";
+import type { Metadata } from "next";
+
+type Props = {
+  params: Promise<{ lang: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { lang: rawLang } = await params;
+  const lang = rawLang || "uk";
+
+  let t;
+  try {
+    t = await getTranslations({ locale: lang, namespace: "AboutPage" });
+  } catch (error) {
+    console.error(`Failed to load translations for ${lang}:`, error);
+    t = await getTranslations({ locale: "uk", namespace: "AboutPage" });
+  }
+
+  // Используем переводы для title, description и keywords
+  const title = t("meta.title") || "Про компанію — Фіногляд";
+  const description = t("meta.description") || "Дізнайтеся більше про нашу компанію та цінності.";
+  const keywords = t("meta.keywords") || "Фіногляд, компанія, кредити, фінанси, послуги";
+
+  return {
+    title,
+    description,
+    keywords,
+    robots: "index, follow",
+    alternates: {
+      canonical: `https://groshi-zaraz.vercel.app/${lang}/about`,
+      languages: {
+        "uk-UA": `https://groshi-zaraz.vercel.app/uk/about`,
+        "ru-UA": `https://groshi-zaraz.vercel.app/ru/about`,
+        "x-default": `https://groshi-zaraz.vercel.app/about`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://groshi-zaraz.vercel.app/${lang}/about`,
+      siteName: "Фіногляд",
+      type: "website",
+      locale: lang === "uk" ? "uk_UA" : "ru_UA",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@finoglyad",
+    },
+  };
+}
 
 export default async function AboutPage({
   params,

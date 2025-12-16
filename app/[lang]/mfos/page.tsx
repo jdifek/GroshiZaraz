@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import SEOLoansContent from "@/app/components/SEOLoansContent";
 import { MFOsPageClient } from "@/app/components/MFOs/MFOsPageClient";
+import { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,58 @@ async function getMFOsData(sortBy: string = "rating") {
     console.error("Error fetching MFOs:", error);
     return { mfos: [], randomKeys: [] };
   }
+}
+
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const t = await getTranslations({ locale: lang, namespace: "MFOsPage" });
+
+  const baseUrl = "https://groshi-zaraz.vercel.app";
+  const currentUrl = `${baseUrl}/${lang}/mfos`;
+
+  return {
+    title: t("header.title"), // H1-подобное название страницы
+    description: t("header.subtitle"), // Краткое описание страницы
+    keywords: "займы, кредиты, МФО, микрокредиты, быстрые займы, Украина",
+    robots: "index, follow",
+    openGraph: {
+      title: t("header.title"),
+      description: t("header.subtitle"),
+      url: currentUrl,
+      type: "website",
+      siteName: "Фіногляд",
+      locale: lang === "uk" ? "uk_UA" : "ru_UA",
+      images: [
+        {
+          url: `${baseUrl}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: t("header.title"),
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("header.title"),
+      description: t("header.subtitle"),
+      images: [`${baseUrl}/og-image.jpg`],
+      site: "@finoglyad",
+      creator: "@finoglyad",
+    },
+    alternates: {
+      canonical: currentUrl,
+      languages: {
+        "uk-UA": `${baseUrl}/uk/mfos`,
+        "ru-UA": `${baseUrl}/ru/mfos`,
+        "x-default": `${baseUrl}/mfos`,
+      },
+    },
+  };
 }
 
 export default async function MFOsPage({

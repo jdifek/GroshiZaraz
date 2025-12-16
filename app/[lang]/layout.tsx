@@ -6,48 +6,57 @@ import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { headers } from 'next/headers';
 
-export async function generateMetadata({ params, request }: { params: { lang: string }, request: Request }) {
-  const { lang } = params;
-  const path = request.url.replace(/^https?:\/\/[^/]+/, ''); // извлекаем путь после домена
-
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') || '/';
+  
   try {
     const messages = (await import(`../messages/${lang}.json`)).default;
+    const cleanPath = pathname.replace(/^\/(uk|ru)/, '') || '/';
 
     return {
       title: messages.Metadata.root.title,
       description: messages.Metadata.root.description,
-      keywords: "займы, кредиты, МФО, микрокредиты, деньги онлайн, Украина, быстрые займы",
+      keywords: messages.Metadata.root.keywords,
       robots: "index, follow",
       openGraph: {
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
-        url: `https://groshi-zaraz.vercel.app${path}`,
+        url: `https://groshi-zaraz.vercel.app/${lang}${cleanPath}`,
         siteName: "Фіногляд",
+        type: "website",
+        locale: lang === "uk" ? "uk_UA" : "ru_UA",
         images: [
           {
             url: "https://groshi-zaraz.vercel.app/og-image.jpg",
             width: 1200,
             height: 630,
-            alt: "Фіногляд - Финансовый маркетплейс",
+            alt: messages.Metadata.root.title,
           },
         ],
-        locale: lang === "uk" ? "uk_UA" : "ru_UA",
-        type: "website",
       },
-      icons: { icon: "/favicon.svg" },
       twitter: {
         card: "summary_large_image",
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
         images: ["https://groshi-zaraz.vercel.app/og-image.jpg"],
+        site: "@finoglyad",
+        creator: "@finoglyad",
       },
+      
       alternates: {
-        canonical: `https://groshi-zaraz.vercel.app/${lang}${path.replace(/^\/(uk|ru)/, '')}`,
+        canonical: `https://groshi-zaraz.vercel.app/${lang}${cleanPath}`,
         languages: {
-          "uk-UA": `https://groshi-zaraz.vercel.app/uk${path.replace(/^\/(uk|ru)/, '')}`,
-          "ru-UA": `https://groshi-zaraz.vercel.app/ru${path.replace(/^\/(uk|ru)/, '')}`,
-          "x-default": `https://groshi-zaraz.vercel.app${path.replace(/^\/(uk|ru)/, '')}`,
+          "uk-UA": `https://groshi-zaraz.vercel.app/uk${cleanPath}`,
+          "ru-UA": `https://groshi-zaraz.vercel.app/ru${cleanPath}`,
+          "x-default": `https://groshi-zaraz.vercel.app${cleanPath}`,
         },
       },
     } as Metadata;
@@ -60,8 +69,14 @@ export async function generateMetadata({ params, request }: { params: { lang: st
   }
 }
 
-export default async function Layout({ children, params }: { children: ReactNode, params: { lang: string } }) {
-  const { lang } = params;
+export default async function Layout({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: Promise<{ lang: string }>;  // ⬅️ Изменено на Promise
+}) {
+  const { lang } = await params;  // ⬅️ Добавлен await
   let messages;
   try {
     messages = (await import(`../messages/${lang}.json`)).default;

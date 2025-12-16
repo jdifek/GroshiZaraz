@@ -1,14 +1,40 @@
-"use client";
-import { usePathname, useRouter } from "next/navigation"; // <- вот здесь поменял
-import React, { useState } from "react";
-export const dynamic = "force-dynamic";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { notFound } from "next/navigation";
+import Link from "next/link";
 
-export default function QuestionAnswersPage() {
-  const [newAnswer, setNewAnswer] = useState("");
-  const [showAnswerForm, setShowAnswerForm] = useState(false);
-  const router = useRouter();
-  // Мок данные вопроса
-  const question = {
+// Убираем "use client" и dynamic - страница теперь SSG
+
+// Типы данных
+type Answer = {
+  id: number;
+  author: string;
+  isExpert: boolean;
+  date: string;
+  likes: number;
+  answer: string;
+  helpfulCount: number;
+  avatar: string;
+};
+
+type Question = {
+  id: number;
+  question: string;
+  author: string;
+  date: string;
+  category: string;
+  views: number;
+  likes: number;
+  description: string;
+  icon: string;
+  color: string;
+};
+
+// Функция для получения данных вопроса (можно заменить на API или базу данных)
+async function getQuestionData(id: string): Promise<{ question: Question; answers: Answer[] } | null> {
+  // Здесь можно добавить реальный fetch к API или базе данных
+  // В данном примере используем статические данные
+  
+  const question: Question = {
     id: 1,
     question: "Можно ли получить кредит без справки о доходах?",
     author: "Александр М.",
@@ -16,25 +42,21 @@ export default function QuestionAnswersPage() {
     category: "Документы",
     views: 156,
     likes: 23,
-    isLiked: false,
     description:
       "Интересует возможность получения кредита без предоставления справки о доходах. Работаю неофициально, но имею стабильный доход. Какие есть варианты?",
     icon: "👤",
     color: "from-blue-500 to-blue-600",
   };
 
-  // Мок данные ответов
-  const [answers, setAnswers] = useState([
+  const answers: Answer[] = [
     {
       id: 1,
       author: "Эксперт Фіногляд",
       isExpert: true,
       date: "1 час назад",
       likes: 15,
-      isLiked: false,
       answer:
         "Да, такая возможность существует. Многие наши партнеры предлагают кредиты без справки о доходах. Основные варианты:\n\n• Экспресс-кредиты до 50 000 грн\n• Кредиты под залог недвижимости или автомобиля\n• Кредиты для ФОП с упрощенным документооборотом\n• P2P кредитование\n\nОднако учтите, что процентные ставки могут быть выше, а максимальная сумма - ограничена.",
-      isHelpful: true,
       helpfulCount: 12,
       avatar: "🎯",
     },
@@ -44,10 +66,8 @@ export default function QuestionAnswersPage() {
       isExpert: false,
       date: "45 минут назад",
       likes: 8,
-      isLiked: true,
       answer:
         "Я получала такой кредит в Кредиторе. Нужен был только паспорт и ИНН. Правда, сумма была небольшая - 25 000 грн на 6 месяцев. Ставка 2,5% в месяц. Одобрили за 20 минут.",
-      isHelpful: false,
       helpfulCount: 8,
       avatar: "👩",
     },
@@ -57,85 +77,61 @@ export default function QuestionAnswersPage() {
       isExpert: true,
       date: "30 минут назад",
       likes: 11,
-      isLiked: false,
       answer:
         "Дополню ответ коллеги. Также рассмотрите такие варианты:\n\n1. Кредит с созаемщиком (если есть родственники с официальным доходом)\n2. Микрозаймы - до 20 000 грн без справок\n3. Кредитные карты с льготным периодом\n\nВажно: внимательно читайте договор и не соглашайтесь на подозрительно низкие ставки - это может быть мошенничество.",
-      isHelpful: true,
       helpfulCount: 9,
       avatar: "👨‍💼",
     },
-  ]);
+  ];
 
-  const handleLikeQuestion = () => {
-    // Логика лайка вопроса
-  };
+  return { question, answers };
+}
 
-  const handleLikeAnswer = (answerId: number) => {
-    setAnswers(
-      answers.map((answer) =>
-        answer.id === answerId
-          ? {
-              ...answer,
-              isLiked: !answer.isLiked,
-              likes: answer.isLiked ? answer.likes - 1 : answer.likes + 1,
-            }
-          : answer
-      )
-    );
-  };
+// Главный компонент страницы
+export default async function QuestionAnswersPage({
+  params,
+}: {
+  params: { locale: string; id: string };
+}) {
+  const data = await getQuestionData(params.id);
 
-  const handleMarkHelpful = (answerId: number) => {
-    setAnswers(
-      answers.map((answer) =>
-        answer.id === answerId
-          ? {
-              ...answer,
-              isHelpful: !answer.isHelpful,
-              helpfulCount: answer.isHelpful
-                ? answer.helpfulCount - 1
-                : answer.helpfulCount + 1,
-            }
-          : answer
-      )
-    );
-  };
+  if (!data) {
+    notFound();
+  }
 
-  const handleSubmitAnswer = () => {
-    if (newAnswer.trim()) {
-      const answer = {
-        id: answers.length + 1,
-        author: "Вы",
-        isExpert: false,
-        date: "только что",
-        likes: 0,
-        isLiked: false,
-        answer: newAnswer,
-        isHelpful: false,
-        helpfulCount: 0,
-        avatar: "😊",
-      };
+  const { question, answers } = data;
 
-      setAnswers([...answers, answer]);
-      setNewAnswer("");
-      setShowAnswerForm(false);
-    }
-  };
-
-  const pathname = usePathname(); // например "/ru/ask-question/test"
-
-  const localePrefix = pathname.split("/")[1]; // "ru"
-
-  const handleBackToFAQ = () => {
-    router.push(`/${localePrefix}/ask-question`);
-  };
+  const relatedQuestions = [
+    {
+      id: 2,
+      question: "Какие банки дают кредиты с 18 лет?",
+      category: "Возрастные ограничения",
+      answers: 3,
+      color: "from-green-500 to-green-600",
+    },
+    {
+      id: 3,
+      question: "Влияет ли количество запросов на кредитную историю?",
+      category: "Кредитная история",
+      answers: 5,
+      color: "from-purple-500 to-purple-600",
+    },
+    {
+      id: 4,
+      question: "Можно ли получить кредит с плохой кредитной историей?",
+      category: "Кредитная история",
+      answers: 7,
+      color: "from-red-500 to-red-600",
+    },
+  ];
 
   return (
     <div className="min-h-screen">
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
-        <button
-          onClick={handleBackToFAQ}
-          className="mb-6 cursor-pointer flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium"
+        <Link
+          href={`/${params.locale}/ask-question`}
+          className="mb-6 inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium"
         >
           <svg
             className="w-5 h-5"
@@ -151,7 +147,7 @@ export default function QuestionAnswersPage() {
             />
           </svg>
           Назад к вопросам
-        </button>
+        </Link>
 
         {/* Question Section */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 mb-8">
@@ -211,17 +207,10 @@ export default function QuestionAnswersPage() {
                   <span>{question.views} просмотров</span>
                 </div>
 
-                <button
-                  onClick={handleLikeQuestion}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200 ${
-                    question.isLiked
-                      ? "bg-red-100 text-red-600"
-                      : "bg-gray-100 text-gray-600 hover:bg-red-50 hover:text-red-500"
-                  }`}
-                >
+                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-100 text-gray-600">
                   <svg
                     className="w-5 h-5"
-                    fill={question.isLiked ? "currentColor" : "none"}
+                    fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
@@ -233,7 +222,7 @@ export default function QuestionAnswersPage() {
                     />
                   </svg>
                   <span>{question.likes}</span>
-                </button>
+                </div>
               </div>
             </div>
           </div>
@@ -245,23 +234,14 @@ export default function QuestionAnswersPage() {
             <h2 className="text-2xl font-bold text-gray-800">
               Ответы ({answers.length})
             </h2>
-
-            <button
-              onClick={() => setShowAnswerForm(true)}
-              className="bg-gradient-to-r from-blue-500 to-yellow-400 text-white px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 hover:shadow-lg transition-all duration-300 hover:scale-105"
-            >
-              <span className="text-lg">✏️</span>
-              Написать ответ
-            </button>
           </div>
 
           {/* Answers List */}
           <div className="space-y-6">
-            {answers.map((answer, index) => (
+            {answers.map((answer) => (
               <div
                 key={answer.id}
                 className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6"
-                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="flex items-start gap-4">
                   {/* Avatar */}
@@ -294,19 +274,12 @@ export default function QuestionAnswersPage() {
                       {answer.answer}
                     </div>
 
-                    {/* Actions */}
+                    {/* Stats (статические) */}
                     <div className="flex items-center gap-4">
-                      <button
-                        onClick={() => handleLikeAnswer(answer.id)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-all duration-200 ${
-                          answer.isLiked
-                            ? "bg-blue-100 text-blue-600"
-                            : "bg-gray-100 text-gray-600 hover:bg-blue-50 hover:text-blue-500"
-                        }`}
-                      >
+                      <div className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm bg-gray-100 text-gray-600">
                         <svg
                           className="w-4 h-4"
-                          fill={answer.isLiked ? "currentColor" : "none"}
+                          fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
                         >
@@ -318,19 +291,12 @@ export default function QuestionAnswersPage() {
                           />
                         </svg>
                         <span>{answer.likes}</span>
-                      </button>
+                      </div>
 
-                      <button
-                        onClick={() => handleMarkHelpful(answer.id)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm transition-all duration-200 ${
-                          answer.isHelpful
-                            ? "bg-green-100 text-green-600"
-                            : "bg-gray-100 text-gray-600 hover:bg-green-50 hover:text-green-500"
-                        }`}
-                      >
+                      <div className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm bg-gray-100 text-gray-600">
                         <span>✨</span>
                         <span>Полезно ({answer.helpfulCount})</span>
-                      </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -339,39 +305,6 @@ export default function QuestionAnswersPage() {
           </div>
         </div>
 
-        {/* Answer Form */}
-        {showAnswerForm && (
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-            <h3 className="text-xl font-bold text-gray-800 mb-4">
-              Написать ответ
-            </h3>
-
-            <textarea
-              value={newAnswer}
-              onChange={(e) => setNewAnswer(e.target.value)}
-              placeholder="Поделитесь своим опытом или знаниями..."
-              rows={6}
-              className="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none mb-4"
-            />
-
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleSubmitAnswer}
-                className="bg-gradient-to-r from-blue-500 to-yellow-400 text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
-              >
-                Опубликовать ответ
-              </button>
-
-              <button
-                onClick={() => setShowAnswerForm(false)}
-                className="bg-gray-100 text-gray-700 px-6 py-3 rounded-2xl font-semibold hover:bg-gray-200 transition-all duration-200"
-              >
-                Отмена
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Related Questions */}
         <div className="mt-12">
           <h3 className="text-2xl font-bold text-gray-800 mb-6">
@@ -379,34 +312,11 @@ export default function QuestionAnswersPage() {
           </h3>
 
           <div className="grid gap-4">
-            {[
-              {
-                id: 2,
-                question: "Какие банки дают кредиты с 18 лет?",
-                category: "Возрастные ограничения",
-                answers: 3,
-                color: "from-green-500 to-green-600",
-              },
-              {
-                id: 3,
-                question: "Влияет ли количество запросов на кредитную историю?",
-                category: "Кредитная история",
-                answers: 5,
-                color: "from-purple-500 to-purple-600",
-              },
-              {
-                id: 4,
-                question:
-                  "Можно ли получить кредит с плохой кредитной историей?",
-                category: "Кредитная история",
-                answers: 7,
-                color: "from-red-500 to-red-600",
-              },
-            ].map((item, index) => (
-              <div
+            {relatedQuestions.map((item) => (
+              <Link
                 key={item.id}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 p-4 cursor-pointer group"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                href={`/${params.locale}/ask-question/${item.id}`}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 p-4 group"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
@@ -439,7 +349,7 @@ export default function QuestionAnswersPage() {
                     />
                   </svg>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
