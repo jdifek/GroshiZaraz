@@ -91,9 +91,11 @@ async function getQuestionData(id: string): Promise<{ question: Question; answer
 export default async function QuestionAnswersPage({
   params,
 }: {
-  params: { locale: string; id: string };
+  params: Promise<{ locale: string; id: string }>;
 }) {
-  const data = await getQuestionData(params.id);
+  const { locale, id } = await params;
+
+  const data = await getQuestionData(id);
 
   if (!data) {
     notFound();
@@ -130,7 +132,7 @@ export default async function QuestionAnswersPage({
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <Link
-          href={`/${params.locale}/ask-question`}
+          href={`/${locale}/ask-question`}
           className="mb-6 inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors duration-200 font-medium"
         >
           <svg
@@ -315,7 +317,7 @@ export default async function QuestionAnswersPage({
             {relatedQuestions.map((item) => (
               <Link
                 key={item.id}
-                href={`/${params.locale}/ask-question/${item.id}`}
+                href={`/${locale}/ask-question/${item.id}`}
                 className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 p-4 group"
               >
                 <div className="flex items-center justify-between">
