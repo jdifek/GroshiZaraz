@@ -27,6 +27,9 @@ export async function generateMetadata({
       description: messages.Metadata.root.description,
       keywords: messages.Metadata.root.keywords,
       robots: "index, follow",
+      icons: {
+        icon: "/favicon.svg", // ✅ фавикон для всех страниц
+      },
       openGraph: {
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
