@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import { CheckCircle } from "lucide-react";
 import MfoService from "@/app/services/mfos/mfosService";
@@ -43,11 +41,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, lang } = await params;
   const company = await MfoService.getMfoBySlug(slug);
-  const defaultImage = "https://groshi-zaraz.vercel.app/default-og-image.jpg";
+  const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
 
   if (!company) {
     return {
-      title: lang === "ru" ? "Фіногляд — МФО не найдено" : "Фіногляд — МФО не знайдено",
+      title:
+        lang === "ru"
+          ? "Фіногляд — МФО не найдено"
+          : "Фіногляд — МФО не знайдено",
       description:
         lang === "ru"
           ? "Похоже, запрашиваемая страница не существует."
@@ -72,7 +73,7 @@ export async function generateMetadata({
     openGraph: {
       title: lang === "ru" ? titleRu : titleUk,
       description: lang === "ru" ? descriptionRu : descriptionUk,
-      url: `https://groshi-zaraz.vercel.app/${lang}/mfos/${slug}`,
+      url: `https://finoglyad.com.ua/${lang}/mfos/${slug}`,
       images: [company.logo || defaultImage],
       siteName: "Фіногляд",
       locale: lang === "ru" ? "ru_RU" : "uk_UA",
@@ -91,7 +92,10 @@ export async function generateMetadata({
 
 const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
   const { slug, lang } = await params;
-  const t = await getTranslations({ locale: lang, namespace: "MfoDetailsPage" });
+  const t = await getTranslations({
+    locale: lang,
+    namespace: "MfoDetailsPage",
+  });
 
   let companyInfo: MappedMfo | null = null;
 
@@ -125,48 +129,68 @@ const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
     };
   } catch (err) {
     console.error("Error loading company info:", err);
-    return <div>{lang === "ru" ? "Компания не найдена" : "Компанія не знайдена"}</div>;
+    return (
+      <div>
+        {lang === "ru" ? "Компания не найдена" : "Компанія не знайдена"}
+      </div>
+    );
   }
 
   return (
     <div className="max-w-7xl mx-auto">
       <h1 className="text-3xl! font-bold text-gray-800 mb-6">
-      {t("loanInfoTitle", { name: companyInfo.name })}
+        {t("loanInfoTitle", { name: companyInfo.name })}
       </h1>
 
       <div className="grid lg:grid-cols-2 gap-8 mb-8">
         <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">{t("loanTerms")}</h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            {t("loanTerms")}
+          </h3>
           <div className="space-y-3">
             <div className="flex justify-between py-2 border-b border-gray-100">
               <span className="text-gray-600">{t("maxAmount")}</span>
-              <span className="font-semibold text-gray-800">{companyInfo.maxAmount} ₴</span>
+              <span className="font-semibold text-gray-800">
+                {companyInfo.maxAmount} ₴
+              </span>
             </div>
             <div className="flex justify-between py-2 border-b border-gray-100">
               <span className="text-gray-600">{t("minAmount")}</span>
-              <span className="font-semibold text-gray-800">{companyInfo.minAmount} ₴</span>
+              <span className="font-semibold text-gray-800">
+                {companyInfo.minAmount} ₴
+              </span>
             </div>
             <div className="flex justify-between py-2 border-b border-gray-100">
               <span className="text-gray-600">{t("loanTerm")}</span>
-              <span className="font-semibold text-gray-800">{companyInfo.term}</span>
+              <span className="font-semibold text-gray-800">
+                {companyInfo.term}
+              </span>
             </div>
             <div className="flex justify-between py-2 border-b border-gray-100">
               <span className="text-gray-600">{t("interestRate")}</span>
-              <span className="font-semibold text-gray-800">{companyInfo.rate} %</span>
+              <span className="font-semibold text-gray-800">
+                {companyInfo.rate} %
+              </span>
             </div>
             <div className="flex justify-between py-2 border-b border-gray-100">
               <span className="text-gray-600">{t("ageLimit")}</span>
-              <span className="font-semibold text-gray-800">{companyInfo.ageLimit} {lang === "ru" ? "лет" : "років"}</span>
+              <span className="font-semibold text-gray-800">
+                {companyInfo.ageLimit} {lang === "ru" ? "лет" : "років"}
+              </span>
             </div>
             <div className="flex justify-between py-2">
               <span className="text-gray-600">{t("approvalTime")}</span>
-              <span className="font-semibold text-gray-800">{companyInfo.responseTime}</span>
+              <span className="font-semibold text-gray-800">
+                {companyInfo.responseTime}
+              </span>
             </div>
           </div>
         </div>
 
         <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">{t("advantages")}</h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            {t("advantages")}
+          </h3>
           <div className="space-y-3">
             {companyInfo.isFirstLoanZero && (
               <div className="flex items-start gap-3">
@@ -209,7 +233,9 @@ const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
       </div>
 
       <div className="bg-gradient-to-r h-auto from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">{t("aboutCompany")}</h3>
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">
+          {t("aboutCompany")}
+        </h3>
         <p className="text-gray-700 break-words">{companyInfo.description}</p>
       </div>
     </div>

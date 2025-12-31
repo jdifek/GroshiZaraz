@@ -6,8 +6,8 @@ export const ContactStructuredData = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Фіногляд",
-    url: "https://groshi-zaraz.vercel.app/contacts",
-    logo: "https://groshi-zaraz.vercel.app/logo.png", // если есть логотип, можно добавить
+    url: "https://finoglyad.com.ua//contacts",
+    logo: "https://finoglyad.com.ua//logo.png", // если есть логотип, можно добавить
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+38 (093) 000-00-00",

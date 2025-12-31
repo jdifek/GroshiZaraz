@@ -19,8 +19,8 @@ export async function generateStaticParams() {
       { lang: "ru", slug: author.slug },
     ]);
   } catch (error) {
-    console.error('Error generating static params:', error);
-    return []; 
+    console.error("Error generating static params:", error);
+    return [];
   }
 }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -92,13 +92,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       openGraph: {
         title,
         description,
-        url: `https://groshi-zaraz.vercel.app/${lang}${cleanPath}`,
+        url: `https://finoglyad.com.ua/${lang}${cleanPath}`,
         siteName: messages.Metadata.author.siteName,
         type: "profile",
         locale: lang === "uk" ? "uk_UA" : "ru_UA",
         images: [
           {
-            url: "https://groshi-zaraz.vercel.app/og-author-image.jpg",
+            url: "https://finoglyad.com.ua/og-author-image.jpg",
             width: 1200,
             height: 630,
             alt: author.name,
@@ -109,16 +109,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         card: "summary_large_image",
         title,
         description,
-        images: ["https://groshi-zaraz.vercel.app/og-author-image.jpg"],
+        images: ["https://finoglyad.com.ua/og-author-image.jpg"],
         site: "@finoglyad",
         creator: author.twitter || "@finoglyad",
       },
       alternates: {
-        canonical: `https://groshi-zaraz.vercel.app/${lang}${cleanPath}`,
+        canonical: `https://finoglyad.com.ua/${lang}${cleanPath}`,
         languages: {
-          "uk-UA": `https://groshi-zaraz.vercel.app/uk${cleanPath}`,
-          "ru-UA": `https://groshi-zaraz.vercel.app/ru${cleanPath}`,
-          "x-default": `https://groshi-zaraz.vercel.app${cleanPath}`,
+          "uk-UA": `https://finoglyad.com.ua/uk${cleanPath}`,
+          "ru-UA": `https://finoglyad.com.ua/ru${cleanPath}`,
+          "x-default": `https://finoglyad.com.ua${cleanPath}`,
         },
       },
     };

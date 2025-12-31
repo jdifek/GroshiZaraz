@@ -30,17 +30,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       keywords,
       robots: "index, follow",
       alternates: {
-        canonical: `https://groshi-zaraz.vercel.app/${lang}/about`,
+        canonical: `https://finoglyad.com.ua//${lang}/about`,
         languages: {
-          "uk-UA": `https://groshi-zaraz.vercel.app/uk/about`,
-          "ru-UA": `https://groshi-zaraz.vercel.app/ru/about`,
-          "x-default": `https://groshi-zaraz.vercel.app/about`,
+          "uk-UA": `https://finoglyad.com.ua//uk/about`,
+          "ru-UA": `https://finoglyad.com.ua//ru/about`,
+          "x-default": `https://finoglyad.com.ua//about`,
         },
       },
       openGraph: {
         title,
         description,
-        url: `https://groshi-zaraz.vercel.app/${lang}/about`,
+        url: `https://finoglyad.com.ua//${lang}/about`,
         siteName: "Фіногляд",
         type: "website",
         locale: lang === "uk" ? "uk_UA" : "ru_UA",

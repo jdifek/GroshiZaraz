@@ -25,7 +25,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, lang } = await params;
   const company = await MfoService.getMfoBySlug(slug);
-  const defaultImage = "https://groshi-zaraz.vercel.app/default-og-image.jpg";
+  const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
 
   if (!company) {
     return {
@@ -57,7 +57,7 @@ export async function generateMetadata({
     openGraph: {
       title: lang === "ru" ? titleRu : titleUk,
       description: lang === "ru" ? descriptionRu : descriptionUk,
-      url: `https://groshi-zaraz.vercel.app/${lang}/mfos/${slug}/reviews`,
+      url: `https://finoglyad.com.ua/${lang}/mfos/${slug}/reviews`,
       images: [company.logo || defaultImage],
       siteName: "Фіногляд",
       locale: lang === "ru" ? "ru_RU" : lang === "en" ? "en_US" : "uk_UA",
@@ -178,7 +178,10 @@ const renderAnswer = (answer: any, lang: string, t: any) => {
 export default async function ReviewsPage({ params }: ReviewsPageProps) {
   const { lang, slug } = await params;
   const companyInfo = await getCompanyData(slug);
-  const t = await  getTranslations({ locale: lang, namespace: "ReviewsPageMFO" });
+  const t = await getTranslations({
+    locale: lang,
+    namespace: "ReviewsPageMFO",
+  });
 
   if (!companyInfo) {
     return (
@@ -191,7 +194,7 @@ export default async function ReviewsPage({ params }: ReviewsPageProps) {
   return (
     <div>
       <h1 className="text-3xl! font-bold text-gray-800 mb-6">
-      {t("reviewsAbout")} {companyInfo.name}
+        {t("reviewsAbout")} {companyInfo.name}
       </h1>
 
       {companyInfo.reviews && companyInfo.reviews.length > 0 ? (
@@ -234,7 +237,7 @@ export default async function ReviewsPage({ params }: ReviewsPageProps) {
                       )}
                     </div>
                     <p className="text-gray-600 leading-relaxed">
-                      {lang === 'ru' ? review.textRu : review.textUk}
+                      {lang === "ru" ? review.textRu : review.textUk}
                     </p>
                   </div>
                 </div>

@@ -35,7 +35,6 @@ export async function generateMetadata({
         description: t("metadata.notFoundDescription"),
       };
     }
-    
 
     const isUa = lang === "uk";
 
@@ -45,16 +44,16 @@ export async function generateMetadata({
     const description = isUa
       ? satellite.metaDescUk || satellite.descriptionUk
       : satellite.metaDescRu || satellite.descriptionRu;
-    const defaultImage = "https://groshi-zaraz.vercel.app/default-og-image.jpg";
+    const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
 
     return {
       title,
       description,
-      keywords: satellite.keywords || [], 
+      keywords: satellite.keywords || [],
       openGraph: {
         title,
         description,
-        url: `https://groshi-zaraz.vercel.app/mfo/${slug}`,
+        url: `https://finoglyad.com.ua/mfo/${slug}`,
         siteName: "Фіногляд",
         locale: isUa ? "uk_UA" : "ru_RU",
         type: "website",
@@ -229,21 +228,25 @@ export default async function MFOSattelitePage({
                     </div>
                   </div>
                   <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                   {t("topLabel")}
+                    {t("topLabel")}
                   </div>
                 </div>
 
                 {/* Key Info */}
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   <div className="bg-gray-50 rounded-2xl p-3">
-                    <div className="text-xs text-gray-500 mb-1">{t("keyInfo.amount")}</div>
+                    <div className="text-xs text-gray-500 mb-1">
+                      {t("keyInfo.amount")}
+                    </div>
                     <div className="font-semibold text-gray-800 text-sm">
                       {offer.minAmount.toLocaleString()} -{" "}
                       {offer.maxAmount.toLocaleString()} ₴
                     </div>
                   </div>
                   <div className="bg-gray-50 rounded-2xl p-3">
-                    <div className="text-xs text-gray-500 mb-1">{t("keyInfo.term")}</div>
+                    <div className="text-xs text-gray-500 mb-1">
+                      {t("keyInfo.term")}
+                    </div>
                     <div className="font-semibold text-gray-800 text-sm">
                       до {offer.maxTerm} {t("keyInfo.termUnit")}
                     </div>
@@ -256,32 +259,34 @@ export default async function MFOSattelitePage({
                     <div className="text-xl font-bold text-green-600">
                       {offer.rateMin}% - {offer.rateMax}%
                     </div>
-                    <div className="text-xs text-gray-500">{t("keyInfo.perDay")}</div>
+                    <div className="text-xs text-gray-500">
+                      {t("keyInfo.perDay")}
+                    </div>
                   </div>
                   <div className="text-right">
                     <div className="text-lg font-semibold text-blue-600">
                       {offer.approvalRate}%
                     </div>
-                    <div className="text-xs text-gray-500">{t("keyInfo.approval")}</div>
+                    <div className="text-xs text-gray-500">
+                      {t("keyInfo.approval")}
+                    </div>
                   </div>
                 </div>
 
                 {/* Special offers */}
                 <div className="bg-green-50 border border-green-200 rounded-2xl p-2 mb-4">
                   <div className="text-xs text-green-700 font-medium">
-                  {t("specialOffer.firstLoanFree")}
+                    {t("specialOffer.firstLoanFree")}
                   </div>
                 </div>
 
                 {/* Advantages */}
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
-                  {t("advantages.fast")}
-
+                    {t("advantages.fast")}
                   </span>
                   <span className="bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
-                  {t("advantages.convenient")}
-
+                    {t("advantages.convenient")}
                   </span>
                   <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs font-medium">
                     +1
@@ -294,8 +299,7 @@ export default async function MFOSattelitePage({
                 <div className="flex items-center justify-between mb-4 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4 text-green-500" />
-                    <span>                  {t("footer.minutes")}
-                    </span>
+                    <span> {t("footer.minutes")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Percent className="w-4 h-4 text-blue-500" />
@@ -304,7 +308,10 @@ export default async function MFOSattelitePage({
                 </div>
 
                 <div className="flex justify-between">
-                  <BlueButton text={t("buttons.getLoan")} link={offer.UtmLink} />
+                  <BlueButton
+                    text={t("buttons.getLoan")}
+                    link={offer.UtmLink}
+                  />
                   <MFOInteractiveElements offer={offer} />
                 </div>
               </div>
@@ -320,7 +327,9 @@ export default async function MFOSattelitePage({
               className="inline-block"
             >
               <GrayButton
-                text={`${t("buttons.showMore")} (${mfos.length - visibleCount})`}
+                text={`${t("buttons.showMore")} (${
+                  mfos.length - visibleCount
+                })`}
               />
             </Link>
           </div>

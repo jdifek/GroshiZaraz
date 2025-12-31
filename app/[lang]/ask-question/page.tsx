@@ -39,13 +39,13 @@ export async function generateMetadata({
       openGraph: {
         title,
         description,
-        url: `https://groshi-zaraz.vercel.app/${lang}${cleanPath}`,
+        url: `https://finoglyad.com.ua/${lang}${cleanPath}`,
         siteName: messages.Metadata.root.siteName,
         type: "website",
         locale: lang === "uk" ? "uk_UA" : "ru_UA",
         images: [
           {
-            url: "https://groshi-zaraz.vercel.app/og-faq-image.jpg",
+            url: "https://finoglyad.com.ua/og-faq-image.jpg",
             width: 1200,
             height: 630,
             alt: title,
@@ -57,11 +57,13 @@ export async function generateMetadata({
     console.error("Metadata error:", error);
 
     return {
-      title: messages.Metadata?.notFound?.title ??
+      title:
+        messages.Metadata?.notFound?.title ??
         (lang === "uk"
           ? "404 — Сторінку не знайдено"
           : "404 — Страница не найдена"),
-      description: messages.Metadata?.notFound?.description ??
+      description:
+        messages.Metadata?.notFound?.description ??
         (lang === "uk"
           ? "Запитувана сторінка не існує."
           : "Запрашиваемая страница не существует."),

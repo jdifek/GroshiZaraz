@@ -14,7 +14,7 @@ export async function generateMetadata({
   const { lang } = await params;
   const t = await getTranslations({ locale: lang, namespace: "Metadata" });
 
-  const baseUrl = "https://groshi-zaraz.vercel.app";
+  const baseUrl = "https://finoglyad.com.ua";
   const currentUrl = `${baseUrl}/${lang}`;
 
   return {
@@ -65,7 +65,6 @@ export async function generateMetadata({
     },
   };
 }
-
 
 export default async function root({
   params,

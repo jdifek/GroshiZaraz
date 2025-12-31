@@ -19,11 +19,10 @@ export async function generateMetadata({
     : "Ознакомьтесь с условиями использования сервиса Финогляд: правила, обязанности пользователей и ограничения ответственности.";
 
   const url = isUa
-    ? "https://groshi-zaraz.vercel.app/uk/terms"
-    : "https://groshi-zaraz.vercel.app/ru/terms";
+    ? "https://finoglyad.com.ua/uk/terms"
+    : "https://finoglyad.com.ua/ru/terms";
 
-  const defaultImage =
-    "https://groshi-zaraz.vercel.app/default-og-image.jpg";
+  const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
 
   return {
     title,

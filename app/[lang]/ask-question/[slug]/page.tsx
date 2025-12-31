@@ -43,9 +43,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     const title = `${questionTitle} — Фіногляд`;
     const description = questionDescription.slice(0, 160);
-    const url = `https://groshi-zaraz.vercel.app/${lang}/ask-question/${slug}`;
+    const url = `https://finoglyad.com.ua/${lang}/ask-question/${slug}`;
 
-    const imageUrl = `https://groshi-zaraz.vercel.app/images/og-default.png`; // статическое изображение или динамическое
+    const imageUrl = `https://finoglyad.com.ua/images/og-default.png`; // статическое изображение или динамическое
 
     return {
       title,
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         canonical: url,
         languages: {
           "uk-UA": url,
-          "ru-UA": `https://groshi-zaraz.vercel.app/ru/ask-question/${slug}`,
+          "ru-UA": `https://finoglyad.com.ua/ru/ask-question/${slug}`,
           "x-default": url,
         },
       },
@@ -150,9 +150,7 @@ const getByCategory = async (lang = "uk", category: string) => {
       color: "from-blue-500 to-blue-600",
       answersCount: el.answers?.length ?? 0,
     }));
-    
-    
-      
+
     console.log(res);
     return response;
   } catch (e) {
@@ -181,7 +179,6 @@ export default async function QuestionAnswersPage({
 
   const { question, answers } = data;
 
-  
   console.log(lang, "locale");
 
   return (
@@ -397,47 +394,47 @@ export default async function QuestionAnswersPage({
           </h3>
 
           <div className="grid gap-4">
-            {relatedQuestions && relatedQuestions.map((item) => (
-              <Link
-                key={item.id}
-                href={`/${lang}/ask-question/${item.slug}`}
-                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 p-4 group"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">
-                      {item.question}
-                    </h4>
-                    <div className="flex items-center gap-3">
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full font-medium bg-gradient-to-r ${item.color} text-white`}
-                      >
-                        {item.category}
-                      </span>
-                      <span className="text-sm text-gray-500">
-  {item.answersCount} ответ
-  {item.answersCount > 1 ? "а" : ""}
-</span>
-
+            {relatedQuestions &&
+              relatedQuestions.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/${lang}/ask-question/${item.slug}`}
+                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 p-4 group"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h4 className="font-semibold text-gray-800 mb-2 group-hover:text-blue-600 transition-colors duration-300">
+                        {item.question}
+                      </h4>
+                      <div className="flex items-center gap-3">
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full font-medium bg-gradient-to-r ${item.color} text-white`}
+                        >
+                          {item.category}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          {item.answersCount} ответ
+                          {item.answersCount > 1 ? "а" : ""}
+                        </span>
+                      </div>
                     </div>
-                  </div>
 
-                  <svg
-                    className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
-                    />
-                  </svg>
-                </div>
-              </Link>
-            ))}
+                    <svg
+                      className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </Link>
+              ))}
           </div>
         </div>
       </div>

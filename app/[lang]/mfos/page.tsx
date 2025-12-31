@@ -20,7 +20,6 @@ async function getMFOsData(sortBy: string = "rating") {
   }
 }
 
-
 export async function generateMetadata({
   params,
 }: {
@@ -29,7 +28,7 @@ export async function generateMetadata({
   const { lang } = await params;
   const t = await getTranslations({ locale: lang, namespace: "MFOsPage" });
 
-  const baseUrl = "https://groshi-zaraz.vercel.app";
+  const baseUrl = "https://finoglyad.com.ua";
   const currentUrl = `${baseUrl}/${lang}/mfos`;
 
   return {
@@ -81,7 +80,7 @@ export default async function MFOsPage({
 }) {
   const { lang } = await params;
   const { sort = "rating" } = await searchParams;
-  
+
   const t = await getTranslations({
     locale: lang,
     namespace: "MFOsPage",

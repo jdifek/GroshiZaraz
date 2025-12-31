@@ -20,7 +20,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, lang } = await params;
   const company = await MfoService.getMfoBySlug(slug);
-  const defaultImage = "https://groshi-zaraz.vercel.app/default-og-image.jpg";
+  const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
 
   if (!company) {
     return {
@@ -52,7 +52,7 @@ export async function generateMetadata({
     openGraph: {
       title: lang === "ru" ? titleRu : titleUk,
       description: lang === "ru" ? descriptionRu : descriptionUk,
-      url: `https://groshi-zaraz.vercel.app/${lang}/mfos/${slug}/questions`,
+      url: `https://finoglyad.com.ua/${lang}/mfos/${slug}/questions`,
       images: [company.logo || defaultImage],
       siteName: "Фіногляд",
       locale: lang === "ru" ? "ru_RU" : lang === "en" ? "en_US" : "uk_UA",
@@ -139,7 +139,9 @@ export default async function QuestionsPage({
               </div>
             </div>
             <p className="text-gray-700 leading-relaxed">
-              {lang === "ru" ? answer.textRu || answer.textOriginal : answer.textUk || answer.textOriginal}
+              {lang === "ru"
+                ? answer.textRu || answer.textOriginal
+                : answer.textUk || answer.textOriginal}
             </p>
           </div>
         </div>
@@ -149,9 +151,7 @@ export default async function QuestionsPage({
 
   return (
     <div>
-      <h1 className="text-3xl! font-bold text-gray-800 mb-6">
-        {t("title")}
-      </h1>
+      <h1 className="text-3xl! font-bold text-gray-800 mb-6">{t("title")}</h1>
 
       {/* Статичные частые вопросы */}
       <div className="space-y-4 mb-8">
@@ -247,7 +247,9 @@ export default async function QuestionsPage({
                 {!question.answers || question.answers.length === 0 ? (
                   <div className="bg-gray-50 px-6 py-4">
                     <div className="text-center py-2">
-                      <p className="text-gray-500 text-sm mb-3">{t("noAnswers")}</p>
+                      <p className="text-gray-500 text-sm mb-3">
+                        {t("noAnswers")}
+                      </p>
                       <button className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 py-2 rounded-xl font-medium hover:shadow-md transition-all duration-300 flex items-center gap-2 text-sm mx-auto">
                         <Reply className="w-4 h-4" />
                         {t("answer")}
@@ -264,7 +266,9 @@ export default async function QuestionsPage({
       {/* Кнопка задать вопрос */}
       <div className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100">
         <div className="text-center">
-          <h4 className="text-xl font-semibold text-gray-800 mb-2">{t("askQuestion")}</h4>
+          <h4 className="text-xl font-semibold text-gray-800 mb-2">
+            {t("askQuestion")}
+          </h4>
           <p className="text-gray-600 mb-6">{t("askQuestionDesc")}</p>
           <BlueButton text={t("ask")} />
         </div>

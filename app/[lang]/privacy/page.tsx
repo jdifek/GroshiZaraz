@@ -13,7 +13,7 @@ export async function generateMetadata({
   const { lang } = await params;
   const t = await getTranslations({ locale: lang, namespace: "PrivacyPage" });
 
-  const baseUrl = "https://groshi-zaraz.vercel.app";
+  const baseUrl = "https://finoglyad.com.ua";
   const currentUrl = `${baseUrl}/${lang}/privacy`;
 
   const title = t("meta.title");
@@ -68,7 +68,6 @@ export async function generateMetadata({
     },
   };
 }
-
 
 export default async function PrivacyPage({ params }: PrivacyPageProps) {
   const { lang } = await params;

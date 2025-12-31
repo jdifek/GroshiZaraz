@@ -15,7 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   let messages;
   try {
-    messages = (await import(`@/app/messages/${lang}.json`)).CurrencyExchangePage;
+    messages = (await import(`@/app/messages/${lang}.json`))
+      .CurrencyExchangePage;
   } catch (err) {
     console.error(
       `Messages for lang "${lang}" not found. Falling back to 'uk'`,
@@ -25,7 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const title =
-    messages?.meta?.title || "Курсы валют в Украине 2025 – USD, EUR, GBP и конвертер";
+    messages?.meta?.title ||
+    "Курсы валют в Украине 2025 – USD, EUR, GBP и конвертер";
   const description =
     messages?.meta?.description ||
     "Актуальные курсы валют в Украине на сегодня. Быстрый конвертер валют для USD, EUR, GBP и других валют. Динамика курсов и популярные направления.";
@@ -33,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     messages?.meta?.keywords ||
     "курс валют, конвертер валют, UAH, USD, EUR, GBP, динамика курсов, популярные направления";
 
-  const ogImage = `https://groshi-zaraz.vercel.app/og-currency-exchange.jpg`; 
+  const ogImage = `https://finoglyad.com.ua/og-currency-exchange.jpg`;
 
   return {
     title,
@@ -43,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: `https://groshi-zaraz.vercel.app/${lang}/currency-exchange`,
+      url: `https://finoglyad.com.ua/${lang}/currency-exchange`,
       siteName: "Groshi-Zaraz",
       type: "website",
       locale: lang === "uk" ? "uk_UA" : "ru_UA",
@@ -65,11 +67,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: [ogImage],
     },
     alternates: {
-      canonical: `https://groshi-zaraz.vercel.app/${lang}/currency-exchange`,
+      canonical: `https://finoglyad.com.ua/${lang}/currency-exchange`,
       languages: {
-        "uk-UA": `https://groshi-zaraz.vercel.app/uk/currency-exchange`,
-        "ru-UA": `https://groshi-zaraz.vercel.app/ru/currency-exchange`,
-        "x-default": `https://groshi-zaraz.vercel.app/currency-exchange`,
+        "uk-UA": `https://finoglyad.com.ua/uk/currency-exchange`,
+        "ru-UA": `https://finoglyad.com.ua/ru/currency-exchange`,
+        "x-default": `https://finoglyad.com.ua/currency-exchange`,
       },
     },
   };
@@ -257,7 +259,7 @@ export default async function CurrencyExchangePage({
         </div>
       </div>
 
-      <RateNbu lang={lang}/>
+      <RateNbu lang={lang} />
 
       {/* Additional Information: Popular Directions & Dynamics */}
       <div className="grid md:grid-cols-2 gap-8">

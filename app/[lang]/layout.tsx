@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { Toaster } from "react-hot-toast";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { headers } from 'next/headers';
+import { headers } from "next/headers";
 import Script from "next/script";
 
 export async function generateMetadata({
@@ -16,11 +16,11 @@ export async function generateMetadata({
 }) {
   const { lang } = await params;
   const headersList = await headers();
-  const pathname = headersList.get('x-pathname') || '/';
-  
+  const pathname = headersList.get("x-pathname") || "/";
+
   try {
     const messages = (await import(`../messages/${lang}.json`)).default;
-    const cleanPath = pathname.replace(/^\/(uk|ru)/, '') || '/';
+    const cleanPath = pathname.replace(/^\/(uk|ru)/, "") || "/";
 
     return {
       title: messages.Metadata.root.title,
@@ -33,13 +33,13 @@ export async function generateMetadata({
       openGraph: {
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
-        url: `https://groshi-zaraz.vercel.app/${lang}${cleanPath}`,
+        url: `https://finoglyad.com.ua/${lang}${cleanPath}`,
         siteName: "Фіногляд",
         type: "website",
         locale: lang === "uk" ? "uk_UA" : "ru_UA",
         images: [
           {
-            url: "https://groshi-zaraz.vercel.app/og-image.jpg",
+            url: "https://finoglyad.com.ua/og-image.jpg",
             width: 1200,
             height: 630,
             alt: messages.Metadata.root.title,
@@ -50,17 +50,17 @@ export async function generateMetadata({
         card: "summary_large_image",
         title: messages.Metadata.root.title,
         description: messages.Metadata.root.description,
-        images: ["https://groshi-zaraz.vercel.app/og-image.jpg"],
+        images: ["https://finoglyad.com.ua/og-image.jpg"],
         site: "@finoglyad",
         creator: "@finoglyad",
       },
-      
+
       alternates: {
-        canonical: `https://groshi-zaraz.vercel.app/${lang}${cleanPath}`,
+        canonical: `https://finoglyad.com.ua/${lang}${cleanPath}`,
         languages: {
-          "uk-UA": `https://groshi-zaraz.vercel.app/uk${cleanPath}`,
-          "ru-UA": `https://groshi-zaraz.vercel.app/ru${cleanPath}`,
-          "x-default": `https://groshi-zaraz.vercel.app${cleanPath}`,
+          "uk-UA": `https://finoglyad.com.ua/uk${cleanPath}`,
+          "ru-UA": `https://finoglyad.com.ua/ru${cleanPath}`,
+          "x-default": `https://finoglyad.com.ua${cleanPath}`,
         },
       },
     } as Metadata;
@@ -78,9 +78,9 @@ export default async function Layout({
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ lang: string }>;  // ⬅️ Изменено на Promise
+  params: Promise<{ lang: string }>; // ⬅️ Изменено на Promise
 }) {
-  const { lang } = await params;  // ⬅️ Добавлен await
+  const { lang } = await params; // ⬅️ Добавлен await
   let messages;
   try {
     messages = (await import(`../messages/${lang}.json`)).default;
@@ -91,41 +91,38 @@ export default async function Layout({
 
   return (
     <html lang={lang === "uk" ? "uk" : "ru"}>
-    <body className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
-  
-      {/* Google Analytics */}
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-HJXK299WX6"
-        strategy="afterInteractive"
-      />
-  
-      <Script
-        id="ga-init"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
+      <body className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-HJXK299WX6"
+          strategy="afterInteractive"
+        />
+
+        <Script
+          id="ga-init"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-HJXK299WX6');
           `,
-        }}
-      />
-  
-      <Toaster position="top-right" reverseOrder={false} />
-  
-      <NextIntlClientProvider locale={lang} messages={messages}>
-        <StructuredData />
-        <Header lang={lang} />
-        <main className="min-h-[60vh] max-w-[1280px] mx-auto px-4 md:px-8 py-8">
-          {children}
-        </main>
-        <Footer lang={lang} />
-      </NextIntlClientProvider>
-  
-    </body>
-  </html>
-  
+          }}
+        />
+
+        <Toaster position="top-right" reverseOrder={false} />
+
+        <NextIntlClientProvider locale={lang} messages={messages}>
+          <StructuredData />
+          <Header lang={lang} />
+          <main className="min-h-[60vh] max-w-[1280px] mx-auto px-4 md:px-8 py-8">
+            {children}
+          </main>
+          <Footer lang={lang} />
+        </NextIntlClientProvider>
+      </body>
+    </html>
   );
 }
 

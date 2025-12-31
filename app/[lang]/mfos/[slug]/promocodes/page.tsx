@@ -15,7 +15,6 @@ const getMfoBySlug = async (slug: string) => {
   }
 };
 
-
 export async function generateMetadata({
   params,
 }: {
@@ -23,11 +22,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug, lang } = await params;
   const company = await MfoService.getMfoBySlug(slug);
-  const defaultImage = "https://groshi-zaraz.vercel.app/default-og-image.jpg";
+  const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
 
   if (!company) {
     return {
-      title: lang === "ru" ? "Фіногляд — МФО не найдено" : "Фіногляд — МФО не знайдено",
+      title:
+        lang === "ru"
+          ? "Фіногляд — МФО не найдено"
+          : "Фіногляд — МФО не знайдено",
       description:
         lang === "ru"
           ? "Похоже, запрашиваемая страница не существует."
@@ -55,7 +57,7 @@ export async function generateMetadata({
     openGraph: {
       title: lang === "ru" ? titleRu : titleUk,
       description: lang === "ru" ? descriptionRu : descriptionUk,
-      url: `https://groshi-zaraz.vercel.app/${lang}/mfos/${slug}/promocodes`,
+      url: `https://finoglyad.com.ua/${lang}/mfos/${slug}/promocodes`,
       images: [company.logo || defaultImage],
       siteName: "Фіногляд",
       locale: lang === "ru" ? "ru_RU" : lang === "en" ? "en_US" : "uk_UA",

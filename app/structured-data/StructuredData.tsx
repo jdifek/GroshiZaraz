@@ -6,8 +6,8 @@ export const StructuredData = () => {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Фіногляд",
-    url: "https://groshi-zaraz.vercel.app",
-    logo: "https://groshi-zaraz.vercel.app/logo.png",
+    url: "https://finoglyad.com.ua/",
+    logo: "https://finoglyad.com.ua//logo.png",
     sameAs: [
       "https://www.facebook.com/yourcompany",
       "https://www.instagram.com/yourcompany",
@@ -18,10 +18,10 @@ export const StructuredData = () => {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Фіногляд",
-    url: "https://groshi-zaraz.vercel.app",
+    url: "https://finoglyad.com.ua/",
     potentialAction: {
       "@type": "SearchAction",
-      target: "https://groshi-zaraz.vercel.app/search?q={search_term_string}",
+      target: "https://finoglyad.com.ua//search?q={search_term_string}",
       "query-input": "required name=search_term_string",
     },
   };
