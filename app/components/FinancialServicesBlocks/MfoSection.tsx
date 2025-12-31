@@ -33,11 +33,10 @@ export const MfoSection = async ({ lang }: { lang: string }) => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {mfos.map((mfo, index) => (
-          <MfoCard lang={lang} key={mfo.id} mfo={mfo} index={index} />
-        ))}
-      </div>
-
+  {mfos.slice(0, 3).map((mfo, index) => (
+    <MfoCard lang={lang} key={mfo.id} mfo={mfo} index={index} />
+  ))}
+</div>
       <div className="text-center space-x-4">
         <BlueButton link="/mfos" text={t("showMore")} />
       </div>
