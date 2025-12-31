@@ -51,7 +51,7 @@ const NewsSection = async ({ lang }: { lang: string }) => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {news.map((article, index) => (
-            <Link key={article.id} href={"/journal/article" + article.slug}>
+            <Link key={article.id} href={"/journal/article/" + article.slug}>
               <article
                 className="bg-white rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer border-2 border-transparent hover:border-blue-500"
                 style={{ animationDelay: `${index * 0.1}s` }}
