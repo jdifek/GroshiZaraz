@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import CategoryService from "@/app/services/categories/categoriesService";
 import NewsService from "@/app/services/news/newsService";
+import { formatDate } from "@/app/utils/formatDate";
+import { formatViews } from "@/app/utils/formatViews";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,22 +25,6 @@ async function getCategoryData(slug: string) {
   }
 }
 
-const formatViews = (views: number) => {
-  if (views >= 1000) {
-    return `${(views / 1000).toFixed(1)}K`;
-  }
-  return views.toString();
-};
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("ru-RU", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-};
-
 const getArticleColor = (index: number) => {
   const colors = [
     "bg-gradient-to-br from-blue-500 to-blue-600",
@@ -59,7 +45,10 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
   const t = await getTranslations({ locale: lang, namespace: "CategoryPage" });
 
   const { categories, articles } = await getCategoryData(slug);
-  const categoryName = articles[0]?.NewsCategory?.name || slug;
+  const categoryName =
+    lang === "ru"
+      ? articles[0]?.NewsCategory?.name
+      : articles[0]?.NewsCategory?.nameUk || slug;
 
   // Популярные статьи для сайдбара
   const popularArticles = [...articles]
@@ -72,14 +61,14 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
       <div className="">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center text-sm text-gray-600 mb-4">
-            <span>Главная</span>
+            <span>{t("home")}</span>
             <span className="mx-2">-</span>
-            <span>Журнал Фіногляд</span>
+            <span>{t("journal")}</span>
             <span className="mx-2">-</span>
             <span>{categoryName}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
-            Журнал Фіногляд - {categoryName}
+            {t("journal")} - {categoryName}
           </h1>
         </div>
       </div>
@@ -101,7 +90,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                         : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
                     }`}
                   >
-                    {cat.name}
+                    {cat.name || t("categoryDefault")}
                   </Link>
                 ))}
               </div>
@@ -116,7 +105,11 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                     index === 0 ? "md:col-span-2 lg:col-span-2" : ""
                   } bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-blue-200`}
                 >
-                  <Link href={`/journal/article/${article.slug}`}>
+                  <Link
+                    href={`/journal/article/${
+                      lang === "ru" ? article.slug : article.slugUk
+                    }`}
+                  >
                     <div className="relative">
                       <div
                         className={`${getArticleColor(index)} ${
@@ -125,7 +118,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                       >
                         <Image
                           src={article.image || "/placeholder-news.svg"}
-                          alt={article.title}
+                          alt={lang === "ru" ? article.title : article.titleUk}
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
                           className="object-cover"
@@ -136,11 +129,14 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
 
                         <div className="absolute top-4 left-4 z-10">
                           <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white shadow-lg">
-                            {article.NewsCategory?.name}
+                            {lang === "ru"
+                              ? article.NewsCategory?.name
+                              : article.NewsCategory?.nameUk ||
+                                t("categoryDefault")}{" "}
                           </span>
                         </div>
                         <div className="absolute top-4 right-4 text-white text-sm z-10 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
-                          {formatDate(article.createdAt)}
+                          {formatDate(article.createdAt, lang)}
                         </div>
                       </div>
                     </div>
@@ -151,18 +147,26 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                           index === 0 ? "text-2xl" : "text-xl"
                         } font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors`}
                       >
-                        {article.title}
+                        {lang === "ru" ? article.title : article.titleUk}
                       </h3>
                       <p
                         className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
-                        dangerouslySetInnerHTML={{ __html: article.body }}
+                        dangerouslySetInnerHTML={{
+                          __html: lang === "ru" ? article.body : article.bodyUk,
+                        }}
                       />
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
                           <span className="flex items-center gap-1">
                             👁️ {formatViews(article.views)}
                           </span>
-                          <span>{article.author?.name}</span>
+                          <span>
+                            {" "}
+                            {lang === "ru"
+                              ? article.author?.name
+                              : article.author?.nameUk ||
+                                t("authorDefault")}{" "}
+                          </span>
                         </div>
                         <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all">
                           →
@@ -181,7 +185,11 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                   key={article.id}
                   className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-blue-200"
                 >
-                  <Link href={`/journal/article/${article.slug}`}>
+                  <Link
+                    href={`/journal/article/${
+                      lang === "ru" ? article.slug : article.slugUk
+                    }`}
+                  >
                     <div className="relative">
                       <div
                         className={`${getArticleColor(
@@ -200,29 +208,39 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
 
                         <div className="absolute top-4 left-4 z-10">
                           <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-white shadow-lg">
-                            {article.NewsCategory?.name}
+                            {lang === "ru"
+                              ? article.NewsCategory?.name
+                              : article.NewsCategory?.nameUk ||
+                                t("categoryDefault")}
                           </span>
                         </div>
                         <div className="absolute top-4 right-4 text-white text-sm z-10 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full shadow-lg">
-                          {formatDate(article.createdAt)}
+                          {formatDate(article.createdAt, lang)}
                         </div>
                       </div>
                     </div>
 
                     <div className="p-6">
                       <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                        {article.title}
+                        {lang === "ru" ? article.title : article.titleUk}
                       </h3>
                       <p
                         className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
-                        dangerouslySetInnerHTML={{ __html: article.body }}
+                        dangerouslySetInnerHTML={{
+                          __html: lang === "ru" ? article.body : article.bodyUk,
+                        }}
                       />
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
                           <span className="flex items-center gap-1">
                             👁️ {formatViews(article.views)}
                           </span>
-                          <span>{article.author?.name}</span>
+                          <span>
+                            {" "}
+                            {lang === "ru"
+                              ? article.author?.name
+                              : article.author?.nameUk || t("authorDefault")}{" "}
+                          </span>
                         </div>
                         <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all">
                           →
@@ -241,25 +259,27 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
               {/* Popular Articles */}
               <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
                 <h3 className="text-lg font-bold text-gray-800 mb-4 relative inline-block">
-                  Популярные статьи
+                {t("popularArticles")}
                   <div className="absolute -bottom-2 left-0 w-12 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
                 </h3>
                 <div className="space-y-4">
                   {popularArticles.map((article) => (
                     <Link
                       key={article.id}
-                      href={`/journal/article/${article.slug}`}
+                      href={`/journal/article/${
+                        lang === "ru" ? article.slug : article.slugUk
+                      }`}
                       className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer group"
                     >
                       <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
                       <div className="flex-1">
                         <h4 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 line-clamp-2 transition-colors">
-                          {article.title}
+                          {lang === 'uk' ? article.titleUk : article.title}
                         </h4>
                         <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
-                          <span>{formatDate(article.createdAt)}</span>
+                          <span>{formatDate(article.createdAt, lang)}</span>
                           <span>•</span>
-                          <span>{formatViews(article.views)} просмотров</span>
+                          <span>{formatViews(article.views)} {t("views")}</span>
                         </div>
                       </div>
                     </Link>

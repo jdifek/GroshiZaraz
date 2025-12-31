@@ -1,8 +1,8 @@
-// SortDropdown.tsx - Client Component
 "use client";
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface SortOption {
   value: string;
@@ -17,18 +17,19 @@ export default function SortDropdown({ currentSort }: SortDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations("sortDropdown");
 
   const sortOptions: SortOption[] = [
-    { value: "rating", label: "По рейтингу" },
-    { value: "rate", label: "По ставке" },
-    { value: "approval", label: "По проценту одобрения" },
-    { value: "responseTime", label: "По времени ответа" },
-    { value: "maxAmount", label: "По максимальной сумме" },
+    { value: "rating", label: t("rating") },
+    { value: "rate", label: t("rate") },
+    { value: "approval", label: t("approval") },
+    { value: "responseTime", label: t("responseTime") },
+    { value: "maxAmount", label: t("maxAmount") },
   ];
 
   const handleSortChange = (sortValue: string) => {
     const params = new URLSearchParams(searchParams);
-    params.set('sort', sortValue);
+    params.set("sort", sortValue);
     router.push(`?${params.toString()}`);
     setIsOpen(false);
   };
@@ -40,7 +41,7 @@ export default function SortDropdown({ currentSort }: SortDropdownProps) {
         className="bg-white cursor-pointer border-2 border-gray-200 rounded-2xl px-6 py-3 flex items-center gap-3 hover:border-blue-300 transition-all duration-200 shadow-sm"
       >
         <span className="text-gray-700 font-medium">
-          {sortOptions.find((opt) => opt.value === currentSort)?.label}
+          {sortOptions.find((opt) => opt.value === currentSort)?.label || t("sortBy")}
         </span>
         <ChevronDown
           className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
@@ -50,7 +51,7 @@ export default function SortDropdown({ currentSort }: SortDropdownProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute  top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-lg border border-gray-200 z-10">
+        <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-2xl shadow-lg border border-gray-200 z-10">
           {sortOptions.map((option) => (
             <button
               key={option.value}

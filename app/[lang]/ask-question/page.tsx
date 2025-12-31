@@ -3,6 +3,72 @@ import SiteQuestionService from "@/app/services/siteQuestion/SiteQuestionService
 import { AskQuestionClient } from "@/app/components/AskQuestion/AskQuestionClient";
 import { getFaqData } from "@/app/utils/getFaqData";
 import { getTranslations } from "next-intl/server";
+import { Metadata } from "next";
+import { headers } from "next/headers";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") || "/";
+  const cleanPath = pathname.replace(/^\/(uk|ru)/, "") || "/";
+
+  let messages;
+
+  try {
+    messages = (await import(`@/app/messages/${lang}.json`)).default;
+  } catch {
+    messages = (await import(`@/app/messages/uk.json`)).default;
+  }
+
+  try {
+    const title = messages.AskQuestionPage.meta.title;
+    const description = messages.AskQuestionPage.meta.description;
+
+    return {
+      title: `${title}`,
+      description,
+      keywords:
+        lang === "uk"
+          ? "питання, відповіді, FAQ, підтримка, консультація, кредити, позики, МФО, Україна"
+          : "вопросы, ответы, FAQ, поддержка, консультация, кредиты, займы, МФО, Украина",
+      robots: "index, follow",
+      openGraph: {
+        title,
+        description,
+        url: `https://groshi-zaraz.vercel.app/${lang}${cleanPath}`,
+        siteName: messages.Metadata.root.siteName,
+        type: "website",
+        locale: lang === "uk" ? "uk_UA" : "ru_UA",
+        images: [
+          {
+            url: "https://groshi-zaraz.vercel.app/og-faq-image.jpg",
+            width: 1200,
+            height: 630,
+            alt: title,
+          },
+        ],
+      },
+    };
+  } catch (error) {
+    console.error("Metadata error:", error);
+
+    return {
+      title: messages.Metadata?.notFound?.title ??
+        (lang === "uk"
+          ? "404 — Сторінку не знайдено"
+          : "404 — Страница не найдена"),
+      description: messages.Metadata?.notFound?.description ??
+        (lang === "uk"
+          ? "Запитувана сторінка не існує."
+          : "Запрашиваемая страница не существует."),
+      robots: "noindex, nofollow",
+    };
+  }
+}
 
 async function getUserQuestions(lang: string) {
   try {
@@ -15,6 +81,7 @@ async function getUserQuestions(lang: string) {
 
       return {
         id: question.id,
+        slug: question.slug,
         question: lang === "ru" ? question.textRu : question.textUk,
         author: question.name,
         date: question.createdAt,
@@ -46,7 +113,6 @@ export default async function AskQuestionPage({
 
   const userQuestions = await getUserQuestions(lang);
 
-  // Получаем переведенные FAQ данные
   const translatedFaqData = getFaqData(t);
 
   const categories = [

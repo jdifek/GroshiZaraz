@@ -27,8 +27,9 @@ export default class NewsService {
     await $api.delete(`/api/news/${id}`);
   }
 
-  static async getAllNews(): Promise<News[]> {
-    const res = await $api.get<News[]>("/api/news");
+  static async getAllNews(limit?: number): Promise<News[]> {
+    const query = limit ? `?limit=${limit}` : "";
+    const res = await $api.get<News[]>(`/api/news/${query}`);
     return res.data;
   }
 

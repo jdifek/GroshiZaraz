@@ -5,6 +5,75 @@ import ConverterService from "@/app/services/converter/converterService";
 import { getTranslations } from "next-intl/server";
 import { CurrencyConverter } from "@/app/components/CurrencyExchange/CurrencyConverter";
 import { FetchExchangeRates } from "@/app/components/CurrencyExchange/FetchExchangeRates";
+import { Metadata } from "next";
+
+interface Props {
+  params: Promise<{ lang: string }>;
+}
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { lang } = await params;
+
+  let messages;
+  try {
+    messages = (await import(`@/app/messages/${lang}.json`)).CurrencyExchangePage;
+  } catch (err) {
+    console.error(
+      `Messages for lang "${lang}" not found. Falling back to 'uk'`,
+      err
+    );
+    messages = (await import(`@/app/messages/uk.json`)).CurrencyExchangePage;
+  }
+
+  const title =
+    messages?.meta?.title || "Курсы валют в Украине 2025 – USD, EUR, GBP и конвертер";
+  const description =
+    messages?.meta?.description ||
+    "Актуальные курсы валют в Украине на сегодня. Быстрый конвертер валют для USD, EUR, GBP и других валют. Динамика курсов и популярные направления.";
+  const keywords =
+    messages?.meta?.keywords ||
+    "курс валют, конвертер валют, UAH, USD, EUR, GBP, динамика курсов, популярные направления";
+
+  const ogImage = `https://groshi-zaraz.vercel.app/og-currency-exchange.jpg`; 
+
+  return {
+    title,
+    description,
+    keywords,
+    robots: "index, follow",
+    openGraph: {
+      title,
+      description,
+      url: `https://groshi-zaraz.vercel.app/${lang}/currency-exchange`,
+      siteName: "Groshi-Zaraz",
+      type: "website",
+      locale: lang === "uk" ? "uk_UA" : "ru_UA",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      site: "@finoglyad",
+      creator: "@finoglyad",
+      images: [ogImage],
+    },
+    alternates: {
+      canonical: `https://groshi-zaraz.vercel.app/${lang}/currency-exchange`,
+      languages: {
+        "uk-UA": `https://groshi-zaraz.vercel.app/uk/currency-exchange`,
+        "ru-UA": `https://groshi-zaraz.vercel.app/ru/currency-exchange`,
+        "x-default": `https://groshi-zaraz.vercel.app/currency-exchange`,
+      },
+    },
+  };
+}
 
 // Интерфейсы
 interface Currency {
@@ -188,7 +257,7 @@ export default async function CurrencyExchangePage({
         </div>
       </div>
 
-      <RateNbu />
+      <RateNbu lang={lang}/>
 
       {/* Additional Information: Popular Directions & Dynamics */}
       <div className="grid md:grid-cols-2 gap-8">

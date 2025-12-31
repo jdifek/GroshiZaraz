@@ -8,6 +8,7 @@ import SiteQuestionService from "@/app/services/siteQuestion/SiteQuestionService
 interface UserQuestion {
   id: number;
   question: string | undefined;
+  slug: string;
   author: string;
   date: string;
   category: string;
@@ -105,8 +106,8 @@ export function AskQuestionClient({
     );
   };
 
-  const handleQuestionClick = (id: number) => {
-    router.push(`/${lang}/ask-question/${id}`);
+  const handleQuestionClick = (slug: string) => {
+    router.push(`/${lang}/ask-question/${slug}`);
   };
 
   return (
@@ -205,7 +206,7 @@ export function AskQuestionClient({
                       </div>
 
                       <button
-                        onClick={() => handleQuestionClick(question.id)}
+                        onClick={() => handleQuestionClick(question.slug)}
                         className="bg-gradient-to-r cursor-pointer from-blue-500 to-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-lg transition-all duration-300 hover:scale-105"
                       >
                         {t("buttons.answers")}

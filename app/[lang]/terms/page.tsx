@@ -1,262 +1,314 @@
-/* eslint-disable react/no-unescaped-entities */
-export default function TermsPage() {
+import { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+
+  const isUa = lang === "uk";
+
+  const title = isUa
+    ? "Умови користування сервісом — Фіногляд"
+    : "Условия использования сервиса — Финогляд";
+
+  const description = isUa
+    ? "Ознайомтесь з умовами користування сервісом Фіногляд: правила, обовʼязки користувачів та обмеження відповідальності."
+    : "Ознакомьтесь с условиями использования сервиса Финогляд: правила, обязанности пользователей и ограничения ответственности.";
+
+  const url = isUa
+    ? "https://groshi-zaraz.vercel.app/uk/terms"
+    : "https://groshi-zaraz.vercel.app/ru/terms";
+
+  const defaultImage =
+    "https://groshi-zaraz.vercel.app/default-og-image.jpg";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Фіногляд",
+      locale: isUa ? "uk_UA" : "ru_RU",
+      type: "article",
+      images: [
+        {
+          url: defaultImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [defaultImage],
+      site: "@Finoglyad",
+      creator: "@Finoglyad",
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
+export default async function TermsPage({
+  params,
+}: {
+  params: Promise<{ lang: string; slug: string }>;
+}) {
+  const { lang } = await params;
+  const t = await getTranslations({ locale: lang, namespace: "TermsPage" });
+
   return (
     <div className="space-y-8">
       <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-100">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">
-          Условия использования
-        </h1>
-        <p className="text-gray-600 mb-6">
-          Последнее обновление: 11 июля 2025 года
-        </p>
+        <h1 className="text-3xl font-bold text-gray-800 mb-6">{t("title")}</h1>
+        <p className="text-gray-600 mb-6">{t("lastUpdate")}</p>
 
         <div className="space-y-6">
+          {/* Section 1 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              1. Общие положения
+              {t("section1.title")}
             </h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Настоящие Условия использования (далее - "Условия") регулируют
-              порядок использования агрегатора финансовых услуг Фіногляд (далее
-              - "Сервис"). Использование Сервиса означает полное согласие с
-              данными Условиями.
+              {t("section1.paragraph1")}
             </p>
             <p className="text-gray-600 leading-relaxed">
-              Если вы не согласны с какими-либо положениями данных Условий,
-              пожалуйста, не используйте наш Сервис.
+              {t("section1.paragraph2")}
             </p>
           </section>
 
+          {/* Section 2 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              2. Описание сервиса
+              {t("section2.title")}
             </h2>
             <div className="bg-blue-50 rounded-xl p-6">
               <h3 className="font-semibold text-gray-800 mb-3">
-                Фіногляд предоставляет:
+                {t("section2.subtitle")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                <li>
-                  • Агрегацию предложений кредитов и займов от различных
-                  финансовых учреждений
-                </li>
-                <li>• Сравнение условий кредитования</li>
-                <li>• Подачу заявок на кредиты через единую платформу</li>
-                <li>• Консультации по финансовым продуктам</li>
-                <li>• Информационные материалы о финансовых услугах</li>
+                <li>• {t("section2.item1")}</li>
+                <li>• {t("section2.item2")}</li>
+                <li>• {t("section2.item3")}</li>
+                <li>• {t("section2.item4")}</li>
+                <li>• {t("section2.item5")}</li>
               </ul>
             </div>
           </section>
 
+          {/* Section 3 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              3. Регистрация и учетная запись
+              {t("section3.title")}
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="bg-white border-2 border-green-100 rounded-xl p-6">
                 <h3 className="font-semibold text-gray-800 mb-3">
-                  Требования к пользователю:
+                  {t("section3.userRequirements.title")}
                 </h3>
                 <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>• Достижение совершеннолетия (18 лет)</li>
-                  <li>• Гражданство или постоянное проживание в Украине</li>
-                  <li>• Предоставление достоверной информации</li>
-                  <li>• Согласие с условиями использования</li>
+                  <li>• {t("section3.userRequirements.item1")}</li>
+                  <li>• {t("section3.userRequirements.item2")}</li>
+                  <li>• {t("section3.userRequirements.item3")}</li>
+                  <li>• {t("section3.userRequirements.item4")}</li>
                 </ul>
               </div>
               <div className="bg-white border-2 border-orange-100 rounded-xl p-6">
                 <h3 className="font-semibold text-gray-800 mb-3">
-                  Ответственность пользователя:
+                  {t("section3.userResponsibility.title")}
                 </h3>
                 <ul className="space-y-2 text-gray-600 text-sm">
-                  <li>• Сохранение конфиденциальности данных доступа</li>
-                  <li>• Своевременное обновление личной информации</li>
-                  <li>• Уведомление о компрометации аккаунта</li>
-                  <li>• Соблюдение правил использования</li>
+                  <li>• {t("section3.userResponsibility.item1")}</li>
+                  <li>• {t("section3.userResponsibility.item2")}</li>
+                  <li>• {t("section3.userResponsibility.item3")}</li>
+                  <li>• {t("section3.userResponsibility.item4")}</li>
                 </ul>
               </div>
             </div>
           </section>
 
+          {/* Section 4 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              4. Правила использования
+              {t("section4.title")}
             </h2>
             <div className="bg-red-50 rounded-xl p-6">
-              <h3 className="font-semibold text-gray-800 mb-3">Запрещается:</h3>
+              <h3 className="font-semibold text-gray-800 mb-3">
+                {t("section4.subtitle")}
+              </h3>
               <ul className="space-y-2 text-gray-600">
-                <li>• Предоставление заведомо ложной информации</li>
-                <li>
-                  • Использование автоматизированных систем для массовых заявок
-                </li>
-                <li>• Попытки несанкционированного доступа к системе</li>
-                <li>• Нарушение работы сервиса или его компонентов</li>
-                <li>• Использование сервиса для незаконных целей</li>
-                <li>• Передача учетных данных третьим лицам</li>
+                <li>• {t("section4.item1")}</li>
+                <li>• {t("section4.item2")}</li>
+                <li>• {t("section4.item3")}</li>
+                <li>• {t("section4.item4")}</li>
+                <li>• {t("section4.item5")}</li>
+                <li>• {t("section4.item6")}</li>
               </ul>
             </div>
           </section>
 
+          {/* Section 5 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              5. Финансовые услуги и партнеры
+              {t("section5.title")}
             </h2>
             <div className="bg-yellow-50 rounded-xl p-6">
               <div className="mb-4">
                 <h3 className="font-semibold text-gray-800 mb-3">
-                  Важно понимать:
+                  {t("section5.subtitle")}
                 </h3>
                 <ul className="space-y-2 text-gray-600">
-                  <li>• Фіногляд является агрегатором, не кредитором</li>
-                  <li>
-                    • Окончательные решения по заявкам принимают банки и МФО
-                  </li>
-                  <li>• Мы не гарантируем одобрение кредитных заявок</li>
-                  <li>• Условия кредитования могут изменяться партнерами</li>
+                  <li>• {t("section5.item1")}</li>
+                  <li>• {t("section5.item2")}</li>
+                  <li>• {t("section5.item3")}</li>
+                  <li>• {t("section5.item4")}</li>
                 </ul>
               </div>
-              <p className="text-gray-600 text-sm">
-                Договоры на получение кредитов заключаются напрямую с
-                финансовыми учреждениями.
-              </p>
+              <p className="text-gray-600 text-sm">{t("section5.footer")}</p>
             </div>
           </section>
 
+          {/* Section 6 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              6. Интеллектуальная собственность
+              {t("section6.title")}
             </h2>
             <div className="bg-purple-50 rounded-xl p-6">
-              <p className="text-gray-600 mb-4">
-                Все материалы сайта (тексты, изображения, логотипы, программное
-                обеспечение) являются интеллектуальной собственностью Фіногляд
-                или используются по лицензии.
-              </p>
+              <p className="text-gray-600 mb-4">{t("section6.intro")}</p>
               <h3 className="font-semibold text-gray-800 mb-3">
-                Пользователям разрешается:
+                {t("section6.allowed.title")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                <li>• Просматривать и использовать сайт для личных целей</li>
-                <li>• Делиться ссылками на материалы сайта</li>
+                <li>• {t("section6.allowed.item1")}</li>
+                <li>• {t("section6.allowed.item2")}</li>
               </ul>
               <h3 className="font-semibold text-gray-800 mb-3 mt-4">
-                Запрещается:
+                {t("section6.prohibited.title")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                <li>• Копирование, модификация или распространение контента</li>
-                <li>• Использование торговых марок без разрешения</li>
-                <li>• Создание производных работ</li>
+                <li>• {t("section6.prohibited.item1")}</li>
+                <li>• {t("section6.prohibited.item2")}</li>
+                <li>• {t("section6.prohibited.item3")}</li>
               </ul>
             </div>
           </section>
 
+          {/* Section 7 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              7. Ограничение ответственности
+              {t("section7.title")}
             </h2>
             <div className="bg-gray-50 rounded-xl p-6">
               <h3 className="font-semibold text-gray-800 mb-3">
-                Фіногляд не несет ответственности за:
+                {t("section7.subtitle")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                <li>• Действия или бездействие партнеров-кредиторов</li>
-                <li>• Изменение условий кредитования партнерами</li>
-                <li>• Технические сбои, не зависящие от нас</li>
-                <li>• Ущерб от неправомерного использования аккаунта</li>
-                <li>• Последствия предоставления недостоверной информации</li>
+                <li>• {t("section7.item1")}</li>
+                <li>• {t("section7.item2")}</li>
+                <li>• {t("section7.item3")}</li>
+                <li>• {t("section7.item4")}</li>
+                <li>• {t("section7.item5")}</li>
               </ul>
               <p className="text-gray-600 mt-4 text-sm">
-                Сервис предоставляется "как есть" без каких-либо гарантий.
+                {t("section7.footer")}
               </p>
             </div>
           </section>
 
+          {/* Section 8 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              8. Стоимость услуг
+              {t("section8.title")}
             </h2>
             <div className="bg-green-50 rounded-xl p-6">
               <h3 className="font-semibold text-gray-800 mb-3">
-                Бесплатные услуги:
+                {t("section8.subtitle")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                <li>• Регистрация и использование основных функций</li>
-                <li>• Сравнение предложений кредиторов</li>
-                <li>• Подача заявок через платформу</li>
-                <li>• Консультации по базовым вопросам</li>
+                <li>• {t("section8.item1")}</li>
+                <li>• {t("section8.item2")}</li>
+                <li>• {t("section8.item3")}</li>
+                <li>• {t("section8.item4")}</li>
               </ul>
               <p className="text-gray-600 mt-4 text-sm">
-                Мы получаем комиссию от партнеров за успешно оформленные
-                кредиты, что не влияет на стоимость кредита для пользователя.
+                {t("section8.footer")}
               </p>
             </div>
           </section>
 
+          {/* Section 9 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              9. Изменения условий
+              {t("section9.title")}
             </h2>
             <div className="bg-blue-50 rounded-xl p-6">
-              <p className="text-gray-600 mb-4">
-                Мы оставляем за собой право изменять данные Условия
-                использования. О существенных изменениях мы уведомим:
-              </p>
+              <p className="text-gray-600 mb-4">{t("section9.intro")}</p>
               <ul className="space-y-2 text-gray-600">
-                <li>• Размещением уведомления на сайте</li>
-                <li>• Отправкой email-уведомления</li>
-                <li>• Push-уведомлениями в мобильном приложении</li>
+                <li>• {t("section9.item1")}</li>
+                <li>• {t("section9.item2")}</li>
+                <li>• {t("section9.item3")}</li>
               </ul>
               <p className="text-gray-600 mt-4 text-sm">
-                Продолжение использования сервиса после изменений означает
-                согласие с новыми условиями.
+                {t("section9.footer")}
               </p>
             </div>
           </section>
 
+          {/* Section 10 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              10. Прекращение использования
+              {t("section10.title")}
             </h2>
             <div className="bg-orange-50 rounded-xl p-6">
               <h3 className="font-semibold text-gray-800 mb-3">
-                Пользователь может:
+                {t("section10.userCan.title")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                <li>• Прекратить использование сервиса в любое время</li>
-                <li>• Удалить свою учетную запись</li>
-                <li>• Запросить удаление персональных данных</li>
+                <li>• {t("section10.userCan.item1")}</li>
+                <li>• {t("section10.userCan.item2")}</li>
+                <li>• {t("section10.userCan.item3")}</li>
               </ul>
               <h3 className="font-semibold text-gray-800 mb-3 mt-4">
-                Мы можем прекратить предоставление услуг:
+                {t("section10.weCan.title")}
               </h3>
               <ul className="space-y-2 text-gray-600">
-                <li>• При нарушении условий использования</li>
-                <li>• При подозрении в мошеннических действиях</li>
-                <li>• По техническим причинам</li>
+                <li>• {t("section10.weCan.item1")}</li>
+                <li>• {t("section10.weCan.item2")}</li>
+                <li>• {t("section10.weCan.item3")}</li>
               </ul>
             </div>
           </section>
 
+          {/* Section 11 */}
           <section>
             <h2 className="text-xl font-bold text-gray-800 mb-4">
-              11. Контактная информация
+              {t("section11.title")}
             </h2>
             <div className="bg-blue-50 rounded-xl p-6">
-              <p className="text-gray-600 mb-4">
-                По вопросам условий использования обращайтесь:
-              </p>
+              <p className="text-gray-600 mb-4">{t("section11.intro")}</p>
               <div className="space-y-2 text-gray-600">
                 <p>
-                  <strong>Email:</strong> support@Фіногляд.ua
+                  <strong>{t("section11.email")}:</strong> support@Фіногляд.ua
                 </p>
                 <p>
-                  <strong>Телефон:</strong> +38 (044) 555-77-99
+                  <strong>{t("section11.phone")}:</strong> +38 (044) 555-77-99
                 </p>
                 <p>
-                  <strong>Онлайн-чат:</strong> Доступен 24/7 на сайте
+                  <strong>{t("section11.chat")}:</strong>{" "}
+                  {t("section11.chatValue")}
                 </p>
                 <p>
-                  <strong>Адрес:</strong> 01001, г. Киев, ул. Крещатик, 10
+                  <strong>{t("section11.address")}:</strong>{" "}
+                  {t("section11.addressValue")}
                 </p>
               </div>
             </div>

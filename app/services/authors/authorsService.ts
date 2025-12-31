@@ -9,4 +9,7 @@ export default class AuthorService {
   }): Promise<Author> {
     return (await $api.get<Author>(`/api/authors/slug/${authorSlug}`)).data;
   }
+  static async getAllAuthorsStatic(): Promise<Author[]> {
+    return (await $api.get<Author[]>(`/api/authors/static`)).data;
+  }
 }

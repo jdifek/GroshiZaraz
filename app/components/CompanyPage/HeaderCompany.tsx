@@ -49,9 +49,9 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
             </div>
 
             <div>
-              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              <h2 className="text-3xl font-bold text-gray-800 mb-2">
                 {companyInfo.name}
-              </h1>
+              </h2>
               <div className="flex items-center gap-2 mb-2">
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (

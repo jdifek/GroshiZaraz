@@ -1,6 +1,7 @@
 export interface Expert {
   id: number;
   name: string;
+  nameUk: string;
   avatar?: string;
   position: string;
   experience: string;

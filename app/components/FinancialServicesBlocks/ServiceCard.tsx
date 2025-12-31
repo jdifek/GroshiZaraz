@@ -14,7 +14,7 @@ interface ServiceCardProps {
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
   return (
     <div
-      className={`group transform transition-all duration-300 hover:scale-105 ${
+      className={`group cursor-pointer transform transition-all duration-300 hover:scale-105 ${
         index < 4 ? "animate-fade-in" : ""
       }`}
       style={{ animationDelay: `${index * 0.1}s` }}

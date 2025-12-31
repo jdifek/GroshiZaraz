@@ -3,17 +3,22 @@ import { Search } from "lucide-react";
 import Link from "next/link";
 import { MobileNavigation } from "./Header/MobileNavigation";
 import { DesktopNavigation } from "./Header/DesktopNavigation";
-import { navigationItems } from "../data/navigationItems";
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+import { getNavigationItems } from "../data/navigationItems";
 
-export const Header: React.FC = () => {
+export const Header = async ({ lang }: { lang: string }) => {
+  const t = await getTranslations({ locale: lang });
+
+  const navigationItems = getNavigationItems(t);
+
   return (
     <header className="bg-white w-full shadow-sm border-b border-gray-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <Image src={'/logoNew.svg'} alt="Логотип" width={35} height={35}/>
+            <Image src={"/logoNew.svg"} alt="Логотип" width={35} height={35} />
 
             <span className="text-xl font-bold tracking-tight text-[#1A4D8F] hover:text-[#00AEEF] transition-colors">
               Фіногляд<span className="text-[#00AEEF]">.ua</span>

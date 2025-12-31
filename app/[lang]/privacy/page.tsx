@@ -5,27 +5,70 @@ export const dynamic = "force-dynamic";
 type PrivacyPageProps = {
   params: Promise<{ lang: string }>;
 };
-
-// Генерация метаданных
 export async function generateMetadata({
   params,
-}: PrivacyPageProps): Promise<Metadata> {
+}: {
+  params: Promise<{ lang: string }>;
+}): Promise<Metadata> {
   const { lang } = await params;
   const t = await getTranslations({ locale: lang, namespace: "PrivacyPage" });
 
+  const baseUrl = "https://groshi-zaraz.vercel.app";
+  const currentUrl = `${baseUrl}/${lang}/privacy`;
+
+  const title = t("meta.title");
+  const description = t("meta.description");
+  const keywords = t("meta.keywords");
+
+  const defaultImage = `${baseUrl}/default-og-image.jpg`; // здесь можешь заменить на своё изображение
+
   return {
-    title: t("title"),
-    description: t("description"),
+    title,
+    description,
+    keywords,
+
+    robots: {
+      index: true,
+      follow: true,
+    },
+
     openGraph: {
-      title: t("title"),
-      description: t("description"),
-      url: `https://groshi-zaraz.vercel.app/${lang}/privacy`,
+      title,
+      description,
+      url: currentUrl,
+      type: "article",
       siteName: "Фіногляд",
-      locale: lang === "uk" ? "uk_UA" : "ru_RU",
-      type: "website",
+      locale: lang === "uk" ? "uk_UA" : "ru_UA",
+      images: [
+        {
+          url: defaultImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [defaultImage],
+      site: "@finoglyad",
+      creator: "@finoglyad",
+    },
+
+    alternates: {
+      canonical: currentUrl,
+      languages: {
+        "uk-UA": `${baseUrl}/uk/privacy`,
+        "ru-UA": `${baseUrl}/ru/privacy`,
+        "x-default": `${baseUrl}/privacy`,
+      },
     },
   };
 }
+
 
 export default async function PrivacyPage({ params }: PrivacyPageProps) {
   const { lang } = await params;

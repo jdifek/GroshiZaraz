@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://groshi-zaraz.vercel.app/
+Host: http://localhost:5000/
 
 # Sitemaps
-Sitemap: https://groshi-zaraz.vercel.app/sitemap.xml
+Sitemap: http://localhost:5000/sitemap.xml

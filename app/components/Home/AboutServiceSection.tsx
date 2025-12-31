@@ -100,7 +100,7 @@ const AboutServiceSection = async ({ lang }: { lang: string }) => {
               </div>
 
               <div className="mt-8 text-sm text-gray-600 leading-relaxed">
-                <p><strong>SEO контент.</strong> {t("seoOutro")}</p>
+                <p>{t("seoOutro")}</p>
               </div>
             </div>
           </div>

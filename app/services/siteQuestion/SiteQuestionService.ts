@@ -2,26 +2,49 @@ import $api from "../http";
 import { CreateSiteQuestionPayload, SiteQuestion } from "./SiteQuestionTypes";
 
 export default class SiteQuestionService {
-  static async getAllQuestions(params?: { onlyModerated?: boolean; sortByModerated?: boolean }): Promise<SiteQuestion[]> {
+  static async getAllQuestions(params?: {
+    onlyModerated?: boolean;
+    sortByModerated?: boolean;
+  }): Promise<SiteQuestion[]> {
     const query = new URLSearchParams();
 
     if (params?.onlyModerated) query.append("onlyModerated", "true");
     if (params?.sortByModerated) query.append("sortByModerated", "true");
 
-    const url = `/api/site-questions${query.toString() ? "?" + query.toString() : ""}`;
+    const url = `/api/site-questions${
+      query.toString() ? "?" + query.toString() : ""
+    }`;
     return (await $api.get<SiteQuestion[]>(url)).data;
   }
 
   static async getOne(id: number): Promise<SiteQuestion> {
     return (await $api.get<SiteQuestion>(`/api/site-questions/${id}`)).data;
   }
+  static async getOneBySlug(slug: string): Promise<SiteQuestion> {
+    return (await $api.get<SiteQuestion>(`/api/site-questions/by-slug/${slug}`))
+      .data;
+  }
+  static async getByCategory(
+    caregory: string,
+    limit = 10
+  ): Promise<SiteQuestion[]> {
+    return (
+      await $api.get<SiteQuestion[]>(`/api/site-questions/by-category/${caregory}?limit=${limit}`)
+    ).data;
+  }
 
-  static async create(payload: CreateSiteQuestionPayload): Promise<SiteQuestion> {
+  static async create(
+    payload: CreateSiteQuestionPayload
+  ): Promise<SiteQuestion> {
     return (await $api.post<SiteQuestion>("/api/site-questions", payload)).data;
   }
 
-  static async update(id: number, payload: Partial<CreateSiteQuestionPayload>): Promise<SiteQuestion> {
-    return (await $api.put<SiteQuestion>(`/api/site-questions/${id}`, payload)).data;
+  static async update(
+    id: number,
+    payload: Partial<CreateSiteQuestionPayload>
+  ): Promise<SiteQuestion> {
+    return (await $api.put<SiteQuestion>(`/api/site-questions/${id}`, payload))
+      .data;
   }
 
   static async remove(id: number): Promise<void> {

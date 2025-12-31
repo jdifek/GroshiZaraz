@@ -29,6 +29,7 @@ interface Props {
       amount: string;
       term: string;
       perDay: string;
+      termUnit: string;
       approval: string;
       rate: string;
     };
@@ -67,11 +68,11 @@ export function MFOsPageClient({
   const [sortBy, setSortBy] = useState<string>(initialSort);
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState<boolean>(false);
   const [visibleCount, setVisibleCount] = useState<number>(9);
-  const [selectedOffer, setSelectedOffer] = useState<Mfo | null>(null);
+  // const [selectedOffer, setSelectedOffer] = useState<Mfo | null>(null);
   const [selectedMFO, setSelectedMFO] = useState<Mfo | null>(null);
   const [isDetailsPopupOpen, setIsDetailsPopupOpen] = useState(false);
 
-  const closeModal = () => setSelectedOffer(null);
+  // const closeModal = () => setSelectedOffer(null);
 
   const handleSortChange = (newSort: string) => {
     setSortBy(newSort);
@@ -190,7 +191,7 @@ export function MFOsPageClient({
                     {t.keyInfo.term}
                   </div>
                   <div className="font-semibold text-gray-800 text-sm">
-                    до {offer.maxTerm} дней
+                    до {offer.maxTerm} {t.keyInfo.termUnit}
                   </div>
                 </div>
               </div>
@@ -273,69 +274,7 @@ export function MFOsPageClient({
         </div>
       )}
 
-      {/* Modals */}
-      {selectedOffer && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold text-gray-800">
-                {t.modal.title}
-              </h3>
-              <button
-                onClick={closeModal}
-                className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors text-lg"
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="text-center mb-6">
-              <div className="w-16 h-16 bg-gradient-to-br rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
-                {selectedOffer.logo}
-              </div>
-              <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                {selectedOffer.name}
-              </h4>
-              <div className="bg-gray-50 rounded-2xl p-4">
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <div className="text-gray-500">{t.keyInfo.amount}</div>
-                    <div className="font-semibold text-gray-800">
-                      {selectedOffer.minAmount} - {selectedOffer.maxAmount} ₴
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-gray-500">{t.keyInfo.term}</div>
-                    <div className="font-semibold text-gray-800">
-                      to be soon
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-gray-500">{t.keyInfo.rate}</div>
-                    <div className="font-semibold text-green-600">
-                      to be soon
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-gray-500">{t.footer.time}</div>
-                    <div className="font-semibold text-gray-800">
-                      to be soon
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4 text-center">
-              <BlueButton text={t.buttons.apply} />
-              <p className="text-xs text-gray-500 mt-2">
-                {t.modal.redirectNotice}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-
+     
       {selectedMFO && (
         <MFODetailsPopup
           mfo={selectedMFO}

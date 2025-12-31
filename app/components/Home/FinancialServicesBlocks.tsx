@@ -59,26 +59,21 @@ const FinancialServicesBlocks = async ({ lang }: { lang: string }) => {
       icon: "🚗",
       color: "bg-gradient-to-br from-yellow-400 to-yellow-500",
     },
+
     {
       id: 9,
-      name: t("services.accounts"),
-      icon: "📋",
-      color: "bg-gradient-to-br from-blue-500 to-blue-600",
-    },
-    {
-      id: 10,
       name: t("services.osago"),
       icon: "🛡️",
       color: "bg-gradient-to-br from-yellow-400 to-yellow-500",
     },
     {
-      id: 11,
+      id: 10,
       name: t("services.kasko"),
       icon: "🚙",
       color: "bg-gradient-to-br from-blue-500 to-blue-600",
     },
     {
-      id: 12,
+      id: 11,
       name: t("services.all"),
       icon: "⋯",
       color: "bg-gradient-to-br from-gray-400 to-gray-500",

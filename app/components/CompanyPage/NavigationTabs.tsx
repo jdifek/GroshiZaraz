@@ -2,17 +2,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CreditCard, Phone, Shield, Star, Gift } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export const NavigationTabs = ({ slug }: { slug: string }) => {
+  const t = useTranslations("MFOPageTabs"); // namespace для переводов
   const pathname = usePathname();
   const cleanPathname = pathname.replace(/^\/[a-z]{2}/, "");
 
   const tabs = [
-    { id: "", label: "О займе", icon: <CreditCard className="w-4 h-4" /> },
-    { id: "reviews", label: "Отзывы", icon: <Star className="w-4 h-4" /> },
-    { id: "questions", label: "Вопросы", icon: <Shield className="w-4 h-4" /> },
-    { id: "contacts", label: "Контакты", icon: <Phone className="w-4 h-4" /> },
-    { id: "promocodes", label: "Промокоды", icon: <Gift className="w-4 h-4" /> },
+    { id: "", label: t("about"), icon: <CreditCard className="w-4 h-4" /> },
+    { id: "reviews", label: t("reviews"), icon: <Star className="w-4 h-4" /> },
+    { id: "questions", label: t("questions"), icon: <Shield className="w-4 h-4" /> },
+    { id: "contacts", label: t("contacts"), icon: <Phone className="w-4 h-4" /> },
+    { id: "promocodes", label: t("promocodes"), icon: <Gift className="w-4 h-4" /> },
   ];
 
   return (

@@ -6,12 +6,60 @@ import NewsService from "@/app/services/news/newsService";
 import { News } from "@/app/services/news/newsTypes";
 import Image from "next/image";
 import CopyLinkButton from "@/app/components/News/CopyLinkButton";
+import { formatDate } from "@/app/utils/formatDate";
+import { formatViews } from "@/app/utils/formatViews";
+import { getTranslations } from "next-intl/server";
+import { Metadata } from "next";
 
 interface ArticleDetailPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; lang: string }>;
+}
+export async function generateMetadata({
+  params,
+}: ArticleDetailPageProps): Promise<Metadata> {
+  const { lang, slug } = (await params) || "uk";
+  const t = await getTranslations({
+    locale: lang,
+    namespace: "ArticleDetailPage",
+  });
+
+  let article;
+  try {
+    article = await NewsService.getNewsBySlug(slug);
+  } catch {
+    article = null;
+  }
+
+  if (!article) {
+    return {
+      title: t("meta.title"),
+      description: t("meta.description"),
+      keywords: t("meta.keywords"),
+      robots: "noindex, nofollow",
+    };
+  }
+
+  const title = lang === "ru" ? article.title : article.titleUk;
+  const descriptionSnippet = (lang === "ru" ? article.body : article.bodyUk)
+    .replace(/<[^>]*>/g, "")
+    .substring(0, 160);
+
+  return {
+    title: `${title}`,
+    description: descriptionSnippet || t("meta.description"),
+    keywords: t("meta.keywords"),
+    robots: "index, follow",
+    alternates: {
+      canonical: `https://finoglyad.ua/${lang}/journal/article/${slug}`,
+      languages: {
+        "uk-UA": `https://finoglyad.ua/uk/journal/article/${slug}`,
+        "ru-UA": `https://finoglyad.ua/ru/journal/article/${slug}`,
+        "x-default": `https://finoglyad.ua/journal/article/${slug}`,
+      },
+    },
+  };
 }
 
-// Функция для получения похожих статей (можно добавить в NewsService)
 async function getRelatedArticles(): Promise<News[]> {
   try {
     const allNews = await NewsService.getAllNews();
@@ -26,22 +74,19 @@ async function getRelatedArticles(): Promise<News[]> {
 const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
   let article: News;
   const resolvedParams = await params;
-
+  const lang = resolvedParams.lang;
   try {
     article = await NewsService.getNewsBySlug(resolvedParams.slug);
   } catch (error) {
     console.error("Error fetching article:", error);
     notFound();
   }
+  const t = await getTranslations({
+    locale: lang,
+    namespace: "ArticleDetailPage",
+  });
 
   const relatedArticles = await getRelatedArticles();
-
-  const formatViews = (views: number) => {
-    if (views >= 1000) {
-      return `${(views / 1000).toFixed(1)}K`;
-    }
-    return views.toString();
-  };
 
   // Функция для создания градиента на основе ID статьи
   const getArticleColor = (id: number) => {
@@ -55,17 +100,6 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
     ];
     return colors[id % colors.length];
   };
-  
- 
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    });
-  };
 
   return (
     <div className="min-h-screen">
@@ -77,18 +111,20 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
               href="/"
               className="hover:text-blue-600 transition-colors whitespace-nowrap"
             >
-              Главная
+              {t("breadcrumbs.home")}
             </Link>
             <span className="mx-1 sm:mx-2 flex-shrink-0">-</span>
             <Link
               href="/journal"
               className="hover:text-blue-600 transition-colors whitespace-nowrap"
             >
-              Журнал Фіногляд
+              {t("breadcrumbs.journal")}
             </Link>
             <span className="mx-1 sm:mx-2 flex-shrink-0">-</span>
             <span className="truncate">
-              {article.NewsCategory?.name || "Статья"}
+              {lang === "ru"
+                ? article.NewsCategory?.name
+                : article.NewsCategory?.nameUk || t("categoryDefault")}
             </span>
           </div>
         </div>
@@ -105,25 +141,26 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
           >
             <Image
               src={article.image || "/placeholder-news.svg"}
-              alt={article.title}
+              alt={lang === "ru" ? article.title : article.titleUk}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px"
               className="object-cover relative z-0"
               priority={true} // это главное изображение страницы
             />
 
-           
             {/* Category Badge */}
             <div className="absolute top-3 sm:top-4 md:top-6 left-3 sm:left-4 md:left-6 z-10">
               <span className="bg-white text-gray-800 px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg">
-                {article.NewsCategory?.name || "Статья"}
+                {lang === "ru"
+                  ? article.NewsCategory?.name
+                  : article.NewsCategory?.nameUk || t("categoryDefault")}{" "}
               </span>
             </div>
 
             {/* Date */}
             <div className="absolute top-3 sm:top-4 md:top-6 right-3 sm:right-4 md:right-6">
               <span className="bg-white/20 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full text-xs sm:text-sm font-medium text-white border border-white/20">
-                {formatDate(article.createdAt)}
+                {formatDate(article.createdAt, resolvedParams.lang)}
               </span>
             </div>
 
@@ -131,29 +168,38 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent p-4 sm:p-6 md:p-8">
               <div className="max-w-4xl mx-auto">
                 <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-6 leading-tight !text-white drop-shadow-lg">
-                  {article.title}
+                  {lang === "ru" ? article.title : article.titleUk}
                 </h1>
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3 md:gap-6 text-white/90">
                   <span className="flex items-center gap-1 sm:gap-2 bg-white/10 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm">
                     👤{" "}
                     <span className="hidden sm:inline">
-                      {article.author?.name || "Автор"}
+                      {lang === "ru"
+                        ? article.author?.name
+                        : article.author?.nameUk || t("authorDefault")}
                     </span>
                     <span className="sm:hidden">
-                      {article.author?.name?.split(" ")[0] || "Автор"}
+                      {lang === "ru"
+                        ? article.author?.name.split(" ")[0]
+                        : article.author?.nameUk.split(" ")[0] ||
+                          t("authorDefault")}
                     </span>
                   </span>
                   <span className="flex items-center gap-1 sm:gap-2 bg-white/10 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm">
                     👁️ {formatViews(article.views)}{" "}
-                    <span className="hidden sm:inline">просмотров</span>
+                    <span className="hidden sm:inline"> {t("viewsText")}</span>
                   </span>
                   <span className="flex items-center gap-1 sm:gap-2 bg-white/10 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm">
                     ⏱️{" "}
                     <span className="hidden sm:inline">
-                      {article.readingMinutes || 5} мин чтения
+                      {t("readingMinutes", {
+                        minutes: article.readingMinutes || 5,
+                      })}
                     </span>
                     <span className="sm:hidden">
-                      {article.readingMinutes || 5} мин
+                      {t("readingMinutesShort", {
+                        minutes: article.readingMinutes || 5,
+                      })}
                     </span>
                   </span>
                 </div>
@@ -166,7 +212,9 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
             <div className="prose prose-sm sm:prose-base md:prose-lg max-w-none">
               <div
                 className="text-gray-700 leading-relaxed [&>h1]:text-2xl [&>h1]:sm:text-3xl [&>h1]:md:text-4xl [&>h1]:font-bold [&>h1]:text-gray-800 [&>h1]:mt-8 [&>h1]:mb-6 [&>h2]:text-xl [&>h2]:sm:text-2xl [&>h2]:md:text-3xl [&>h2]:font-bold [&>h2]:text-gray-800 [&>h2]:mt-6 [&>h2]:mb-4 [&>h3]:text-lg [&>h3]:sm:text-xl [&>h3]:md:text-2xl [&>h3]:font-bold [&>h3]:text-gray-800 [&>h3]:mt-6 [&>h3]:mb-4 [&>p]:mb-4 [&>p]:text-sm [&>p]:sm:text-base [&>ul]:mb-4 [&>li]:text-sm [&>li]:sm:text-base [&>li]:mb-2 [&>ol]:mb-4"
-                dangerouslySetInnerHTML={{ __html: article.body }}
+                dangerouslySetInnerHTML={{
+                  __html: lang === "ru" ? article.body : article.bodyUk,
+                }}
               />
             </div>
 
@@ -174,7 +222,7 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
             <div className="mt-8 md:mt-12 pt-6 md:pt-8 border-t border-gray-100">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 md:gap-4">
                 <div className="text-xs sm:text-sm text-gray-500 font-medium">
-                  Поделиться статьей:
+                  {t("shareText")}
                 </div>
                 <div className="flex items-center gap-2 md:gap-3">
                   <button className="w-10 h-10 md:w-12 md:h-12 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-all duration-200 hover:scale-110 shadow-lg text-sm md:text-base">
@@ -187,7 +235,6 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
                     💬
                   </button>
                   <CopyLinkButton />
-
                 </div>
               </div>
             </div>
@@ -199,20 +246,27 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
           <div className="flex-1 bg-white rounded-xl md:rounded-2xl shadow-md p-4 sm:p-6 md:p-8 border border-gray-100 hover:shadow-lg transition-shadow">
             <div className="flex items-start gap-3 sm:gap-4 md:gap-6">
               <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-lg sm:text-2xl md:text-3xl font-bold shadow-lg flex-shrink-0">
-                {article.author?.name?.charAt(0) || "А"}
+                {lang === "ru"
+                  ? article.author?.name?.charAt(0)
+                  : article.author?.nameUk?.charAt(0) || "А"}
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-3">
-                  {article.author?.name || "Автор"}
+                  {lang === "ru"
+                    ? article.author?.name
+                    : article.author?.nameUk || t("authorDefault")}
                 </h3>
                 <p className="text-gray-600 mb-3 md:mb-4 leading-relaxed text-sm sm:text-base">
-                  {article.author?.bio ||
-                    "Опытный автор, специализирующийся на финансовой тематике."}
+                  {lang === "ru"
+                    ? article.author?.bio
+                    : article.author?.bioUk || t("authorBioDefault")}
                 </p>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                   <div className="bg-blue-50 px-3 md:px-4 py-1.5 md:py-2 rounded-full">
                     <span className="text-xs sm:text-sm font-medium text-blue-600">
-                      {article.author?.position}
+                      {lang === "ru"
+                        ? article.author?.position
+                        : article.author?.positionUk}
                     </span>
                   </div>
                   <div className="bg-green-50 px-3 md:px-4 py-1.5 md:py-2 rounded-full">
@@ -228,18 +282,18 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
           {/* Quick Actions */}
           <div className="lg:w-80 bg-white rounded-xl md:rounded-2xl shadow-md p-4 sm:p-6 md:p-8 border border-gray-100">
             <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-4 md:mb-6 relative inline-block">
-              Действия
+              {t("actionsTitle")}
               <div className="absolute -bottom-1 md:-bottom-2 left-0 w-8 md:w-12 h-0.5 md:h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
             </h3>
             <div className="space-y-3 md:space-y-4">
               <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-2.5 md:py-3 px-4 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl">
-                💾 Сохранить статью
+                {t("saveArticle")}
               </button>
               <button className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-2.5 md:py-3 px-4 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl">
-                📧 Подписаться на автора
+                {t("subscribeAuthor")}
               </button>
               <button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 text-white py-2.5 md:py-3 px-4 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:from-purple-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
-                🔔 Уведомления
+                {t("notifications")}
               </button>
             </div>
           </div>
@@ -250,11 +304,11 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
           <div className="bg-white rounded-xl md:rounded-2xl shadow-md p-4 sm:p-6 md:p-8 border border-gray-100 mb-6 md:mb-8">
             <div className="mb-6 md:mb-8">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2 md:mb-4 relative inline-block">
-                Похожие статьи
+                {t("relatedArticlesTitle")}
                 <div className="absolute -bottom-1 md:-bottom-2 left-0 w-12 md:w-16 h-0.5 md:h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
               </h2>
               <p className="text-gray-600 text-sm sm:text-base md:text-lg">
-                Другие материалы, которые могут вас заинтересовать
+                {t("relatedArticlesSubtitle")}
               </p>
             </div>
 
@@ -262,7 +316,9 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
               {relatedArticles.map((relatedArticle) => (
                 <Link
                   key={relatedArticle.id}
-                  href={`/journal/article/${relatedArticle.slug}`}
+                  href={`/journal/article/${
+                    lang === "ru" ? relatedArticle.slug : relatedArticle.slugUk
+                  }`}
                 >
                   <article className="group cursor-pointer bg-white rounded-xl md:rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200">
                     <div className="relative">
@@ -273,7 +329,11 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
                       >
                         <Image
                           src={relatedArticle.image || "/placeholder-news.svg"} // статичный placeholder
-                          alt={relatedArticle.title}
+                          alt={
+                            lang === "ru"
+                              ? relatedArticle.title
+                              : relatedArticle.titleUk
+                          }
                           fill
                           sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
                           className="object-cover z-0 group-hover:scale-105 transition-transform duration-300"
@@ -284,23 +344,35 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
 
                         <div className="absolute top-2 sm:top-3 md:top-4 left-2 sm:left-3 md:left-4 z-10">
                           <span className="bg-white select-text text-gray-800 px-2 md:px-3 py-0.5 md:py-1 rounded-full text-xs md:text-sm font-bold shadow-lg">
-                            {relatedArticle.NewsCategory?.name || "Статья"}
+                            {lang === "ru"
+                              ? relatedArticle.NewsCategory?.name
+                              : relatedArticle.NewsCategory?.nameUk ||
+                                t("categoryDefault")}
                           </span>
                         </div>
                         <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 z-10 pointer-events-auto text-white text-xs md:text-sm bg-black/20 backdrop-blur-sm px-2 md:px-3 py-0.5 md:py-1 rounded-full shadow-lg">
-    {formatDate(relatedArticle.createdAt)}
-  </div>
+                          {formatDate(
+                            relatedArticle.createdAt,
+                            resolvedParams.lang
+                          )}
+                        </div>
                       </div>
                     </div>
 
                     <div className="p-4 md:p-6">
                       <h3 className="text-base select-text md:text-xl font-bold text-gray-800 mb-2 md:mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                        {relatedArticle.title}
+                        {lang === "ru"
+                          ? relatedArticle.title
+                          : relatedArticle.titleUk}
                       </h3>
                       <p className="text-gray-600 mb-3 md:mb-4 text-xs md:text-sm leading-relaxed line-clamp-3">
-                        {relatedArticle.body
-                          .replace(/<[^>]*>/g, "")
-                          .substring(0, 120)}
+                        {lang === "ru"
+                          ? relatedArticle.body
+                              .replace(/<[^>]*>/g, "")
+                              .substring(0, 120)
+                          : relatedArticle.bodyUk
+                              .replace(/<[^>]*>/g, "")
+                              .substring(0, 120)}
                         ...
                       </p>
 
@@ -310,7 +382,10 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
                             👁️ {formatViews(relatedArticle.views)}
                           </span>
                           <span className="truncate">
-                            {relatedArticle.author?.name || "Автор"}
+                            {lang === "ru"
+                              ? relatedArticle.author?.name
+                              : relatedArticle.author?.nameUk ||
+                                t("authorDefault")}{" "}
                           </span>
                         </div>
                         <div className="w-6 h-6 md:w-8 md:h-8 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all flex-shrink-0 ml-2">
@@ -326,7 +401,7 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
             {/* Back to Journal Button */}
             <div className="text-center pt-6 md:pt-8 border-t border-gray-100">
               <Link href="/journal">
-                <BlueButton text="Вернуться к журналу" />
+                <BlueButton text={t("buttons.backToJournal")} />
               </Link>
             </div>
           </div>

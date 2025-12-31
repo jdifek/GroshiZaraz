@@ -6,7 +6,7 @@ module.exports = {
 
   additionalPaths: async () => {
     const result = [];
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const API_URL = process.env.NEXT_PUBLIC_API_URL_SITEMAP;
     const subPaths = [
       "reviews",
       "contacts",
@@ -14,7 +14,7 @@ module.exports = {
       "promocodes",
     ];
 
-    if (!API_URL || API_URL.includes('localhost')) {
+    if (!API_URL ) {
       console.log('⚠️ API недоступен – динамические пути пропускаем');
       return result;
     }

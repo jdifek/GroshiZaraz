@@ -9,6 +9,8 @@ export interface MfoSatelliteKey {
   metaTitleUk: string;
   metaTitleRu: string;
   metaDescUk: string;
+  imageUrl?: string;
+  keywords?: string;
   metaDescRu: string;
   titleUk: string;
   titleRu: string;

@@ -124,7 +124,7 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                     {t("conditions.loanTerm")}
                   </span>
                   <span className="font-semibold text-gray-800">
-                    {mfo.minTerm} - {mfo.maxTerm} дней
+                    {mfo.minTerm} - {mfo.maxTerm} {t("termUnit")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
@@ -140,7 +140,7 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                     {t("conditions.decision")}
                   </span>
                   <span className="font-semibold text-gray-800">
-                    {mfo.decisionTime} хв
+                    {mfo.decisionTime}  {t("termTime")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2">

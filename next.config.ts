@@ -10,6 +10,7 @@ const nextConfig = {
   images: {
     domains: [
       "ledhqdqnwiedolkdffie.supabase.co",
+      "img.freepik.com", 
     ],
   },
 

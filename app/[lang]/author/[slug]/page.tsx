@@ -1,17 +1,28 @@
 import { Metadata } from "next";
-import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import AuthorService from "@/app/services/authors/authorsService";
 import { authorArticles } from "@/app/data/authorArticles";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 type Props = {
   params: Promise<{ lang: string; slug: string }>;
 };
 
+export async function generateStaticParams() {
+  try {
+    const authors = await AuthorService.getAllAuthorsStatic();
+    return authors.flatMap((author) => [
+      { lang: "uk", slug: author.slug },
+      { lang: "ru", slug: author.slug },
+    ]);
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return []; 
+  }
+}
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   console.log("generateMetadata called with params:", params);
 
@@ -19,9 +30,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lang = rawLang || "uk";
   console.log("Resolved lang:", lang, "slug:", slug);
 
-  const headersList = await headers();
-  const pathname = headersList.get("x-pathname") || "/";
-  console.log("Headers pathname:", pathname);
   let messages;
   try {
     messages = (await import(`@/app/messages/${lang}.json`)).default;
@@ -46,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       };
     }
 
-    const cleanPath = pathname.replace(/^\/(uk|ru)/, "") || "/";
+    const cleanPath = `/author/${slug}`;
     console.log("Clean path:", cleanPath);
 
     const title = `${lang === "ru" ? author.name : author.nameUk} - ${
@@ -120,6 +128,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: messages.Metadata.author.notFoundTitle,
       description: messages.Metadata.author.notFoundDescription,
       keywords: messages.Metadata.author.defaultKeywords,
+      robots: "noindex, nofollow",
     };
   }
 }
