@@ -7,7 +7,7 @@ export const StructuredData = () => {
     "@type": "Organization",
     name: "Фіногляд",
     url: "https://finoglyad.com.ua/",
-    logo: "https://finoglyad.com.ua//logo.png",
+    logo: "https://finoglyad.com.ua/logo.png",
     sameAs: [
       "https://www.facebook.com/yourcompany",
       "https://www.instagram.com/yourcompany",
@@ -18,10 +18,10 @@ export const StructuredData = () => {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Фіногляд",
-    url: "https://finoglyad.com.ua/",
+    url: "https://finoglyad.com.ua",
     potentialAction: {
       "@type": "SearchAction",
-      target: "https://finoglyad.com.ua//search?q={search_term_string}",
+      target: "https://finoglyad.com.ua/search?q={search_term_string}",
       "query-input": "required name=search_term_string",
     },
   };

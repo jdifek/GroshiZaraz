@@ -30,17 +30,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       keywords,
       robots: "index, follow",
       alternates: {
-        canonical: `https://finoglyad.com.ua//${lang}/about`,
+        canonical: `https://finoglyad.com.ua/${lang}/about`,
         languages: {
-          "uk-UA": `https://finoglyad.com.ua//uk/about`,
-          "ru-UA": `https://finoglyad.com.ua//ru/about`,
-          "x-default": `https://finoglyad.com.ua//about`,
+          "uk-UA": `https://finoglyad.com.ua/uk/about`,
+          "ru-UA": `https://finoglyad.com.ua/ru/about`,
+          "x-default": `https://finoglyad.com.ua/about`,
         },
       },
       openGraph: {
         title,
         description,
-        url: `https://finoglyad.com.ua//${lang}/about`,
+        url: `https://finoglyad.com.ua/${lang}/about`,
         siteName: "Фіногляд",
         type: "website",
         locale: lang === "uk" ? "uk_UA" : "ru_UA",
