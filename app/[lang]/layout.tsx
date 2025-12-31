@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { headers } from 'next/headers';
-import Head from "next/head";
+import Script from "next/script";
 
 export async function generateMetadata({
   params,
@@ -87,33 +87,42 @@ export default async function Layout({
   }
 
   return (
-    <html lang={lang === "uk" ? "uk" : "ru"} >
-         <Head>
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HJXK299WX6"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-HJXK299WX6');
-            `,
-          }}
-        />
-      </Head>
-      <body className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
-        <Toaster position="top-right" reverseOrder={false} />
-        <NextIntlClientProvider locale={lang} messages={messages}>
-          <StructuredData />
-          <Header lang={lang} />
-          <main className="min-h-[60vh] max-w-[1280px] mx-auto px-4 md:px-8 py-8">
-            {children}
-          </main>
-          <Footer lang={lang} />
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <html lang={lang === "uk" ? "uk" : "ru"}>
+    <body className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
+  
+      {/* Google Analytics */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-HJXK299WX6"
+        strategy="afterInteractive"
+      />
+  
+      <Script
+        id="ga-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-HJXK299WX6');
+          `,
+        }}
+      />
+  
+      <Toaster position="top-right" reverseOrder={false} />
+  
+      <NextIntlClientProvider locale={lang} messages={messages}>
+        <StructuredData />
+        <Header lang={lang} />
+        <main className="min-h-[60vh] max-w-[1280px] mx-auto px-4 md:px-8 py-8">
+          {children}
+        </main>
+        <Footer lang={lang} />
+      </NextIntlClientProvider>
+  
+    </body>
+  </html>
+  
   );
 }
 
