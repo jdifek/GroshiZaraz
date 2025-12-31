@@ -1,14 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Clock, CreditCard, TrendingUp, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type StatsSectionProps = {
-  companyInfo: {
-    approval: number;
-    responseTime: string;
-    loansIssued?: string;
-    satisfiedClients?: string;
-  };
+  companyInfo: any
 };
 
 export const StatsSection = ({ companyInfo }: StatsSectionProps) => {
