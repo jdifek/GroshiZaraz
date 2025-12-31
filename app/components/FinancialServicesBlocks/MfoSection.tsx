@@ -33,7 +33,7 @@ export const MfoSection = async ({ lang }: { lang: string }) => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {mfos.slice(0, 3).map((mfo, index) => (
+  {mfos.slice(0, 6).map((mfo, index) => (
     <MfoCard lang={lang} key={mfo.id} mfo={mfo} index={index} />
   ))}
 </div>
