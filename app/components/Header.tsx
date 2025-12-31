@@ -10,7 +10,7 @@ import { getNavigationItems } from "../data/navigationItems";
 export const Header = async ({ lang }: { lang: string }) => {
   const t = await getTranslations({ locale: lang });
 
-  const navigationItems = getNavigationItems(t);
+  const navigationItems = getNavigationItems(t, lang as 'uk' | 'ru');
 
   return (
     <header className="bg-white w-full shadow-sm border-b border-gray-100 sticky top-0 z-50">
