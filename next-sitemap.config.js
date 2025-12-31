@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.BASE || 'http://localhost:3000',
+  siteUrl:  'https://finoglyad.com.ua',
   generateRobotsTxt: true,
   exclude: ['/admin/*', '/api/*'],
 
