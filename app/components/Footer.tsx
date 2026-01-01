@@ -94,7 +94,7 @@ const Footer = async ({ lang }: { lang: string }) => {
                     {t("contacts.phone")}
                   </div>
                   <span className="text-gray-700 font-medium">
-                    +380 44 123 45 67
+                    +38 (066) 304-09-67
                   </span>
                 </div>
               </li>

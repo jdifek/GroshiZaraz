@@ -104,7 +104,7 @@ const MfoDetails = async ({ params }: MfoDetailsPageProps) => {
 
     companyInfo = {
       name: response.name,
-      description: response.description,
+      description: lang === 'ru' ? response.description : response.descriptionUk,
       logo: response.logo,
       rating: response.rating,
       reviews: response.reviews,

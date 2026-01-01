@@ -28,15 +28,18 @@ export default async function CompanyLayout({
       maxAmount: response.maxAmount,
       term: response.minTerm + "-" + response.maxTerm,
       rate: response.rating,
+      reviews: response.reviews,
       approval: response.approvalRate,
       responseTime: response.decisionTime,
-      commission: "0% to be",
+      commission: response.commission,
       ageLimit: `${response.ageFrom} - ${response.ageTo}`,
       firstLoanFree: true,
       phone: response.phone,
       website: response.website,
       license: response.licenseNumber,
       UtmLink: response.UtmLink,
+      loansIssued: response.loansIssued,
+      satisfiedClients: response.satisfiedClients,
     };
   } catch (error) {
     console.error("Error loading company:", error);

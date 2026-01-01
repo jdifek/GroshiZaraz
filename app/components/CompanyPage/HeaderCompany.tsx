@@ -64,7 +64,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 <span className="font-semibold text-gray-800">
                   {companyInfo.rating}
                 </span>
-                <span className="text-gray-500">({companyInfo.reviews})</span>
+                <span className="text-gray-500">({companyInfo.reviews.length})</span>
               </div>
               <div className="text-gray-600">
                 Лицензия: {companyInfo.license}

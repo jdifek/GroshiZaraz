@@ -9,7 +9,13 @@ export const MfoSection = async ({ lang }: { lang: string }) => {
   let mfos: MfoCompany[] = [];
 
   try {
-    const response = await MfoService.getAllMfos();
+    const response = await MfoService.getAllMfos("rating", {
+      limit: 6,
+    });
+
+    console.log(response, 'response');
+    
+    
     mfos = response.map((mfo) => ({
       id: mfo.id,
       name: mfo.name,
@@ -19,6 +25,7 @@ export const MfoSection = async ({ lang }: { lang: string }) => {
       slug: mfo.slug,
       UtmLink: mfo.UtmLink,
     }));
+    console.log(mfos, 'mfos')
   } catch (error) {
     console.error("Ошибка при загрузке МФО", error);
   }
@@ -33,8 +40,8 @@ export const MfoSection = async ({ lang }: { lang: string }) => {
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {mfos.slice(0, 6).map((mfo, index) => (
-    <MfoCard lang={lang} key={mfo.id} mfo={mfo} index={index} />
+  {mfos.map((mfo, index) => (
+    <MfoCard lang={lang} key={mfo.id + index} mfo={mfo} index={index} />
   ))}
 </div>
       <div className="text-center space-x-4">

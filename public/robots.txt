@@ -1,9 +1,11 @@
 # *
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /api
 
 # Host
-Host: http://localhost:5000/
+Host: https://finoglyad.com.ua
 
 # Sitemaps
-Sitemap: http://localhost:5000/sitemap.xml
+Sitemap: https://finoglyad.com.ua/sitemap.xml

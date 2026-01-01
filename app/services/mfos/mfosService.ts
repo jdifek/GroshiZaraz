@@ -47,17 +47,33 @@ export default class MfoService {
       throw error;
     }
   }
-  static async getAllMfos(sortBy: string = "rating"): Promise<Mfo[]> {
+  static async getAllMfos(
+    sortBy: string = "rating",
+    options?: {
+      limit?: number;
+      offset?: number;
+      order?: "asc" | "desc";
+    }
+  ): Promise<Mfo[]> {
     try {
+      console.log(options?.limit, 'limit');
+      
       const response = await $api.get<Mfo[]>("/api/mfos", {
-        params: { sortBy }
+        params: {
+          sortBy,
+          limit: options?.limit ?? 20,
+          offset: options?.offset ?? 0,
+          order: options?.order ?? "desc",
+        },
       });
+  
       return response.data;
     } catch (error) {
       console.error("Ошибка при получении списка МФО:", error);
       throw error;
     }
   }
+  
   static async getRandomKeys(): Promise<RandomKey[]> {
     try {
       const response = await $api.get<RandomKey[]>('/api/mfos/all-20-random-keys');

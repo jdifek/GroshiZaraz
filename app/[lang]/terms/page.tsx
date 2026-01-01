@@ -296,10 +296,10 @@ export default async function TermsPage({
               <p className="text-gray-600 mb-4">{t("section11.intro")}</p>
               <div className="space-y-2 text-gray-600">
                 <p>
-                  <strong>{t("section11.email")}:</strong> support@Фіногляд.ua
+                  <strong>{t("section11.email")}:</strong> finoglyad@gmail.com
                 </p>
                 <p>
-                  <strong>{t("section11.phone")}:</strong> +38 (044) 555-77-99
+                  <strong>{t("section11.phone")}:</strong> +38 (066) 304-09-67
                 </p>
                 <p>
                   <strong>{t("section11.chat")}:</strong>{" "}

@@ -89,7 +89,7 @@ async function getCompanyData(slug: string) {
       rate: response.rating,
       approval: response.approvalRate,
       responseTime: response.decisionTime,
-      commission: "0% to be",
+      commission: response.commission,
       ageLimit: `${response.ageFrom}-${response.ageTo}`,
       isFirstLoanZero: response.isFirstLoanZero,
       phone: response.phone,

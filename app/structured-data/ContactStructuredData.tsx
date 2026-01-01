@@ -12,7 +12,7 @@ export const ContactStructuredData = () => {
       "@type": "ContactPoint",
       telephone: "+38 (093) 000-00-00",
       contactType: "Customer Support",
-      email: "admin@Фіногляд.com.ua",
+      email: "finoglyad@gmail.com",
       areaServed: "UA",
       availableLanguage: ["Russian", "Ukrainian"],
     },

@@ -256,7 +256,7 @@ export default async function PrivacyPage({ params }: PrivacyPageProps) {
               <div className="space-y-2 text-gray-600">
                 <p>
                   <strong>{t("sections.contact.emailLabel")}:</strong>{" "}
-                  privacy@Фіногляд.ua
+                  finoglyad@gmail.com
                 </p>
                 <p>
                   <strong>{t("sections.contact.phoneLabel")}:</strong> +38 (044)

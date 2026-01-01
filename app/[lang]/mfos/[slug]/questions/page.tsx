@@ -7,7 +7,6 @@ import {
   MessageCircle,
   User,
   Calendar,
-  CheckCircle,
   Reply,
   Clock,
   Shield,
@@ -87,69 +86,7 @@ export default async function QuestionsPage({
     console.error("Error loading questions:", error);
   }
 
-  const renderAnswer = (answer: any) => {
-    const isExpert = answer.expert !== null;
 
-    return (
-      <div
-        key={answer.id}
-        className={`mt-4 ml-8 p-4 rounded-2xl border-l-4 ${
-          isExpert
-            ? "bg-gradient-to-r from-green-50 to-emerald-50 border-l-green-500"
-            : "bg-gradient-to-r from-gray-50 to-slate-50 border-l-gray-400"
-        }`}
-      >
-        <div className="flex items-start gap-3">
-          <div
-            className={`w-8 h-8 rounded-full flex items-center justify-center ${
-              isExpert ? "" : "bg-gradient-to-br from-gray-500 to-slate-600"
-            }`}
-          >
-            {isExpert ? (
-              <img
-                src={answer.expert.avatar}
-                alt={answer.expert.name}
-                className="w-8 h-8 rounded-full object-cover border-2 border-green-500"
-              />
-            ) : (
-              <Reply className="w-4 h-4 text-white" />
-            )}
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <h5 className="font-semibold text-gray-800">
-                  {isExpert ? answer.expert.name : answer.authorName}
-                </h5>
-                {isExpert && (
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium flex items-center gap-1">
-                      <CheckCircle className="w-3 h-3" />
-                      {t("expert")}
-                    </span>
-                    {answer.expert.position && (
-                      <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">
-                        {answer.expert.position}
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Calendar className="w-3 h-3" />
-                {formatDate(answer.createdAt, lang)}
-              </div>
-            </div>
-            <p className="text-gray-700 leading-relaxed">
-              {lang === "ru"
-                ? answer.textRu || answer.textOriginal
-                : answer.textUk || answer.textOriginal}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <div>

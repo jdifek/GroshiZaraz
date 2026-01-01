@@ -161,8 +161,8 @@ export default function NotFoundPage() {
             <a href="tel:+380123456789" className="text-blue-600 hover:text-blue-800 font-medium">
               📞 +38 (012) 345-67-89
             </a>
-            <a href="mailto:support@example.com" className="text-blue-600 hover:text-blue-800 font-medium">
-              ✉️ support@example.com
+            <a href="mailto:finoglyad@gmail.com" className="text-blue-600 hover:text-blue-800 font-medium">
+              ✉️ finoglyad@gmail.com
             </a>
           </div>
         </div>

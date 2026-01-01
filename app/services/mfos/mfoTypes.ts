@@ -8,8 +8,11 @@ export interface Mfo {
   reviews: any;
   logo: string;
   licenseNumber?: string;
+  descriptionUk?: string;
   isActive: boolean;
 
+  satisfiedClients: number;
+  loansIssued: number;
   minAmount: number;
   maxAmount: number;
   minTerm: number;
