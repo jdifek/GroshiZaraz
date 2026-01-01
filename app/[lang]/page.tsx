@@ -21,13 +21,8 @@ export async function generateMetadata({
     title: t("root.title"),
     description: t("root.description"),
 
-    keywords: [
-      "займы онлайн",
-      "МФО Украина",
-      "рейтинг микрофинансовых организаций",
-      "срочные займы",
-      "деньги в долг",
-    ],
+    keywords: t("root.keywords"), 
+
 
     openGraph: {
       title: t("root.title"),
