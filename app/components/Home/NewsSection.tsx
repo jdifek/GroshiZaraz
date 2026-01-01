@@ -50,7 +50,7 @@ const NewsSection = async ({ lang }: { lang: string }) => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {news.map((article, index) => (
+          {news.slice(0, 4).map((article, index) => (
             <Link key={article.id} href={"/journal/article/" + article.slug}>
               <article
                 className="bg-white rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer border-2 border-transparent hover:border-blue-500"
@@ -80,9 +80,10 @@ const NewsSection = async ({ lang }: { lang: string }) => {
                   <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
                     {article.title}
                   </h3>
-                  <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-                    {article.excerpt}
-                  </p>
+                  <p
+  className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
+  dangerouslySetInnerHTML={{ __html: article.excerpt }}
+/>
 
                   <div className="flex items-center justify-between text-sm text-gray-500">
                     <div className="flex items-center gap-4">

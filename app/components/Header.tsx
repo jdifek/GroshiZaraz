@@ -29,7 +29,7 @@ export const Header = async ({ lang }: { lang: string }) => {
           <DesktopNavigation navigationItems={navigationItems} />
 
           {/* Search and Mobile Menu */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center ">
             <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
               <Search size={20} className="text-gray-600" />
             </button>

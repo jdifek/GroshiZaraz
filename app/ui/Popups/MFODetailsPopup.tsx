@@ -140,7 +140,7 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                     {t("conditions.decision")}
                   </span>
                   <span className="font-semibold text-gray-800">
-                    {mfo.decisionTime}  {t("termTime")}
+                    {mfo.decisionTime} {t("termTime")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2">
@@ -148,7 +148,7 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                     {t("conditions.collateral")}
                   </span>
                   <span className="font-semibold text-gray-800">
-                  {mfo.collateral}
+                    {mfo.collateral}
                   </span>
                 </div>
               </div>
@@ -184,7 +184,7 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">{t("rates.commission")}</span>
                   <span className="font-semibold text-gray-800">
-                   {mfo.commission}%
+                    {mfo.commission}%
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
@@ -234,58 +234,75 @@ const MFODetailsPopup: React.FC<MFODetailsPopupProps> = ({
               </div>
 
               <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-  <h4 className="font-semibold text-green-800 mb-2 text-sm">
-    {t("requirements.advantages")}
-  </h4>
-  <div className="space-y-2">
-    {mfo.isFirstLoanZero && (
-      <div className="flex items-start gap-2">
-        <Check className="w-4 h-4 text-green-600 mt-0.5" />
-        <span className="text-gray-700 text-sm">{t("advantages.firstLoanFree")}</span>
-      </div>
-    )}
-    {mfo.isInstantApproval && (
-      <div className="flex items-start gap-2">
-        <Check className="w-4 h-4 text-green-600 mt-0.5" />
-        <span className="text-gray-700 text-sm">{t("advantages.instantApproval")}</span>
-      </div>
-    )}
-    {mfo.isNoIncomeProof && (
-      <div className="flex items-start gap-2">
-        <Check className="w-4 h-4 text-green-600 mt-0.5" />
-        <span className="text-gray-700 text-sm">{t("advantages.noIncomeProof")}</span>
-      </div>
-    )}
-    {mfo.is24Support && (
-      <div className="flex items-start gap-2">
-        <Check className="w-4 h-4 text-green-600 mt-0.5" />
-        <span className="text-gray-700 text-sm">{t("advantages.support24")}</span>
-      </div>
-    )}
-    {mfo.isSafeTransactions && (
-      <div className="flex items-start gap-2">
-        <Check className="w-4 h-4 text-green-600 mt-0.5" />
-        <span className="text-gray-700 text-sm">{t("advantages.safeTransactions")}</span>
-      </div>
-    )}
-    {mfo.isFlexibleTerms && (
-      <div className="flex items-start gap-2">
-        <Check className="w-4 h-4 text-green-600 mt-0.5" />
-        <span className="text-gray-700 text-sm">{t("advantages.flexibleTerms")}</span>
-      </div>
-    )}
-  </div>
-</div>
-
+                <h4 className="font-semibold text-green-800 mb-2 text-sm">
+                  {t("requirements.advantages")}
+                </h4>
+                <div className="space-y-2">
+                  {mfo.isFirstLoanZero && (
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-green-600 mt-0.5" />
+                      <span className="text-gray-700 text-sm">
+                        {t("advantages.firstLoanFree")}
+                      </span>
+                    </div>
+                  )}
+                  {mfo.isInstantApproval && (
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-green-600 mt-0.5" />
+                      <span className="text-gray-700 text-sm">
+                        {t("advantages.instantApproval")}
+                      </span>
+                    </div>
+                  )}
+                  {mfo.isNoIncomeProof && (
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-green-600 mt-0.5" />
+                      <span className="text-gray-700 text-sm">
+                        {t("advantages.noIncomeProof")}
+                      </span>
+                    </div>
+                  )}
+                  {mfo.is24Support && (
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-green-600 mt-0.5" />
+                      <span className="text-gray-700 text-sm">
+                        {t("advantages.support24")}
+                      </span>
+                    </div>
+                  )}
+                  {mfo.isSafeTransactions && (
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-green-600 mt-0.5" />
+                      <span className="text-gray-700 text-sm">
+                        {t("advantages.safeTransactions")}
+                      </span>
+                    </div>
+                  )}
+                  {mfo.isFlexibleTerms && (
+                    <div className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-green-600 mt-0.5" />
+                      <span className="text-gray-700 text-sm">
+                        {t("advantages.flexibleTerms")}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
           {/* Action Buttons */}
-          <div className="flex items-center mt-6 justify-between">
-            <BlueButton text={t("actions.getMoney")} link={mfo.UtmLink} />
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <BlueButton
+              text={t("actions.getMoney")}
+              link={mfo.UtmLink}
+              className="w-full sm:w-auto  text-center"
+            />
+
             <GrayButton
               link={`/mfos/${mfo.slug}`}
               text={t("actions.moreDetails")}
+              className="w-full sm:w-auto text-center"
             />
           </div>
 
