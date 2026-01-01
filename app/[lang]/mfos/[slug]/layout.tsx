@@ -51,7 +51,7 @@ export default async function CompanyLayout({
         <HeaderCompany companyInfo={companyInfo} />
         <NavigationTabs slug={(await params).slug} />
         <div className="bg-white rounded-3xl shadow-lg p-8">{children}</div>
-        <StatsSection companyInfo={companyInfo} lang={lang} />
+        <StatsSection companyInfo={companyInfo}  />
       </div>
     </div>
   );
