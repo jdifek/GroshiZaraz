@@ -78,10 +78,10 @@ const Footer = async ({ lang }: { lang: string }) => {
                     {t("contacts.email")}
                   </div>
                   <a
-                    href="mailto:support@finoglyad.ua"
+                    href="mailto:finoglyad@gmail.com"
                     className="text-gray-700 hover:text-blue-600 transition-colors duration-200 font-medium"
                   >
-                    support@finoglyad.ua
+                    finoglyad@gmail.com
                   </a>
                 </div>
               </li>
