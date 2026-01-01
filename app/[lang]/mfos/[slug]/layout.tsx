@@ -9,10 +9,10 @@ export default async function CompanyLayout({
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string, lang: string }>;
 }) {
   let companyInfo;
-  const { slug } = await params;
+  const { slug , lang} = await params;
 
   try {
     const response = await MfoService.getMfoBySlug(slug);
@@ -51,7 +51,7 @@ export default async function CompanyLayout({
         <HeaderCompany companyInfo={companyInfo} />
         <NavigationTabs slug={(await params).slug} />
         <div className="bg-white rounded-3xl shadow-lg p-8">{children}</div>
-        <StatsSection companyInfo={companyInfo} />
+        <StatsSection companyInfo={companyInfo} lang={lang} />
       </div>
     </div>
   );

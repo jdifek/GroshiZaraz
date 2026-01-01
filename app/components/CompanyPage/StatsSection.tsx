@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+
 import { Clock, CreditCard, TrendingUp, Users } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 type StatsSectionProps = {
   companyInfo: any;
+  lang: string;
 };
 
 const formatNumber = (value?: number | string) => {
@@ -24,8 +25,8 @@ const formatNumber = (value?: number | string) => {
   return num.toString();
 };
 
-export const StatsSection = ({ companyInfo }: StatsSectionProps) => {
-  const t = useTranslations("StatsSection");
+export const StatsSection = ({ companyInfo, lang }: StatsSectionProps) => {
+  const t = getTranslations({locale: lang, namespace: "StatsSection"});
 
   const stats = [
     {
