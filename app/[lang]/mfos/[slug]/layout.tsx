@@ -9,10 +9,10 @@ export default async function CompanyLayout({
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ slug: string, lang: string }>;
+  params: Promise<{ slug: string }>;
 }) {
   let companyInfo;
-  const { slug , lang} = await params;
+  const { slug } = await params;
 
   try {
     const response = await MfoService.getMfoBySlug(slug);
