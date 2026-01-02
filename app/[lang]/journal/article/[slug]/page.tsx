@@ -367,12 +367,13 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
                           : relatedArticle.titleUk}
                       </h3>
                       <p className="text-gray-600 mb-3 md:mb-4 text-xs md:text-sm leading-relaxed line-clamp-3">
-  {stripHtml(
-    lang === "ru" ? relatedArticle.body : relatedArticle.bodyUk
-  ).substring(0, 120)}
-    ...
-</p>
-
+                        {stripHtml(
+                          lang === "ru"
+                            ? relatedArticle.body
+                            : relatedArticle.bodyUk
+                        ).substring(0, 120)}
+                        ...
+                      </p>
 
                       <div className="flex items-center justify-between">
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs md:text-sm text-gray-500 min-w-0 flex-1">

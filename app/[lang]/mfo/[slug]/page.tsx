@@ -12,6 +12,7 @@ import MfoSatelliteKeyService from "@/app/services/MfoSatelliteKey/MfoSatelliteK
 import { MfoSatelliteKey } from "@/app/services/MfoSatelliteKey/mfoSatelliteKeyTypes";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { stripHtml } from "@/app/utils/stripHtml";
 
 type MFOSattelitePageProps = {
   params: Promise<{ lang: string; slug: string }>;
@@ -41,9 +42,13 @@ export async function generateMetadata({
     const title = isUa
       ? satellite.metaTitleUk || satellite.titleUk
       : satellite.metaTitleRu || satellite.titleRu;
-    const description = isUa
-      ? satellite.metaDescUk || satellite.descriptionUk
-      : satellite.metaDescRu || satellite.descriptionRu;
+      const description = isUa
+      ? satellite.metaDescUk || 
+        stripHtml(satellite.seoContentUk, 160) || 
+        satellite.descriptionUk
+      : satellite.metaDescRu || 
+        stripHtml(satellite.seoContentRu, 160) || 
+        satellite.descriptionRu;
     const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
 
     return {
@@ -376,6 +381,25 @@ export default async function MFOSattelitePage({
             </div>
           </div>
         </div>
+        {/* SEO Content */}
+{satellite && (satellite.seoContentUk || satellite.seoContentRu) && (
+  <div className="bg-white rounded-3xl shadow-lg p-8 mb-12">
+    <div 
+      className="prose prose-lg max-w-none
+        prose-headings:text-gray-800 prose-headings:font-bold
+        prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-8
+        prose-h3:text-xl prose-h3:mb-3 prose-h3:mt-6
+        prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4
+        prose-ul:text-gray-700 prose-ul:mb-4
+        prose-li:mb-2
+        prose-strong:text-gray-800 prose-strong:font-semibold
+        prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline"
+      dangerouslySetInnerHTML={{ 
+        __html: lang === 'uk' ? satellite.seoContentUk : satellite.seoContentRu 
+      }} 
+    />
+  </div>
+)}
       </div>
     </div>
   );

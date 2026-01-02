@@ -5,6 +5,8 @@ export interface MfoSatelliteKey {
   keyRu: string;
   slugUk: string;
   slugRu: string;
+  seoContentUk: string;
+  seoContentRu: string;
   mfoLinks: any[];
   metaTitleUk: string;
   metaTitleRu: string;

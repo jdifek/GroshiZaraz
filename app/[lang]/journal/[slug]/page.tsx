@@ -151,8 +151,10 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                         {lang === "ru" ? article.title : article.titleUk}
                       </h3>
                       <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-  {stripHtml(lang === "ru" ? article.body : article.bodyUk)}
-</p>
+                        {stripHtml(
+                          lang === "ru" ? article.body : article.bodyUk
+                        )}
+                      </p>
 
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -223,9 +225,11 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                       <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
                         {lang === "ru" ? article.title : article.titleUk}
                       </h3>
-                  <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-  {stripHtml(lang === "ru" ? article.body : article.bodyUk)}
-</p>
+                      <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
+                        {stripHtml(
+                          lang === "ru" ? article.body : article.bodyUk
+                        )}
+                      </p>
 
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -236,7 +240,8 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                             {" "}
                             {lang === "ru"
                               ? article.author?.name
-                              : article.author?.nameUk || t("authorDefault")}{" "}
+                              : article.author?.nameUk ||
+                                t("authorDefault")}{" "}
                           </span>
                         </div>
                         <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-blue-500 group-hover:text-white transition-all">
@@ -256,7 +261,7 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
               {/* Popular Articles */}
               <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
                 <h3 className="text-lg font-bold text-gray-800 mb-4 relative inline-block">
-                {t("popularArticles")}
+                  {t("popularArticles")}
                   <div className="absolute -bottom-2 left-0 w-12 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
                 </h3>
                 <div className="space-y-4">
@@ -271,12 +276,14 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                       <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
                       <div className="flex-1">
                         <h4 className="text-sm font-medium text-gray-800 group-hover:text-blue-600 line-clamp-2 transition-colors">
-                          {lang === 'uk' ? article.titleUk : article.title}
+                          {lang === "uk" ? article.titleUk : article.title}
                         </h4>
                         <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
                           <span>{formatDate(article.createdAt, lang)}</span>
                           <span>•</span>
-                          <span>{formatViews(article.views)} {t("views")}</span>
+                          <span>
+                            {formatViews(article.views)} {t("views")}
+                          </span>
                         </div>
                       </div>
                     </Link>
