@@ -157,7 +157,7 @@ module.exports = {
     return result;
   },
 
-  // Настройки robots.txt
+  //  robots.txt
   robotsTxtOptions: {
     policies: [
       {
