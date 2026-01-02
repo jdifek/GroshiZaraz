@@ -58,8 +58,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const fallback =
       rawLang === "ru"
         ? {
-            title: "О компании — Финогляд",
-            description: "Информация о компании Финогляд.",
+            title: "О компании — Фіногляд",
+            description: "Информация о компании Фіногляд.",
           }
         : {
             title: "Про компанію — Фіногляд",

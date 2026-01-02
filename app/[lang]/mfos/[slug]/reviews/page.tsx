@@ -48,7 +48,7 @@ export async function generateMetadata({
   // Русский вариант
   const titleRu = `${company.name} — Отзывы пользователей и оценки МФО`;
   const descriptionRu = `Отзывы о МФО ${company.name}: мнения пользователей, оценки и опыт получения займов. Узнайте, как быстро оформить займ онлайн.`;
-  const keywordsRu = `отзывы, МФО, займ, быстро, Финогляд, опыт, оценки, пользователи`;
+  const keywordsRu = `отзывы, МФО, займ, быстро, Фіногляд, опыт, оценки, пользователи`;
 
   return {
     title: lang === "ru" ? titleRu : titleUk,

@@ -87,7 +87,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   } catch (error) {
     console.error("generateMetadata QuestionAnswersPage failed:", error);
     return {
-      title: lang === "ru" ? "Вопрос — Финогляд" : "Питання — Фіногляд",
+      title: lang === "ru" ? "Вопрос — Фіногляд" : "Питання — Фіногляд",
       description:
         lang === "ru" ? "Информация о вопросе." : "Інформація про питання.",
       robots: "noindex, follow",
