@@ -8,10 +8,10 @@ type SitemapPageProps = {
 };
 
 async function getSitemapData() {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL_SITEMAP || "http://localhost:5000/";
   
   try {
-    const res = await fetch(`${API_URL}/api/sitemap/human`, {
+    const res = await fetch(`${API_URL}api/sitemap/human`, {
       cache: "no-store",
     });
 

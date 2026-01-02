@@ -42,7 +42,7 @@ module.exports = {
 
     try {
       // 🔥 ОДИН ЗАПРОС ДЛЯ ВСЕХ ДАННЫХ
-      const sitemapResponse = await fetch(`${API_URL}/api/sitemap/human`, { 
+      const sitemapResponse = await fetch(`${API_URL}api/sitemap/human`, { 
         signal: AbortSignal.timeout(10000) 
       });
       
