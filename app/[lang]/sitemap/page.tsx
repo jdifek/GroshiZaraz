@@ -14,7 +14,7 @@ async function getSitemapData() {
     const res = await fetch(`${API_URL}/api/sitemap/human`, {
       cache: "no-store",
     });
-    
+
     if (!res.ok) throw new Error("Failed to fetch sitemap");
     
     return await res.json();
