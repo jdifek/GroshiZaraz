@@ -10,6 +10,7 @@ import { formatDate } from "@/app/utils/formatDate";
 import { formatViews } from "@/app/utils/formatViews";
 import { getTranslations } from "next-intl/server";
 import { Metadata } from "next";
+import { stripHtml } from "@/app/utils/stripHtml";
 
 interface ArticleDetailPageProps {
   params: Promise<{ slug: string; lang: string }>;
@@ -40,9 +41,9 @@ export async function generateMetadata({
   }
 
   const title = lang === "ru" ? article.title : article.titleUk;
-  const descriptionSnippet = (lang === "ru" ? article.body : article.bodyUk)
-    .replace(/<[^>]*>/g, "")
-    .substring(0, 160);
+  const descriptionSnippet = stripHtml(
+    lang === "ru" ? article.body : article.bodyUk
+  ).substring(0, 160);
 
   return {
     title: `${title}`,
@@ -366,15 +367,12 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
                           : relatedArticle.titleUk}
                       </h3>
                       <p className="text-gray-600 mb-3 md:mb-4 text-xs md:text-sm leading-relaxed line-clamp-3">
-                        {lang === "ru"
-                          ? relatedArticle.body
-                              .replace(/<[^>]*>/g, "")
-                              .substring(0, 120)
-                          : relatedArticle.bodyUk
-                              .replace(/<[^>]*>/g, "")
-                              .substring(0, 120)}
-                        ...
-                      </p>
+  {stripHtml(
+    lang === "ru" ? relatedArticle.body : relatedArticle.bodyUk
+  ).substring(0, 120)}
+    ...
+</p>
+
 
                       <div className="flex items-center justify-between">
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 text-xs md:text-sm text-gray-500 min-w-0 flex-1">

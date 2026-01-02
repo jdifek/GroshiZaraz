@@ -3,6 +3,7 @@ import CategoryService from "@/app/services/categories/categoriesService";
 import NewsService from "@/app/services/news/newsService";
 import { formatDate } from "@/app/utils/formatDate";
 import { formatViews } from "@/app/utils/formatViews";
+import { stripHtml } from "@/app/utils/stripHtml";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -149,12 +150,10 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                       >
                         {lang === "ru" ? article.title : article.titleUk}
                       </h3>
-                      <p
-                        className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
-                        dangerouslySetInnerHTML={{
-                          __html: lang === "ru" ? article.body : article.bodyUk,
-                        }}
-                      />
+                      <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
+  {stripHtml(lang === "ru" ? article.body : article.bodyUk)}
+</p>
+
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
                           <span className="flex items-center gap-1">
@@ -224,12 +223,10 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
                       <h3 className="text-xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
                         {lang === "ru" ? article.title : article.titleUk}
                       </h3>
-                      <p
-                        className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3"
-                        dangerouslySetInnerHTML={{
-                          __html: lang === "ru" ? article.body : article.bodyUk,
-                        }}
-                      />
+                  <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
+  {stripHtml(lang === "ru" ? article.body : article.bodyUk)}
+</p>
+
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
                           <span className="flex items-center gap-1">
