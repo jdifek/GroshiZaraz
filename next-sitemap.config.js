@@ -4,7 +4,6 @@ module.exports = {
   generateRobotsTxt: true,
   exclude: ['/admin/*', '/api/*'],
   
-  // Статические пути обеих языковых версий
   additionalPaths: async () => {
     const result = [];
     
@@ -18,6 +17,7 @@ module.exports = {
       { path: '/reviews', priority: 0.7 },
       { path: '/journal', priority: 0.8 },
       { path: '/sitemap', priority: 0.6 },
+      { path: '/currency-exchange', priority: 0.7 }, // ✅ ДОБАВИТЬ
     ];
 
     for (const page of staticPages) {
@@ -42,7 +42,6 @@ module.exports = {
     }
 
     try {
-      // 🔥 ОДИН ЗАПРОС ДЛЯ ВСЕХ ДАННЫХ
       const sitemapResponse = await fetch(`${API_URL}api/sitemap/human`, { 
         signal: AbortSignal.timeout(10000) 
       });
@@ -54,10 +53,11 @@ module.exports = {
 
       const data = await sitemapResponse.json();
 
-      // 1) MFO
+      // 1) MFO - отдельные страницы МФО
+      // Путь: /[lang]/mfos/[slug]
       if (data.mfos && data.mfos.length > 0) {
         for (const mfo of data.mfos) {
-          // Главные страницы МФО
+          // ✅ Главные страницы МФО
           result.push({ 
             loc: `/uk/mfos/${mfo.slug}`, 
             lastmod: mfo.updatedAt, 
@@ -69,7 +69,7 @@ module.exports = {
             priority: 0.9 
           });
 
-          // Вложенные страницы
+          // ✅ Вложенные страницы МФО
           for (const sub of subPaths) {
             result.push({
               loc: `/uk/mfos/${mfo.slug}/${sub}`,
@@ -87,6 +87,7 @@ module.exports = {
       }
 
       // 2) NEWS/Journal
+      // Путь: /[lang]/journal/article/[slug]
       if (data.news && data.news.length > 0) {
         for (const post of data.news) {
           result.push({ 
@@ -103,22 +104,23 @@ module.exports = {
         console.log(`✅ News articles: ${data.news.length * 2}`);
       }
 
-      // 3) MFO Satellite Keys
+      // 3) MFO Satellite Keys - ключевые страницы категорий
+      // Путь: /[lang]/mfo/[slug] ← БЕЗ 's'!
       if (data.satelliteKeys && data.satelliteKeys.length > 0) {
         for (const sat of data.satelliteKeys) {
           if (sat.slugUk) {
             result.push({
-              loc: `/uk/mfos/${sat.slugUk}`,
+              loc: `/uk/mfo/${sat.slugUk}`, // ✅ БЕЗ 's'
               lastmod: sat.updatedAt,
-              priority: 0.7,
+              priority: 0.8, // ✅ Выше приоритет для категорий
               changefreq: 'weekly',
             });
           }
           if (sat.slugRu) {
             result.push({
-              loc: `/ru/mfos/${sat.slugRu}`,
+              loc: `/ru/mfo/${sat.slugRu}`, // ✅ БЕЗ 's'
               lastmod: sat.updatedAt,
-              priority: 0.7,
+              priority: 0.8,
               changefreq: 'weekly',
             });
           }
@@ -126,12 +128,13 @@ module.exports = {
         console.log(`✅ Satellite keys: ${data.satelliteKeys.length * 2}`);
       }
 
-      // 4) MFO Satellites
+      // 4) MFO Satellites - подкатегории
+      // Путь: /[lang]/mfo/[slug] ← тоже БЕЗ 's'!
       if (data.satellites && data.satellites.length > 0) {
         for (const sat of data.satellites) {
           if (sat.slugUk) {
             result.push({
-              loc: `/uk/mfo/${sat.slugUk}`,
+              loc: `/uk/mfo/${sat.slugUk}`, // ✅ БЕЗ 's'
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
@@ -139,7 +142,7 @@ module.exports = {
           }
           if (sat.slugRu) {
             result.push({
-              loc: `/ru/mfo/${sat.slugRu}`,
+              loc: `/ru/mfo/${sat.slugRu}`, // ✅ БЕЗ 's'
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
@@ -158,7 +161,6 @@ module.exports = {
     return result;
   },
 
-  //  robots.txt
   robotsTxtOptions: {
     policies: [
       {
