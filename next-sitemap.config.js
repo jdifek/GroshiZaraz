@@ -16,7 +16,7 @@ module.exports = {
       { path: '/terms', priority: 0.5 },
       { path: '/reviews', priority: 0.7 },
       { path: '/journal', priority: 0.8 },
-      { path: '/mfos', priority: 0.9 }, // если есть листинг
+      { path: '/sitemap', priority: 0.6 },
     ];
 
     for (const page of staticPages) {
@@ -41,14 +41,21 @@ module.exports = {
     }
 
     try {
-      // 1) MFO
-      const mfosResponse = await fetch(`${API_URL}api/mfos/sitemap`, { 
-        signal: AbortSignal.timeout(5000) 
+      // 🔥 ОДИН ЗАПРОС ДЛЯ ВСЕХ ДАННЫХ
+      const sitemapResponse = await fetch(`${API_URL}/api/sitemap/human`, { 
+        signal: AbortSignal.timeout(10000) 
       });
       
-      if (mfosResponse.ok) {
-        const mfos = await mfosResponse.json();
-        for (const mfo of mfos) {
+      if (!sitemapResponse.ok) {
+        console.error('❌ Ошибка получения sitemap');
+        return result;
+      }
+
+      const data = await sitemapResponse.json();
+
+      // 1) MFO
+      if (data.mfos && data.mfos.length > 0) {
+        for (const mfo of data.mfos) {
           // Главные страницы МФО
           result.push({ 
             loc: `/uk/mfo/${mfo.slug}`, 
@@ -64,30 +71,25 @@ module.exports = {
           // Вложенные страницы
           for (const sub of subPaths) {
             result.push({
-              loc: `/uk/mfos/${mfo.slug}/${sub}`,
+              loc: `/uk/mfo/${mfo.slug}/${sub}`,
               lastmod: mfo.updatedAt,
               priority: 0.7,
             });
             result.push({
-              loc: `/ru/mfos/${mfo.slug}/${sub}`,
+              loc: `/ru/mfo/${mfo.slug}/${sub}`,
               lastmod: mfo.updatedAt,
               priority: 0.7,
             });
           }
         }
-        console.log(`✅ MFO pages: ${mfos.length * 2 * (1 + subPaths.length)}`);
+        console.log(`✅ MFO pages: ${data.mfos.length * 2 * (1 + subPaths.length)}`);
       }
 
       // 2) NEWS/Journal
-      const newsResponse = await fetch(`${API_URL}api/news/sitemap`, { 
-        signal: AbortSignal.timeout(5000) 
-      });
-      
-      if (newsResponse.ok) {
-        const news = await newsResponse.json();
-        for (const post of news) {
+      if (data.news && data.news.length > 0) {
+        for (const post of data.news) {
           result.push({ 
-            loc: `/uk/journal/${post.slug}`, 
+            loc: `/uk/journal/${post.slugUk}`, 
             lastmod: post.updatedAt, 
             priority: 0.8 
           });
@@ -97,19 +99,12 @@ module.exports = {
             priority: 0.8 
           });
         }
-        console.log(`✅ News articles: ${news.length * 2}`);
+        console.log(`✅ News articles: ${data.news.length * 2}`);
       }
 
       // 3) MFO Satellite Keys
-      const satellitesKeysResponse = await fetch(
-        `${API_URL}api/mfo-satellite-keys/sitemap`,
-        { signal: AbortSignal.timeout(5000) }
-      );
-      
-      if (satellitesKeysResponse.ok) {
-        const satellitesKeys = await satellitesKeysResponse.json();
-        
-        for (const sat of satellitesKeys) {
+      if (data.satelliteKeys && data.satelliteKeys.length > 0) {
+        for (const sat of data.satelliteKeys) {
           if (sat.slugUk) {
             result.push({
               loc: `/uk/mfo/${sat.slugUk}`,
@@ -127,19 +122,12 @@ module.exports = {
             });
           }
         }
-        console.log(`✅ Satellite keys: ${satellitesKeys.length * 2}`);
+        console.log(`✅ Satellite keys: ${data.satelliteKeys.length * 2}`);
       }
 
       // 4) MFO Satellites
-      const satellitesResponse = await fetch(
-        `${API_URL}api/mfo-satellites/sitemap`,
-        { signal: AbortSignal.timeout(5000) }
-      );
-      
-      if (satellitesResponse.ok) {
-        const satellites = await satellitesResponse.json();
-        
-        for (const sat of satellites) {
+      if (data.satellites && data.satellites.length > 0) {
+        for (const sat of data.satellites) {
           if (sat.slugUk) {
             result.push({
               loc: `/uk/mfo/${sat.slugUk}`,
@@ -157,7 +145,7 @@ module.exports = {
             });
           }
         }
-        console.log(`✅ MFO satellites: ${satellites.length * 2}`);
+        console.log(`✅ MFO satellites: ${data.satellites.length * 2}`);
       }
 
       console.log(`✨ TOTAL paths in sitemap: ${result.length}`);
@@ -178,8 +166,6 @@ module.exports = {
         disallow: ['/admin', '/api'],
       },
     ],
-    additionalSitemaps: [
-      // Если будут дополнительные sitemap
-    ],
+    additionalSitemaps: [],
   },
 };
