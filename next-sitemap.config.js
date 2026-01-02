@@ -59,12 +59,12 @@ module.exports = {
         for (const mfo of data.mfos) {
           // Главные страницы МФО
           result.push({ 
-            loc: `/uk/mfo/${mfo.slug}`, 
+            loc: `/uk/mfos/${mfo.slug}`, 
             lastmod: mfo.updatedAt, 
             priority: 0.9 
           });
           result.push({ 
-            loc: `/ru/mfo/${mfo.slug}`, 
+            loc: `/ru/mfos/${mfo.slug}`, 
             lastmod: mfo.updatedAt, 
             priority: 0.9 
           });
@@ -72,12 +72,12 @@ module.exports = {
           // Вложенные страницы
           for (const sub of subPaths) {
             result.push({
-              loc: `/uk/mfo/${mfo.slug}/${sub}`,
+              loc: `/uk/mfos/${mfo.slug}/${sub}`,
               lastmod: mfo.updatedAt,
               priority: 0.7,
             });
             result.push({
-              loc: `/ru/mfo/${mfo.slug}/${sub}`,
+              loc: `/ru/mfos/${mfo.slug}/${sub}`,
               lastmod: mfo.updatedAt,
               priority: 0.7,
             });
@@ -90,12 +90,12 @@ module.exports = {
       if (data.news && data.news.length > 0) {
         for (const post of data.news) {
           result.push({ 
-            loc: `/uk/journal/${post.slugUk}`, 
+            loc: `/uk/journal/article/${post.slugUk}`, 
             lastmod: post.updatedAt, 
             priority: 0.8 
           });
           result.push({ 
-            loc: `/ru/journal/${post.slug}`, 
+            loc: `/ru/journal/article/${post.slug}`, 
             lastmod: post.updatedAt, 
             priority: 0.8 
           });
@@ -108,7 +108,7 @@ module.exports = {
         for (const sat of data.satelliteKeys) {
           if (sat.slugUk) {
             result.push({
-              loc: `/uk/mfo/${sat.slugUk}`,
+              loc: `/uk/mfos/${sat.slugUk}`,
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
@@ -116,7 +116,7 @@ module.exports = {
           }
           if (sat.slugRu) {
             result.push({
-              loc: `/ru/mfo/${sat.slugRu}`,
+              loc: `/ru/mfos/${sat.slugRu}`,
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
