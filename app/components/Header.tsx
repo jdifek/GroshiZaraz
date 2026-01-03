@@ -1,8 +1,8 @@
 import React from "react";
-import { Search } from "lucide-react";
 import Link from "next/link";
 import { MobileNavigation } from "./Header/MobileNavigation";
 import { DesktopNavigation } from "./Header/DesktopNavigation";
+import { LanguageSwitcher } from "./Header/LanguageSwitcher"; // ✅ ДОБАВИТЬ
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { getNavigationItems } from "../data/navigationItems";
@@ -17,9 +17,8 @@ export const Header = async ({ lang }: { lang: string }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
+          <Link href={`/${lang}`} className="flex items-center space-x-2">
             <Image src={"/logoNew.svg"} alt="Логотип" width={35} height={35} />
-
             <span className="text-xl font-bold tracking-tight text-[#1A4D8F] hover:text-[#00AEEF] transition-colors">
               Фіногляд<span className="text-[#00AEEF]">.ua</span>
             </span>
@@ -28,11 +27,10 @@ export const Header = async ({ lang }: { lang: string }) => {
           {/* Desktop Navigation */}
           <DesktopNavigation navigationItems={navigationItems} />
 
-          {/* Search and Mobile Menu */}
-          <div className="flex items-center ">
-            <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
-              <Search size={20} className="text-gray-600" />
-            </button>
+          {/* Language Switcher and Mobile Menu */}
+          <div className="flex items-center gap-2">
+            {/* ✅ Переключатель языков */}
+            <LanguageSwitcher />
 
             {/* Mobile Navigation */}
             <MobileNavigation navigationItems={navigationItems} />
@@ -40,7 +38,7 @@ export const Header = async ({ lang }: { lang: string }) => {
         </div>
       </div>
 
-      {/* Fallback навигация для поисковиков и пользователей без JS */}
+      {/* Fallback навигация */}
       <noscript>
         <nav
           aria-label="Site navigation fallback"

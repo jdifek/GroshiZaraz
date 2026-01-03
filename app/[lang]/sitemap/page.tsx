@@ -11,7 +11,7 @@ async function getSitemapData() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/";
   
   try {
-    const res = await fetch(`${API_URL}/api/sitemap/human`, {
+    const res = await fetch(`${API_URL}api/sitemap/human`, {
       cache: "no-store",
     });
 
@@ -211,7 +211,7 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
             {data.authors.map((author: any) => (
               <Link
                 key={author.id}
-                href={`/${lang}/author/${author.slug}`}
+                href={`/${lang}/journal/${author.slug}`}
                 className="flex items-center gap-2 p-3 rounded-xl bg-white border border-pink-200 hover:border-pink-500 hover:shadow-md transition-all group"
               >
                 <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-pink-500" />

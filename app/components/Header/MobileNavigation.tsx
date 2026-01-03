@@ -1,8 +1,8 @@
-
-'use client'
+"use client";
 import React, { useState } from "react";
 import { Menu, X, ChevronDown, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { LanguageSwitcher } from "./LanguageSwitcher"; // ✅ ДОБАВИТЬ
 
 interface NavigationItem {
   name: string;
@@ -57,6 +57,11 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ navigationIt
             {!mobileActiveCategory ? (
               /* Main menu */
               <nav className="flex flex-col space-y-1 px-4">
+                {/* ✅ Переключатель языков в мобильном меню */}
+                <div className="mb-4 pb-4 border-b border-gray-200">
+                  <LanguageSwitcher />
+                </div>
+
                 {navigationItems.map((item) => (
                   <div key={item.name}>
                     {item.dropdown ? (
@@ -82,7 +87,6 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ navigationIt
             ) : (
               /* Submenu */
               <div className="space-y-4 px-4">
-                {/* Back button */}
                 <button
                   onClick={handleMobileBack}
                   className="flex items-center px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-lg font-medium transition-colors duration-200"
@@ -91,14 +95,12 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ navigationIt
                   Назад
                 </button>
 
-                {/* Current category title */}
                 <div className="px-4 py-2 border-b border-gray-200">
                   <h2 className="text-lg font-semibold text-gray-900">
                     {mobileActiveCategory}
                   </h2>
                 </div>
 
-                {/* Submenu items */}
                 <div className="space-y-4">
                   {(() => {
                     const currentItem = navigationItems.find(item => item.name === mobileActiveCategory);
