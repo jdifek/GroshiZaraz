@@ -1,6 +1,7 @@
 import React from "react";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
+
 import { getTranslations } from "next-intl/server";
 import NewsService from "@/app/services/news/newsService";
 import { formatDate } from "@/app/utils/formatDate";
@@ -16,9 +17,8 @@ async function getNews(lang: string) {
         title: lang === "ru" ? newsItem.title : newsItem.titleUk,
         slug: lang === "ru" ? newsItem.slug : newsItem.slugUk,
         views: newsItem.views,
-        excerpt: stripHtml(
-          lang === "ru" ? newsItem.body : newsItem.bodyUk
-        ),        category:
+        excerpt: stripHtml(lang === "ru" ? newsItem.body : newsItem.bodyUk),
+        category:
           lang === "ru"
             ? newsItem.NewsCategory?.name
             : newsItem.NewsCategory?.nameUk,
@@ -33,8 +33,6 @@ async function getNews(lang: string) {
     return [];
   }
 }
-
-
 
 const NewsSection = async ({ lang }: { lang: string }) => {
   const t = await getTranslations({ locale: lang, namespace: "NewsSection" });
@@ -85,9 +83,8 @@ const NewsSection = async ({ lang }: { lang: string }) => {
                     {article.title}
                   </h3>
                   <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-  {article.excerpt}
-</p>
-
+                    {article.excerpt}
+                  </p>
 
                   <div className="flex items-center justify-between text-sm text-gray-500">
                     <div className="flex items-center gap-4">

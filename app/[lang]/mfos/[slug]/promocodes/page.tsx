@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import MfoService from "@/app/services/mfos/mfosService";
 import { ExternalLink } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
+
 import { getTranslations } from "next-intl/server";
 import { Mfo } from "@/app/services/mfos/mfoTypes";
 import { Metadata } from "next";

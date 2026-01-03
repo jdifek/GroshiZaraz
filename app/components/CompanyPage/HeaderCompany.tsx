@@ -1,7 +1,8 @@
 "use client";
 import { Calculator, CheckCircle, Star } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
+
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
@@ -10,7 +11,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
   const t = useTranslations("HeaderCompany");
   const [loanAmount, setLoanAmount] = useState(15000);
   const [loanTerm, setLoanTerm] = useState(15);
-  
+
   const calculatePayment = () => {
     const dailyRate = 0.008; // 0.8% в день для примера
     const totalAmount = loanAmount * (1 + dailyRate * loanTerm);
@@ -67,7 +68,9 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 <span className="font-semibold text-gray-800">
                   {companyInfo.rating}
                 </span>
-                <span className="text-gray-500">({companyInfo.reviews.length})</span>
+                <span className="text-gray-500">
+                  ({companyInfo.reviews.length})
+                </span>
               </div>
               <div className="text-gray-600">
                 {t("license")}: {companyInfo.license}
@@ -166,19 +169,25 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
 
               <div className="bg-white rounded-xl p-4 space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{t("calculator.youTake")}:</span>
+                  <span className="text-gray-600">
+                    {t("calculator.youTake")}:
+                  </span>
                   <span className="font-semibold">
                     {loanAmount.toLocaleString()} ₴
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">{t("calculator.overpayment")}:</span>
+                  <span className="text-gray-600">
+                    {t("calculator.overpayment")}:
+                  </span>
                   <span className="font-semibold">
                     {overpayment.toLocaleString()} ₴
                   </span>
                 </div>
                 <div className="flex justify-between text-lg font-bold">
-                  <span className="text-gray-800">{t("calculator.toReturn")}:</span>
+                  <span className="text-gray-800">
+                    {t("calculator.toReturn")}:
+                  </span>
                   <span className="text-blue-600">
                     {totalAmount.toLocaleString()} ₴
                   </span>

@@ -1,6 +1,5 @@
-import React from 'react';
 import { Home, Search, ArrowLeft, TrendingUp, Shield, CreditCard } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from "@/app/i18n/navigation";
 
 export default function NotFoundPage() {
   return (

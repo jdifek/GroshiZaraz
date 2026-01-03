@@ -1,5 +1,6 @@
 import React from "react";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
+
 import { MobileNavigation } from "./Header/MobileNavigation";
 import { DesktopNavigation } from "./Header/DesktopNavigation";
 import { LanguageSwitcher } from "./Header/LanguageSwitcher"; // ✅ ДОБАВИТЬ
@@ -10,7 +11,7 @@ import { getNavigationItems } from "../data/navigationItems";
 export const Header = async ({ lang }: { lang: string }) => {
   const t = await getTranslations({ locale: lang });
 
-  const navigationItems = getNavigationItems(t, lang as 'uk' | 'ru');
+  const navigationItems = getNavigationItems(t, lang as "uk" | "ru");
 
   return (
     <header className="bg-white w-full shadow-sm border-b border-gray-100 sticky top-0 z-50">

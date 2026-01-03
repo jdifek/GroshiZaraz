@@ -8,7 +8,7 @@ import { stripHtml } from "@/app/utils/stripHtml";
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
 
 type Props = {
   params: Promise<{ lang: string }>;

@@ -6,7 +6,7 @@ import { formatViews } from "@/app/utils/formatViews";
 import { stripHtml } from "@/app/utils/stripHtml";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
 
 type CategoryPageProps = {
   params: Promise<{ slug: string; lang: string }>;

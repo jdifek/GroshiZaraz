@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
 
 type BlueButtonProps = {
   text: string;
@@ -9,7 +9,12 @@ type BlueButtonProps = {
   onClick?: () => void;
 };
 
-export const BlueButton: React.FC<BlueButtonProps> = ({ text,className, link, onClick }) => {
+export const BlueButton: React.FC<BlueButtonProps> = ({
+  text,
+  className,
+  link,
+  onClick,
+}) => {
   if (link) {
     return (
       <Link

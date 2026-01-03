@@ -2,7 +2,8 @@ import React from "react";
 import { TrendingUp, Shield, Users } from "lucide-react";
 import MfoService from "@/app/services/mfos/mfosService";
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
+
 import SEOLoansContent from "@/app/components/SEOLoansContent";
 import { MFOsPageClient } from "@/app/components/MFOs/MFOsPageClient";
 import { Metadata } from "next";

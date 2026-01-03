@@ -1,5 +1,6 @@
 import React from "react";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
+
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { FaLinkedin, FaTelegram, FaInstagram } from "react-icons/fa";

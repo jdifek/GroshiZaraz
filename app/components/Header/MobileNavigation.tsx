@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Menu, X, ChevronDown, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
+
 import { LanguageSwitcher } from "./LanguageSwitcher"; // ✅ ДОБАВИТЬ
 
 interface NavigationItem {
@@ -20,9 +21,13 @@ interface MobileNavigationProps {
   navigationItems: NavigationItem[];
 }
 
-export const MobileNavigation: React.FC<MobileNavigationProps> = ({ navigationItems }) => {
+export const MobileNavigation: React.FC<MobileNavigationProps> = ({
+  navigationItems,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [mobileActiveCategory, setMobileActiveCategory] = useState<string | null>(null);
+  const [mobileActiveCategory, setMobileActiveCategory] = useState<
+    string | null
+  >(null);
 
   const handleMobileMenuClick = (item: NavigationItem) => {
     if (item.dropdown) {
@@ -103,35 +108,39 @@ export const MobileNavigation: React.FC<MobileNavigationProps> = ({ navigationIt
 
                 <div className="space-y-4">
                   {(() => {
-                    const currentItem = navigationItems.find(item => item.name === mobileActiveCategory);
+                    const currentItem = navigationItems.find(
+                      (item) => item.name === mobileActiveCategory
+                    );
                     if (!currentItem?.dropdown) return null;
 
-                    return Object.entries(currentItem.dropdown).map(([category, links]) => (
-                      <div key={category} className="space-y-2">
-                        <h3 className="px-4 text-sm font-semibold text-gray-500 uppercase">
-                          {category}
-                        </h3>
-                        <div className="space-y-1">
-                          {links.map((link) => (
-                            <Link
-                              key={link.href}
-                              href={link.href}
-                              className={`block px-4 py-3 text-sm rounded-lg transition-colors duration-200 ${
-                                link.isBold 
-                                  ? 'font-bold text-blue-600 hover:bg-blue-50' 
-                                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                              }`}
-                              onClick={() => {
-                                setIsMenuOpen(false);
-                                setMobileActiveCategory(null);
-                              }}
-                            >
-                              {link.name}
-                            </Link>
-                          ))}
+                    return Object.entries(currentItem.dropdown).map(
+                      ([category, links]) => (
+                        <div key={category} className="space-y-2">
+                          <h3 className="px-4 text-sm font-semibold text-gray-500 uppercase">
+                            {category}
+                          </h3>
+                          <div className="space-y-1">
+                            {links.map((link) => (
+                              <Link
+                                key={link.href}
+                                href={link.href}
+                                className={`block px-4 py-3 text-sm rounded-lg transition-colors duration-200 ${
+                                  link.isBold
+                                    ? "font-bold text-blue-600 hover:bg-blue-50"
+                                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                                }`}
+                                onClick={() => {
+                                  setIsMenuOpen(false);
+                                  setMobileActiveCategory(null);
+                                }}
+                              >
+                                {link.name}
+                              </Link>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ));
+                      )
+                    );
                   })()}
                 </div>
               </div>

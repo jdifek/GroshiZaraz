@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
 import SiteQuestionService from "@/app/services/siteQuestion/SiteQuestionService";
 import Image from "next/image";
 import { formatDate } from "@/app/utils/formatDate";

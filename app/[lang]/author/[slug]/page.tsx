@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
 import AuthorService from "@/app/services/authors/authorsService";
 import { authorArticles } from "@/app/data/authorArticles";
 

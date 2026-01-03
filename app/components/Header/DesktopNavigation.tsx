@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
 
 interface NavigationItem {
   name: string;

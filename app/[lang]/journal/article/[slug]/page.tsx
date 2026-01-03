@@ -1,5 +1,5 @@
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
 import React from "react";
 import { notFound } from "next/navigation";
 import NewsService from "@/app/services/news/newsService";

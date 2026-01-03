@@ -1,6 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ExternalLink, FileText, Building2, Newspaper, Map, User, FolderOpen, MessageSquare, Phone as PhoneIcon, HelpCircle, Tag } from "lucide-react";
-import Link from "next/link";
+import {
+  ExternalLink,
+  FileText,
+  Building2,
+  Newspaper,
+  Map,
+  User,
+  FolderOpen,
+  MessageSquare,
+  Phone as PhoneIcon,
+  HelpCircle,
+  Tag,
+} from "lucide-react";
+import { Link } from "@/app/i18n/navigation";
+
 import { getTranslations } from "next-intl/server";
 
 type SitemapPageProps = {
@@ -9,14 +22,14 @@ type SitemapPageProps = {
 
 async function getSitemapData() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/";
-  
+
   try {
     const res = await fetch(`${API_URL}api/sitemap/human`, {
       cache: "no-store",
     });
 
     if (!res.ok) throw new Error("Failed to fetch sitemap");
-    
+
     return await res.json();
   } catch (error) {
     console.error("Ошибка загрузки sitemap:", error);
@@ -52,10 +65,26 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
   }
 
   const subPages = [
-    { path: "reviews", icon: MessageSquare, label: t("sections.mfoSubpages.reviews") },
-    { path: "contacts", icon: PhoneIcon, label: t("sections.mfoSubpages.contacts") },
-    { path: "questions", icon: HelpCircle, label: t("sections.mfoSubpages.questions") },
-    { path: "promocodes", icon: Tag, label: t("sections.mfoSubpages.promocodes") },
+    {
+      path: "reviews",
+      icon: MessageSquare,
+      label: t("sections.mfoSubpages.reviews"),
+    },
+    {
+      path: "contacts",
+      icon: PhoneIcon,
+      label: t("sections.mfoSubpages.contacts"),
+    },
+    {
+      path: "questions",
+      icon: HelpCircle,
+      label: t("sections.mfoSubpages.questions"),
+    },
+    {
+      path: "promocodes",
+      icon: Tag,
+      label: t("sections.mfoSubpages.promocodes"),
+    },
   ];
 
   return (
@@ -105,10 +134,13 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
             {t("sections.mfos")} ({data.mfos.length})
           </h2>
         </div>
-        
+
         <div className="space-y-6">
           {data.mfos.map((mfo: any) => (
-            <div key={mfo.id} className="bg-white rounded-2xl p-4 border border-green-200">
+            <div
+              key={mfo.id}
+              className="bg-white rounded-2xl p-4 border border-green-200"
+            >
               {/* Главная страница МФО */}
               <Link
                 href={`/${lang}/mfos/${mfo.slug}`}
@@ -155,7 +187,9 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
             {data.news.map((article: any) => (
               <Link
                 key={article.id}
-                href={`/${lang}/journal/article/${lang === "uk" ? article.slugUk : article.slug}`}
+                href={`/${lang}/journal/article/${
+                  lang === "uk" ? article.slugUk : article.slug
+                }`}
                 className="flex items-center gap-2 p-3 rounded-xl bg-white border border-orange-200 hover:border-orange-500 hover:shadow-md transition-all group"
               >
                 <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-orange-500" />

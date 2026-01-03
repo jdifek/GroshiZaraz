@@ -5,7 +5,8 @@ import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 import MfoService from "@/app/services/mfos/mfosService";
 import { Mfo, RandomKey } from "@/app/services/mfos/mfoTypes";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/app/i18n/navigation";
+
 import SortDropdown from "@/app/components/SortDropdown";
 import MFOInteractiveElements from "@/app/components/MFOInteractiveElements";
 import MfoSatelliteKeyService from "@/app/services/MfoSatelliteKey/MfoSatelliteKeyService";
@@ -42,12 +43,12 @@ export async function generateMetadata({
     const title = isUa
       ? satellite.metaTitleUk || satellite.titleUk
       : satellite.metaTitleRu || satellite.titleRu;
-      const description = isUa
-      ? satellite.metaDescUk || 
-        stripHtml(satellite.seoContentUk, 160) || 
+    const description = isUa
+      ? satellite.metaDescUk ||
+        stripHtml(satellite.seoContentUk, 160) ||
         satellite.descriptionUk
-      : satellite.metaDescRu || 
-        stripHtml(satellite.seoContentRu, 160) || 
+      : satellite.metaDescRu ||
+        stripHtml(satellite.seoContentRu, 160) ||
         satellite.descriptionRu;
     const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
 
@@ -382,10 +383,10 @@ export default async function MFOSattelitePage({
           </div>
         </div>
         {/* SEO Content */}
-{satellite && (satellite.seoContentUk || satellite.seoContentRu) && (
-  <div className="bg-white rounded-3xl shadow-lg p-8 mb-12">
-    <div 
-      className="prose prose-lg max-w-none
+        {satellite && (satellite.seoContentUk || satellite.seoContentRu) && (
+          <div className="bg-white rounded-3xl shadow-lg p-8 mb-12">
+            <div
+              className="prose prose-lg max-w-none
         prose-headings:text-gray-800 prose-headings:font-bold
         prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-8
         prose-h3:text-xl prose-h3:mb-3 prose-h3:mt-6
@@ -394,12 +395,15 @@ export default async function MFOSattelitePage({
         prose-li:mb-2
         prose-strong:text-gray-800 prose-strong:font-semibold
         prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline"
-      dangerouslySetInnerHTML={{ 
-        __html: lang === 'uk' ? satellite.seoContentUk : satellite.seoContentRu 
-      }} 
-    />
-  </div>
-)}
+              dangerouslySetInnerHTML={{
+                __html:
+                  lang === "uk"
+                    ? satellite.seoContentUk
+                    : satellite.seoContentRu,
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

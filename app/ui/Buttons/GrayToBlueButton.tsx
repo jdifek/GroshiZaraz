@@ -1,5 +1,5 @@
-'use client'
-import Link from "next/link";
+"use client";
+import { Link } from "@/app/i18n/navigation";
 
 export const GrayToBlueButton = ({
   text,
