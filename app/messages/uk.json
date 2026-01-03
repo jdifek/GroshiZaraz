@@ -1328,6 +1328,29 @@
     
     "detailsLabel": "Деталі:"
   },
+  "HeaderCompany": {
+  "license": "Ліцензія",
+  "stats": {
+    "maximum": "Максимум",
+    "term": "Термін",
+    "days": "днів",
+    "decision": "Рішення",
+    "approval": "Схвалення"
+  },
+  "firstLoanFree": {
+    "title": "Перша позика безкоштовно",
+    "description": "Нові клієнти отримують першу позику під 0% на термін до 30 днів"
+  },
+  "calculator": {
+    "title": "Калькулятор позики",
+    "amount": "Сума позики",
+    "term": "Термін позики",
+    "youTake": "Ви берете",
+    "overpayment": "Переплата",
+    "toReturn": "До повернення",
+    "getMoney": "Отримати гроші"
+  }
+},
   "MfoDetailsPage": {
     "loanInfoTitle": "Про позику в {name}",
     "loanTerms": "Умови позики",

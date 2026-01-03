@@ -1531,6 +1531,29 @@
       "button": "Подробнее"
     }
   },
+  "HeaderCompany": {
+  "license": "Лицензия",
+  "stats": {
+    "maximum": "Максимум",
+    "term": "Срок",
+    "days": "дней",
+    "decision": "Решение",
+    "approval": "Одобрение"
+  },
+  "firstLoanFree": {
+    "title": "Первый займ бесплатно",
+    "description": "Новые клиенты получают первый займ под 0% на срок до 30 дней"
+  },
+  "calculator": {
+    "title": "Калькулятор займа",
+    "amount": "Сумма займа",
+    "term": "Срок займа",
+    "youTake": "Вы берете",
+    "overpayment": "Переплата",
+    "toReturn": "К возврату",
+    "getMoney": "Получить деньги"
+  }
+},
   "AuthorPage": {
     "breadcrumbs": {
       "home": "Главная",

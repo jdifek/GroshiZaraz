@@ -3,11 +3,14 @@ import { Calculator, CheckCircle, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
+  const t = useTranslations("HeaderCompany");
   const [loanAmount, setLoanAmount] = useState(15000);
   const [loanTerm, setLoanTerm] = useState(15);
+  
   const calculatePayment = () => {
     const dailyRate = 0.008; // 0.8% в день для примера
     const totalAmount = loanAmount * (1 + dailyRate * loanTerm);
@@ -32,8 +35,8 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 alt={`${companyInfo.name} logo`}
                 width={64}
                 height={64}
-                className="object-cover  rounded-2xl"
-              />{" "}
+                className="object-cover rounded-2xl"
+              />
             </div>
           </div>
 
@@ -67,7 +70,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 <span className="text-gray-500">({companyInfo.reviews.length})</span>
               </div>
               <div className="text-gray-600">
-                Лицензия: {companyInfo.license}
+                {t("license")}: {companyInfo.license}
               </div>
             </div>
           </div>
@@ -77,25 +80,25 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
               <div className="text-2xl font-bold text-blue-600 mb-1">
                 {companyInfo.maxAmount} ₴
               </div>
-              <div className="text-sm text-gray-600">Максимум</div>
+              <div className="text-sm text-gray-600">{t("stats.maximum")}</div>
             </div>
             <div className="bg-green-50 rounded-2xl p-4 text-center">
               <div className="text-2xl font-bold text-green-600 mb-1">
-                {companyInfo.term} дней
+                {companyInfo.term} {t("stats.days")}
               </div>
-              <div className="text-sm text-gray-600">Срок</div>
+              <div className="text-sm text-gray-600">{t("stats.term")}</div>
             </div>
             <div className="bg-purple-50 rounded-2xl p-4 text-center">
               <div className="text-2xl font-bold text-purple-600 mb-1">
                 {companyInfo.responseTime}
               </div>
-              <div className="text-sm text-gray-600">Решение</div>
+              <div className="text-sm text-gray-600">{t("stats.decision")}</div>
             </div>
             <div className="bg-orange-50 rounded-2xl p-4 text-center">
               <div className="text-2xl font-bold text-orange-600 mb-1">
                 {companyInfo.approval}%
               </div>
-              <div className="text-sm text-gray-600">Одобрение</div>
+              <div className="text-sm text-gray-600">{t("stats.approval")}</div>
             </div>
           </div>
 
@@ -104,11 +107,11 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
               <div className="flex items-center gap-2 mb-2">
                 <CheckCircle className="w-5 h-5 text-green-600" />
                 <span className="font-bold text-green-800">
-                  Первый займ бесплатно
+                  {t("firstLoanFree.title")}
                 </span>
               </div>
               <p className="text-green-700 text-sm">
-                Новые клиенты получают первый займ под 0% на срок до 30 дней
+                {t("firstLoanFree.description")}
               </p>
             </div>
           )}
@@ -119,13 +122,13 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
             <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
               <Calculator className="w-5 h-5 text-blue-600" />
-              Калькулятор займа
+              {t("calculator.title")}
             </h3>
 
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Сумма займа: {loanAmount.toLocaleString()} ₴
+                  {t("calculator.amount")}: {loanAmount.toLocaleString()} ₴
                 </label>
                 <input
                   type="range"
@@ -144,7 +147,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Срок займа: {loanTerm} дней
+                  {t("calculator.term")}: {loanTerm} {t("stats.days")}
                 </label>
                 <input
                   type="range"
@@ -156,26 +159,26 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                   className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
-                  <span>5 дней</span>
-                  <span>30 дней</span>
+                  <span>5 {t("stats.days")}</span>
+                  <span>30 {t("stats.days")}</span>
                 </div>
               </div>
 
               <div className="bg-white rounded-xl p-4 space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Вы берете:</span>
+                  <span className="text-gray-600">{t("calculator.youTake")}:</span>
                   <span className="font-semibold">
                     {loanAmount.toLocaleString()} ₴
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Переплата:</span>
+                  <span className="text-gray-600">{t("calculator.overpayment")}:</span>
                   <span className="font-semibold">
                     {overpayment.toLocaleString()} ₴
                   </span>
                 </div>
                 <div className="flex justify-between text-lg font-bold">
-                  <span className="text-gray-800">К возврату:</span>
+                  <span className="text-gray-800">{t("calculator.toReturn")}:</span>
                   <span className="text-blue-600">
                     {totalAmount.toLocaleString()} ₴
                   </span>
@@ -185,7 +188,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
               <div className="flex items-center gap-2 mb-4">
                 <CheckCircle className="w-4 h-4 text-green-600" />
                 <span className="text-sm text-green-700 font-medium">
-                  Первый займ бесплатно
+                  {t("firstLoanFree.title")}
                 </span>
               </div>
 
@@ -193,7 +196,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 href={companyInfo.UtmLink}
                 className="block text-center w-full bg-gradient-to-r from-orange-400 to-orange-600 hover:from-orange-500 hover:to-orange-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 hover:shadow-lg hover:scale-105"
               >
-                Получить деньги
+                {t("calculator.getMoney")}
               </Link>
             </div>
           </div>
