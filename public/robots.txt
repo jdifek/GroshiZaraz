@@ -1,11 +1,6 @@
-# *
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api
 
-# Host
-Host: https://finoglyad.com.ua
-
-# Sitemaps
 Sitemap: https://finoglyad.com.ua/sitemap.xml

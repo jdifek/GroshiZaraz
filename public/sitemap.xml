@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<sitemap><loc>https://finoglyad.com.ua/sitemap-0.xml</loc></sitemap>
+  <sitemap>
+    <loc>https://finoglyad.com.ua/sitemap-pages.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://finoglyad.com.ua/sitemap-mfos.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://finoglyad.com.ua/sitemap-news.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://finoglyad.com.ua/sitemap-categories.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://finoglyad.com.ua/sitemap-authors.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://finoglyad.com.ua/sitemap-satellites.xml</loc>
+  </sitemap>
 </sitemapindex>

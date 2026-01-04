@@ -3,7 +3,7 @@ module.exports = {
   siteUrl: 'https://finoglyad.com.ua',
   generateRobotsTxt: true,
   exclude: ['/admin/*', '/api/*'],
-  generateIndexSitemap: true, // ✅ Создаст главный sitemap.xml как индекс
+  generateIndexSitemap: true,
   
   additionalPaths: async () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL_SITEMAP;
@@ -24,7 +24,7 @@ module.exports = {
 
       const results = [];
 
-      // 1️⃣ Статические страницы
+      // 1️⃣ Статические страницы → sitemap-pages.xml
       const staticPages = [
         { path: '/', priority: 1.0 },
         { path: '/mfos', priority: 0.8 },
@@ -42,92 +42,105 @@ module.exports = {
           loc: `/uk${page.path}`,
           priority: page.priority,
           changefreq: 'weekly',
+          __sitemapFile: 'sitemap-pages', // ✅ Указываем файл
         });
         results.push({
           loc: `/ru${page.path}`,
           priority: page.priority,
           changefreq: 'weekly',
+          __sitemapFile: 'sitemap-pages',
         });
       }
 
-      // 2️⃣ МФО + подстраницы
+      // 2️⃣ МФО → sitemap-mfos.xml
       if (data.mfos?.length > 0) {
         for (const mfo of data.mfos) {
           results.push({ 
             loc: `/uk/mfos/${mfo.slug}`, 
             lastmod: mfo.updatedAt, 
-            priority: 0.9 
+            priority: 0.9,
+            __sitemapFile: 'sitemap-mfos',
           });
           results.push({ 
             loc: `/ru/mfos/${mfo.slug}`, 
             lastmod: mfo.updatedAt, 
-            priority: 0.9 
+            priority: 0.9,
+            __sitemapFile: 'sitemap-mfos',
           });
 
+          // Подстраницы МФО
           for (const sub of subPaths) {
             results.push({
               loc: `/uk/mfos/${mfo.slug}/${sub}`,
               lastmod: mfo.updatedAt,
               priority: 0.7,
+              __sitemapFile: 'sitemap-mfos',
             });
             results.push({
               loc: `/ru/mfos/${mfo.slug}/${sub}`,
               lastmod: mfo.updatedAt,
               priority: 0.7,
+              __sitemapFile: 'sitemap-mfos',
             });
           }
         }
       }
 
-      // 3️⃣ Новости
+      // 3️⃣ Новости → sitemap-news.xml
       if (data.news?.length > 0) {
         for (const post of data.news) {
           results.push({ 
             loc: `/uk/journal/article/${post.slugUk}`, 
             lastmod: post.updatedAt, 
-            priority: 0.8 
+            priority: 0.8,
+            __sitemapFile: 'sitemap-news',
           });
           results.push({ 
             loc: `/ru/journal/article/${post.slug}`, 
             lastmod: post.updatedAt, 
-            priority: 0.8 
+            priority: 0.8,
+            __sitemapFile: 'sitemap-news',
           });
         }
       }
 
-      // 4️⃣ Категории новостей
+      // 4️⃣ Категории → sitemap-categories.xml
       if (data.newsCategories?.length > 0) {
         for (const cat of data.newsCategories) {
           results.push({
             loc: `/uk/journal/${cat.slug}`,
             priority: 0.7,
             changefreq: 'weekly',
+            __sitemapFile: 'sitemap-categories',
           });
           results.push({
             loc: `/ru/journal/${cat.slug}`,
             priority: 0.7,
             changefreq: 'weekly',
+            __sitemapFile: 'sitemap-categories',
           });
         }
       }
 
-      // 5️⃣ Авторы
+      // 5️⃣ Авторы → sitemap-authors.xml
       if (data.authors?.length > 0) {
         for (const author of data.authors) {
           results.push({
             loc: `/uk/author/${author.slug}`,
             priority: 0.6,
             changefreq: 'monthly',
+            __sitemapFile: 'sitemap-authors',
           });
           results.push({
             loc: `/ru/author/${author.slug}`,
             priority: 0.6,
             changefreq: 'monthly',
+            __sitemapFile: 'sitemap-authors',
           });
         }
       }
 
-      // 6️⃣ Satellite Keys
+      // 6️⃣ Satellite Keys → sitemap-satellites.xml
       if (data.satelliteKeys?.length > 0) {
         for (const sat of data.satelliteKeys) {
           if (sat.slugUk) {
@@ -136,6 +149,7 @@ module.exports = {
               lastmod: sat.updatedAt,
               priority: 0.8,
               changefreq: 'weekly',
+              __sitemapFile: 'sitemap-satellites',
             });
           }
           if (sat.slugRu) {
@@ -144,12 +158,13 @@ module.exports = {
               lastmod: sat.updatedAt,
               priority: 0.8,
               changefreq: 'weekly',
+              __sitemapFile: 'sitemap-satellites',
             });
           }
         }
       }
 
-      // 7️⃣ Satellites
+      // 7️⃣ Satellites → sitemap-satellites.xml
       if (data.satellites?.length > 0) {
         for (const sat of data.satellites) {
           if (sat.slugUk) {
@@ -158,6 +173,7 @@ module.exports = {
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
+              __sitemapFile: 'sitemap-satellites',
             });
           }
           if (sat.slugRu) {
@@ -166,45 +182,19 @@ module.exports = {
               lastmod: sat.updatedAt,
               priority: 0.7,
               changefreq: 'weekly',
+              __sitemapFile: 'sitemap-satellites',
             });
           }
         }
       }
 
-      console.log(`✨ TOTAL: ${results.length}`);
+      console.log(`✨ TOTAL: ${results.length} URLs`);
       return results;
       
     } catch (err) {
       console.error('❌ Ошибка sitemap:', err.message);
       return [];
     }
-  },
-
-  // ✅ Трансформация: разбиваем по типам контента
-  transform: async (config, path) => {
-    // Определяем к какому sitemap относится путь
-    let sitemapFile = 'sitemap-pages.xml'; // дефолт для статических страниц
-
-    if (path.includes('/mfos/') && !path.includes('/mfo/')) {
-      sitemapFile = 'sitemap-mfos.xml';
-    } else if (path.includes('/journal/article/')) {
-      sitemapFile = 'sitemap-news.xml';
-    } else if (path.includes('/journal/') && !path.includes('/article/')) {
-      sitemapFile = 'sitemap-categories.xml';
-    } else if (path.includes('/author/')) {
-      sitemapFile = 'sitemap-authors.xml';
-    } else if (path.includes('/mfo/')) {
-      sitemapFile = 'sitemap-satellites.xml';
-    }
-
-    return {
-      loc: path,
-      changefreq: config.changefreq,
-      priority: config.priority,
-      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
-      alternateRefs: config.alternateRefs ?? [],
-      sitemapFile, // ✅ Указываем в какой файл попадёт этот URL
-    };
   },
 
   robotsTxtOptions: {
