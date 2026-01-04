@@ -3,149 +3,135 @@ module.exports = {
   siteUrl: 'https://finoglyad.com.ua',
   generateRobotsTxt: true,
   exclude: ['/admin/*', '/api/*'],
+  generateIndexSitemap: true, // ✅ Создаст главный sitemap.xml как индекс
   
   additionalPaths: async () => {
-    const result = [];
-    
-    // 🔥 Статические страницы для UK и RU
-    const staticPages = [
-      { path: '/', priority: 1.0 },
-      { path: '/mfos', priority: 0.8 },
-      { path: '/about', priority: 0.8 },
-      { path: '/privacy', priority: 0.5 },
-      { path: '/terms', priority: 0.5 },
-      { path: '/reviews', priority: 0.7 },
-      { path: '/journal', priority: 0.8 },
-      { path: '/sitemap', priority: 0.6 },
-      { path: '/currency-exchange', priority: 0.7 },
-    ];
-
-    for (const page of staticPages) {
-      result.push({
-        loc: `/uk${page.path}`,
-        priority: page.priority,
-        changefreq: 'weekly',
-      });
-      result.push({
-        loc: `/ru${page.path}`,
-        priority: page.priority,
-        changefreq: 'weekly',
-      });
-    }
-
     const API_URL = process.env.NEXT_PUBLIC_API_URL_SITEMAP;
     const subPaths = ["reviews", "contacts", "questions", "promocodes"];
 
     if (!API_URL) {
-      console.log('⚠️ API недоступен – динамические пути пропускаем');
-      return result;
+      console.log('⚠️ API недоступен');
+      return [];
     }
 
     try {
-      const sitemapResponse = await fetch(`${API_URL}api/sitemap/human`, { 
+      const response = await fetch(`${API_URL}api/sitemap/human`, { 
         signal: AbortSignal.timeout(10000) 
       });
       
-      if (!sitemapResponse.ok) {
-        console.error('❌ Ошибка получения sitemap');
-        return result;
+      if (!response.ok) return [];
+      const data = await response.json();
+
+      const results = [];
+
+      // 1️⃣ Статические страницы
+      const staticPages = [
+        { path: '/', priority: 1.0 },
+        { path: '/mfos', priority: 0.8 },
+        { path: '/about', priority: 0.8 },
+        { path: '/privacy', priority: 0.5 },
+        { path: '/terms', priority: 0.5 },
+        { path: '/reviews', priority: 0.7 },
+        { path: '/journal', priority: 0.8 },
+        { path: '/sitemap', priority: 0.6 },
+        { path: '/currency-exchange', priority: 0.7 },
+      ];
+
+      for (const page of staticPages) {
+        results.push({
+          loc: `/uk${page.path}`,
+          priority: page.priority,
+          changefreq: 'weekly',
+        });
+        results.push({
+          loc: `/ru${page.path}`,
+          priority: page.priority,
+          changefreq: 'weekly',
+        });
       }
 
-      const data = await sitemapResponse.json();
-
-      // 1) MFO - отдельные страницы МФО
-      // Путь: /[lang]/mfos/[slug]
-      if (data.mfos && data.mfos.length > 0) {
+      // 2️⃣ МФО + подстраницы
+      if (data.mfos?.length > 0) {
         for (const mfo of data.mfos) {
-          // Главные страницы МФО
-          result.push({ 
+          results.push({ 
             loc: `/uk/mfos/${mfo.slug}`, 
             lastmod: mfo.updatedAt, 
             priority: 0.9 
           });
-          result.push({ 
+          results.push({ 
             loc: `/ru/mfos/${mfo.slug}`, 
             lastmod: mfo.updatedAt, 
             priority: 0.9 
           });
 
-          // Вложенные страницы МФО
           for (const sub of subPaths) {
-            result.push({
+            results.push({
               loc: `/uk/mfos/${mfo.slug}/${sub}`,
               lastmod: mfo.updatedAt,
               priority: 0.7,
             });
-            result.push({
+            results.push({
               loc: `/ru/mfos/${mfo.slug}/${sub}`,
               lastmod: mfo.updatedAt,
               priority: 0.7,
             });
           }
         }
-        console.log(`✅ MFO pages: ${data.mfos.length * 2 * (1 + subPaths.length)}`);
       }
 
-      // 2) NEWS/Journal - статьи
-      // Путь: /[lang]/journal/article/[slug]
-      if (data.news && data.news.length > 0) {
+      // 3️⃣ Новости
+      if (data.news?.length > 0) {
         for (const post of data.news) {
-          result.push({ 
+          results.push({ 
             loc: `/uk/journal/article/${post.slugUk}`, 
             lastmod: post.updatedAt, 
             priority: 0.8 
           });
-          result.push({ 
+          results.push({ 
             loc: `/ru/journal/article/${post.slug}`, 
             lastmod: post.updatedAt, 
             priority: 0.8 
           });
         }
-        console.log(`✅ News articles: ${data.news.length * 2}`);
       }
 
-      // 🆕 3) News Categories - категории журнала
-      // Путь: /[lang]/journal/[slug]
-      if (data.newsCategories && data.newsCategories.length > 0) {
-        for (const category of data.newsCategories) {
-          result.push({
-            loc: `/uk/journal/${category.slug}`,
+      // 4️⃣ Категории новостей
+      if (data.newsCategories?.length > 0) {
+        for (const cat of data.newsCategories) {
+          results.push({
+            loc: `/uk/journal/${cat.slug}`,
             priority: 0.7,
             changefreq: 'weekly',
           });
-          result.push({
-            loc: `/ru/journal/${category.slug}`,
+          results.push({
+            loc: `/ru/journal/${cat.slug}`,
             priority: 0.7,
             changefreq: 'weekly',
           });
         }
-        console.log(`✅ News categories: ${data.newsCategories.length * 2}`);
       }
 
-      // 🆕 4) Authors - авторы
-      // Путь: /[lang]/author/[slug]
-      if (data.authors && data.authors.length > 0) {
+      // 5️⃣ Авторы
+      if (data.authors?.length > 0) {
         for (const author of data.authors) {
-          result.push({
+          results.push({
             loc: `/uk/author/${author.slug}`,
             priority: 0.6,
             changefreq: 'monthly',
           });
-          result.push({
+          results.push({
             loc: `/ru/author/${author.slug}`,
             priority: 0.6,
             changefreq: 'monthly',
           });
         }
-        console.log(`✅ Authors: ${data.authors.length * 2}`);
       }
 
-      // 5) MFO Satellite Keys - ключевые страницы категорий
-      // Путь: /[lang]/mfo/[slug]
-      if (data.satelliteKeys && data.satelliteKeys.length > 0) {
+      // 6️⃣ Satellite Keys
+      if (data.satelliteKeys?.length > 0) {
         for (const sat of data.satelliteKeys) {
           if (sat.slugUk) {
-            result.push({
+            results.push({
               loc: `/uk/mfo/${sat.slugUk}`,
               lastmod: sat.updatedAt,
               priority: 0.8,
@@ -153,7 +139,7 @@ module.exports = {
             });
           }
           if (sat.slugRu) {
-            result.push({
+            results.push({
               loc: `/ru/mfo/${sat.slugRu}`,
               lastmod: sat.updatedAt,
               priority: 0.8,
@@ -161,15 +147,13 @@ module.exports = {
             });
           }
         }
-        console.log(`✅ Satellite keys: ${data.satelliteKeys.length * 2}`);
       }
 
-      // 6) MFO Satellites - подкатегории
-      // Путь: /[lang]/mfo/[slug]
-      if (data.satellites && data.satellites.length > 0) {
+      // 7️⃣ Satellites
+      if (data.satellites?.length > 0) {
         for (const sat of data.satellites) {
           if (sat.slugUk) {
-            result.push({
+            results.push({
               loc: `/uk/mfo/${sat.slugUk}`,
               lastmod: sat.updatedAt,
               priority: 0.7,
@@ -177,7 +161,7 @@ module.exports = {
             });
           }
           if (sat.slugRu) {
-            result.push({
+            results.push({
               loc: `/ru/mfo/${sat.slugRu}`,
               lastmod: sat.updatedAt,
               priority: 0.7,
@@ -185,16 +169,42 @@ module.exports = {
             });
           }
         }
-        console.log(`✅ MFO satellites: ${data.satellites.length * 2}`);
       }
 
-      console.log(`✨ TOTAL paths in sitemap: ${result.length}`);
+      console.log(`✨ TOTAL: ${results.length}`);
+      return results;
       
     } catch (err) {
-      console.error('❌ Ошибка загрузки dynamic sitemap:', err.message);
+      console.error('❌ Ошибка sitemap:', err.message);
+      return [];
+    }
+  },
+
+  // ✅ Трансформация: разбиваем по типам контента
+  transform: async (config, path) => {
+    // Определяем к какому sitemap относится путь
+    let sitemapFile = 'sitemap-pages.xml'; // дефолт для статических страниц
+
+    if (path.includes('/mfos/') && !path.includes('/mfo/')) {
+      sitemapFile = 'sitemap-mfos.xml';
+    } else if (path.includes('/journal/article/')) {
+      sitemapFile = 'sitemap-news.xml';
+    } else if (path.includes('/journal/') && !path.includes('/article/')) {
+      sitemapFile = 'sitemap-categories.xml';
+    } else if (path.includes('/author/')) {
+      sitemapFile = 'sitemap-authors.xml';
+    } else if (path.includes('/mfo/')) {
+      sitemapFile = 'sitemap-satellites.xml';
     }
 
-    return result;
+    return {
+      loc: path,
+      changefreq: config.changefreq,
+      priority: config.priority,
+      lastmod: config.autoLastmod ? new Date().toISOString() : undefined,
+      alternateRefs: config.alternateRefs ?? [],
+      sitemapFile, // ✅ Указываем в какой файл попадёт этот URL
+    };
   },
 
   robotsTxtOptions: {
@@ -205,6 +215,5 @@ module.exports = {
         disallow: ['/admin', '/api'],
       },
     ],
-    additionalSitemaps: [],
   },
 };

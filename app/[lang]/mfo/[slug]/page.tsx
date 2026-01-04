@@ -25,7 +25,7 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: string; slug: string }>;
 }): Promise<Metadata> {
-  const { lang, slug } = await params; // Await params for async resolution
+  const { lang, slug } = await params;
   const t = await getTranslations({ locale: lang, namespace: "MFOsSlugPage" });
 
   try {
