@@ -104,7 +104,7 @@ const JournalPage = async ({ params }: JournalPageProps) => {
                 {categoriesFromApi.map((cat) => (
                   <Link
                     key={cat.slug}
-                    href={`/${lang}/journal/${cat.slug}`}
+                    href={`/journal/${cat.slug}`}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                       cat.slug === "all"
                         ? "bg-blue-500 text-white shadow-md"
@@ -122,7 +122,7 @@ const JournalPage = async ({ params }: JournalPageProps) => {
               {articlesFromApi.slice(0, 3).map((article, index) => (
                 <Link
                   key={article.id}
-                  href={`/${lang}/journal/article/${lang ==='ru' ? article.slug : article.slugUk}`}
+                  href={`/journal/article/${lang ==='ru' ? article.slug : article.slugUk}`}
                 >
                   <article
                     className={`${
@@ -199,7 +199,7 @@ const JournalPage = async ({ params }: JournalPageProps) => {
               {articlesFromApi.slice(3).map((article, index) => (
                 <Link
                   key={article.id}
-                  href={`/${lang}/journal/article/${lang ==='ru' ? article.slug : article.slugUk}`}
+                  href={`/journal/article/${lang ==='ru' ? article.slug : article.slugUk}`}
                 >
                   <article className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200">
                     <div className="relative">

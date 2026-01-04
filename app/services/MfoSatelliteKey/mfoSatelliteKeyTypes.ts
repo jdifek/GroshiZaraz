@@ -8,6 +8,10 @@ export interface MfoSatelliteKey {
   seoContentUk: string;
   seoContentRu: string;
   mfoLinks: any[];
+  stats: {
+    totalMfos: number
+    averageRate: number
+  };
   metaTitleUk: string;
   metaTitleRu: string;
   metaDescUk: string;

@@ -97,7 +97,8 @@ export default async function MFOSattelitePage({
   const { lang, slug } = await params;
   const resolvedSearchParams = (await searchParams) ?? {};
   const sortBy = resolvedSearchParams?.sort || "rating";
-
+  let totalMfos =  0;
+  let averageRate =  0;
   let satellite: MfoSatelliteKey | null = null;
   let mfos: Mfo[] = [];
   let randomKeys: RandomKey[] = [];
@@ -106,15 +107,16 @@ export default async function MFOSattelitePage({
     `📌 Extracted lang="${lang}", slug="${slug}", sortBy="${sortBy}"`
   );
   try {
-    // грузим ключ по slug и рандомные категории
+    // ✅ ОДИН универсальный вызов вместо двух
     [satellite, randomKeys] = await Promise.all([
-      MfoSatelliteKeyService.getSatelliteKeyBySlug(slug, sortBy),
+      MfoService.getSatelliteBySlugUniversal(slug, sortBy),
       MfoService.getRandomKeys(),
     ]);
 
-    // достаём МФО из satellite -> mfoLinks
     if (satellite) {
       mfos = satellite.mfoLinks.map((link) => link.mfo).filter(Boolean);
+      totalMfos = satellite?.stats?.totalMfos || 0;
+      averageRate = satellite?.stats?.averageRate || 0;
     }
   } catch (error) {
     console.error("❌ Ошибка при загрузке страницы сателлита:", error);
@@ -184,11 +186,11 @@ export default async function MFOSattelitePage({
           <div className="flex items-center gap-6 text-sm text-gray-600">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span>{t("stats.found", { count: mfos.length })} </span>
+              <span>{t("stats.found", { count: totalMfos  })} </span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-              <span>{t("stats.averageRate", { rate: "0,05" })}</span>
+              <span>{t("stats.averageRate", { rate: averageRate.toFixed(2) })}</span>
             </div>
           </div>
         </div>

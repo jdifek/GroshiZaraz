@@ -1,4 +1,5 @@
 import $api from "../http";
+import { MfoSatelliteKey } from "../MfoSatelliteKey/mfoSatelliteKeyTypes";
 import { Mfo, MfoPayload, RandomKey } from "./mfoTypes";
 
 export default class MfoService {
@@ -73,7 +74,26 @@ export default class MfoService {
       throw error;
     }
   }
-  
+  static async getSatelliteBySlugUniversal(
+    slug: string,
+    sortBy: string = "rating"
+  ): Promise<MfoSatelliteKey> {
+    try {
+      const response = await $api.get<MfoSatelliteKey>(
+        `/api/mfos/universal/${slug}`,
+        {
+          params: { sortBy },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(
+        `Ошибка при получении сателлита по slug="${slug}":`,
+        error
+      );
+      throw error;
+    }
+  }
   static async getRandomKeys(): Promise<RandomKey[]> {
     try {
       const response = await $api.get<RandomKey[]>('/api/mfos/all-20-random-keys');

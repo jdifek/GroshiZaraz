@@ -50,6 +50,7 @@ export default class MfoSatelliteKeyService {
       throw error;
     }
   }
+  
   static async getSatelliteKeyBySlug(
     slug: string,
     sortBy: string = "rating"

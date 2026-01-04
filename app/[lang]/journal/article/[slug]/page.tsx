@@ -272,7 +272,7 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
                   </div>
                   <div className="bg-green-50 px-3 md:px-4 py-1.5 md:py-2 rounded-full">
                     <span className="text-xs sm:text-sm font-medium text-green-600">
-                      Просмотров: {formatViews(article.views)}
+                      Просмотров: {formatViews(article.author.totalViews)}
                     </span>
                   </div>
                 </div>

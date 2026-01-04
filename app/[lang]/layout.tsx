@@ -90,8 +90,8 @@ export default async function Layout({
   }
 
   return (
-    <html lang={lang === "uk" ? "uk" : "ru"}>
-      <body className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
+    <html suppressHydrationWarning lang={lang === "uk" ? "uk" : "ru"}>
+      <body suppressHydrationWarning className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-HJXK299WX6"
