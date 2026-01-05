@@ -1,7 +1,7 @@
 import { Home, Search, ArrowLeft, TrendingUp, Shield, CreditCard } from 'lucide-react';
 import { Link } from "@/app/i18n/navigation";
 
-export default function NotFoundPage() {
+export default function NotFound() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center px-4">
       <div className="max-w-4xl mx-auto text-center">
