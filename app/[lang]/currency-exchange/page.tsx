@@ -69,9 +69,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: `https://finoglyad.com.ua/${lang}/currency-exchange`,
       languages: {
-        "uk-UA": `https://finoglyad.com.ua/uk/currency-exchange`,
-        "ru-UA": `https://finoglyad.com.ua/ru/currency-exchange`,
-        "x-default": `https://finoglyad.com.ua/currency-exchange`,
+        uk: `https://finoglyad.com.ua/uk/currency-exchange`,
+        ru: `https://finoglyad.com.ua/ru/currency-exchange`,
       },
     },
   };

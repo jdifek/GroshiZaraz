@@ -58,9 +58,8 @@ export async function generateMetadata({
       alternates: {
         canonical: `https://finoglyad.com.ua/${lang}${cleanPath}`,
         languages: {
-          "uk-UA": `https://finoglyad.com.ua/uk${cleanPath}`,
-          "ru-UA": `https://finoglyad.com.ua/ru${cleanPath}`,
-          "x-default": `https://finoglyad.com.ua${cleanPath}`,
+          uk: `https://finoglyad.com.ua/uk${cleanPath}`,
+          ru: `https://finoglyad.com.ua/ru${cleanPath}`,
         },
       },
     } as Metadata;
@@ -91,7 +90,10 @@ export default async function Layout({
 
   return (
     <html suppressHydrationWarning lang={lang === "uk" ? "uk" : "ru"}>
-      <body suppressHydrationWarning className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]">
+      <body
+        suppressHydrationWarning
+        className="bg-gradient-to-br from-blue-50 to-white text-[#0A2540]"
+      >
         {/* Google Analytics */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-HJXK299WX6"

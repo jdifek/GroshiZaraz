@@ -32,9 +32,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical: `https://finoglyad.com.ua/${lang}/about`,
         languages: {
-          "uk-UA": `https://finoglyad.com.ua/uk/about`,
-          "ru-UA": `https://finoglyad.com.ua/ru/about`,
-          "x-default": `https://finoglyad.com.ua/about`,
+          uk: `https://finoglyad.com.ua/uk/about`,
+          ru: `https://finoglyad.com.ua/ru/about`,
         },
       },
       openGraph: {

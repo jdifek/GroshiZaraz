@@ -33,9 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: `https://finoglyad.ua/${lang}/journal`,
       languages: {
-        "uk-UA": `https://finoglyad.ua/uk/journal`,
-        "ru-UA": `https://finoglyad.ua/ru/journal`,
-        "x-default": `https://finoglyad.ua/journal`,
+        uk: `https://finoglyad.ua/uk/journal`,
+        ru: `https://finoglyad.ua/ru/journal`,
       },
     },
   };
@@ -122,7 +121,9 @@ const JournalPage = async ({ params }: JournalPageProps) => {
               {articlesFromApi.slice(0, 3).map((article, index) => (
                 <Link
                   key={article.id}
-                  href={`/journal/article/${lang ==='ru' ? article.slug : article.slugUk}`}
+                  href={`/journal/article/${
+                    lang === "ru" ? article.slug : article.slugUk
+                  }`}
                 >
                   <article
                     className={`${
@@ -169,9 +170,10 @@ const JournalPage = async ({ params }: JournalPageProps) => {
                         {lang === "ru" ? article.title : article.titleUk}
                       </h3>
                       <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-  {stripHtml(lang === "ru" ? article.body : article.bodyUk)}
-</p>
-
+                        {stripHtml(
+                          lang === "ru" ? article.body : article.bodyUk
+                        )}
+                      </p>
 
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">
@@ -199,7 +201,9 @@ const JournalPage = async ({ params }: JournalPageProps) => {
               {articlesFromApi.slice(3).map((article, index) => (
                 <Link
                   key={article.id}
-                  href={`/journal/article/${lang ==='ru' ? article.slug : article.slugUk}`}
+                  href={`/journal/article/${
+                    lang === "ru" ? article.slug : article.slugUk
+                  }`}
                 >
                   <article className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden group cursor-pointer border border-gray-100 hover:border-blue-200">
                     <div className="relative">
@@ -237,8 +241,10 @@ const JournalPage = async ({ params }: JournalPageProps) => {
                         {lang === "ru" ? article.title : article.titleUk}
                       </h3>
                       <p className="text-gray-600 mb-4 text-sm leading-relaxed line-clamp-3">
-  {stripHtml(lang === "ru" ? article.body : article.bodyUk)}
-</p>
+                        {stripHtml(
+                          lang === "ru" ? article.body : article.bodyUk
+                        )}
+                      </p>
 
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4 text-sm text-gray-500">

@@ -53,9 +53,8 @@ export async function generateMetadata({
     alternates: {
       canonical: `https://finoglyad.ua/${lang}/journal/article/${slug}`,
       languages: {
-        "uk-UA": `https://finoglyad.ua/uk/journal/article/${slug}`,
-        "ru-UA": `https://finoglyad.ua/ru/journal/article/${slug}`,
-        "x-default": `https://finoglyad.ua/journal/article/${slug}`,
+        uk: `https://finoglyad.ua/uk/journal/article/${slug}`,
+        ru: `https://finoglyad.ua/ru/journal/article/${slug}`,
       },
     },
   };

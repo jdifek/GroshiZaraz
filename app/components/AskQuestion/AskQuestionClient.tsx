@@ -64,7 +64,9 @@ export function AskQuestionClient({
       selectedFilter === t("categories.all") || item.category === selectedFilter
   );
 
-  const handleInputChange = (e: { target: { name: string; value: string } }) => {
+  const handleInputChange = (e: {
+    target: { name: string; value: string };
+  }) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -160,7 +162,7 @@ export function AskQuestionClient({
                       <span className="text-xs text-gray-400">•</span>
                       <span className="text-sm text-gray-400">
                         {new Date(question.date).toLocaleString(
-                          lang === "ru" ? "ru-RU" : "uk-UA",
+                          lang === "ru" ? "ru-RU" : "uk",
                           {
                             day: "2-digit",
                             month: "2-digit",

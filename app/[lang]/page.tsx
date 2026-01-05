@@ -21,8 +21,7 @@ export async function generateMetadata({
     title: t("root.title"),
     description: t("root.description"),
 
-    keywords: t("root.keywords"), 
-
+    keywords: t("root.keywords"),
 
     openGraph: {
       title: t("root.title"),
@@ -53,9 +52,8 @@ export async function generateMetadata({
     alternates: {
       canonical: currentUrl, // ✅ Уже правильно
       languages: {
-        "uk-UA": `${baseUrl}/uk`,
-        "ru-UA": `${baseUrl}/ru`,
-        "x-default": `${baseUrl}/uk`, // ⬅️ ИСПРАВЬТЕ: должен быть /uk, а не просто baseUrl
+        uk: `${baseUrl}/uk`,
+        ru: `${baseUrl}/ru`,
       },
     },
   };

@@ -54,9 +54,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       alternates: {
         canonical: url,
         languages: {
-          "uk-UA": url,
-          "ru-UA": `https://finoglyad.com.ua/ru/ask-question/${slug}`,
-          "x-default": url,
+          uk: url,
+          ru: `https://finoglyad.com.ua/ru/ask-question/${slug}`,
         },
       },
       openGraph: {

@@ -29,9 +29,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: `https://finoglyad.ua/${lang}/reviews`,
       languages: {
-        "uk-UA": `https://finoglyad.ua/uk/reviews`,
-        "ru-UA": `https://finoglyad.ua/ru/reviews`,
-        "x-default": `https://finoglyad.ua/reviews`,
+        uk: `https://finoglyad.ua/uk/reviews`,
+        ru: `https://finoglyad.ua/ru/reviews`,
       },
     },
   };
