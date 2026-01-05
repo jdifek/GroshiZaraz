@@ -13,7 +13,15 @@ const nextConfig = {
       "img.freepik.com", 
     ],
   },
-
+  async redirects() {
+    return [
+      {
+        source: '/:path((?!uk|ru|api|_next|.*\\..*).*)',
+        destination: '/uk/:path*',
+        permanent: true, // ✅ 301 редирект
+      },
+    ];
+  },
 };
 
 module.exports = withNextIntl(nextConfig);
