@@ -14,7 +14,20 @@ const nextConfig = {
     ],
   },
   async redirects() {
+
     return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'header',
+            key: 'x-forwarded-proto',
+            value: 'http',
+          },
+        ],
+        destination: 'https://finoglyad.com.ua/:path*',
+        permanent: true,
+      },
       {
         source: '/:path((?!uk|ru|api|_next|.*\\..*).*)',
         destination: '/uk/:path*',

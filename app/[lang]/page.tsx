@@ -51,11 +51,11 @@ export async function generateMetadata({
     },
 
     alternates: {
-      canonical: currentUrl,
+      canonical: currentUrl, // ✅ Уже правильно
       languages: {
         "uk-UA": `${baseUrl}/uk`,
         "ru-UA": `${baseUrl}/ru`,
-        "x-default": baseUrl,
+        "x-default": `${baseUrl}/uk`, // ⬅️ ИСПРАВЬТЕ: должен быть /uk, а не просто baseUrl
       },
     },
   };
