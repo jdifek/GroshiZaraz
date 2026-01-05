@@ -26,6 +26,7 @@ export async function generateMetadata({
   const { slug, lang } = await params;
   const company = await MfoService.getMfoBySlug(slug);
   const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
+  const baseUrl = "https://finoglyad.com.ua";
 
   if (!company) {
     return {
@@ -40,12 +41,10 @@ export async function generateMetadata({
     };
   }
 
-  // Украинский вариант
   const titleUk = `${company.name} — Відгуки користувачів та оцінки МФО`;
   const descriptionUk = `Відгуки про МФО ${company.name}: думки користувачів, оцінки та досвід отримання кредитів. Дізнайтесь, як швидко оформити позику онлайн.`;
   const keywordsUk = `відгуки, МФО, кредит, позику, швидко, фіногляд, досвід, оцінки, користувачі`;
 
-  // Русский вариант
   const titleRu = `${company.name} — Отзывы пользователей и оценки МФО`;
   const descriptionRu = `Отзывы о МФО ${company.name}: мнения пользователей, оценки и опыт получения займов. Узнайте, как быстро оформить займ онлайн.`;
   const keywordsRu = `отзывы, МФО, займ, быстро, Фіногляд, опыт, оценки, пользователи`;
@@ -57,10 +56,10 @@ export async function generateMetadata({
     openGraph: {
       title: lang === "ru" ? titleRu : titleUk,
       description: lang === "ru" ? descriptionRu : descriptionUk,
-      url: `https://finoglyad.com.ua/${lang}/mfos/${slug}/reviews`,
+      url: `${baseUrl}/${lang}/mfos/${slug}/reviews`,
       images: [company.logo || defaultImage],
       siteName: "Фіногляд",
-      locale: lang === "ru" ? "ru_RU" : lang === "en" ? "en_US" : "uk_UA",
+      locale: lang === "ru" ? "ru_RU" : "uk_UA",
       type: "website",
     },
     twitter: {
@@ -70,6 +69,13 @@ export async function generateMetadata({
       images: [company.logo || defaultImage],
       site: "@Finoglyad",
       creator: "@Finoglyad",
+    },
+    alternates: {
+      canonical: `${baseUrl}/${lang}/mfos/${slug}/reviews`,
+      languages: {
+        "uk-UA": `${baseUrl}/uk/mfos/${slug}/reviews`,
+        "ru-UA": `${baseUrl}/ru/mfos/${slug}/reviews`,
+      },
     },
   };
 }

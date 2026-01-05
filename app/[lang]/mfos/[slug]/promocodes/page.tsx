@@ -24,6 +24,7 @@ export async function generateMetadata({
   const { slug, lang } = await params;
   const company = await MfoService.getMfoBySlug(slug);
   const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
+  const baseUrl = "https://finoglyad.com.ua";
 
   if (!company) {
     return {
@@ -39,15 +40,12 @@ export async function generateMetadata({
     };
   }
 
-  // Title с ключевыми словами
   const titleRu = `${company.name} — Промокоды, скидки и акции МФО`;
   const titleUk = `${company.name} — Промокоди, знижки та акції МФО`;
 
-  // Description с ключевыми словами и чуть более длинное
   const descriptionRu = `Промокоды МФО ${company.name}: актуальные скидки, бонусы и специальные акции. Узнайте, как получить займ с выгодой, промокоды и бонусные предложения онлайн.`;
   const descriptionUk = `Промокоди МФО ${company.name}: актуальні знижки, бонуси та спеціальні акції. Дізнайтесь, як отримати позику з вигодою, промокоди та бонусні пропозиції онлайн.`;
 
-  // Keywords для SEO
   const keywordsRu = `промокоды, акции, скидки, бонусы, ${company.name}, займ, кредит, МФО, онлайн, выгодные предложения`;
   const keywordsUk = `промокоди, акції, знижки, бонуси, ${company.name}, позику, кредит, МФО, онлайн, вигідні пропозиції`;
 
@@ -58,10 +56,10 @@ export async function generateMetadata({
     openGraph: {
       title: lang === "ru" ? titleRu : titleUk,
       description: lang === "ru" ? descriptionRu : descriptionUk,
-      url: `https://finoglyad.com.ua/${lang}/mfos/${slug}/promocodes`,
+      url: `${baseUrl}/${lang}/mfos/${slug}/promocodes`,
       images: [company.logo || defaultImage],
       siteName: "Фіногляд",
-      locale: lang === "ru" ? "ru_RU" : lang === "en" ? "en_US" : "uk_UA",
+      locale: lang === "ru" ? "ru_RU" : "uk_UA",
       type: "website",
     },
     twitter: {
@@ -71,6 +69,13 @@ export async function generateMetadata({
       images: [company.logo || defaultImage],
       site: "@Finoglyad",
       creator: "@Finoglyad",
+    },
+    alternates: {
+      canonical: `${baseUrl}/${lang}/mfos/${slug}/promocodes`,
+      languages: {
+        "uk-UA": `${baseUrl}/uk/mfos/${slug}/promocodes`,
+        "ru-UA": `${baseUrl}/ru/mfos/${slug}/promocodes`,
+      },
     },
   };
 }

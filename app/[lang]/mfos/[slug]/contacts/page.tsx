@@ -45,6 +45,7 @@ export async function generateMetadata({
   const { slug, lang } = await params;
   const company = await getMfoBySlug(slug);
   const defaultImage = "https://finoglyad.com.ua/default-og-image.jpg";
+  const baseUrl = "https://finoglyad.com.ua";
 
   if (!company) {
     return {
@@ -78,10 +79,10 @@ export async function generateMetadata({
     openGraph: {
       title: lang === "ru" ? titleRu : titleUk,
       description: lang === "ru" ? descriptionRu : descriptionUk,
-      url: `https://finoglyad.com.ua/${lang}/mfos/${slug}/contacts`,
+      url: `${baseUrl}/${lang}/mfos/${slug}/contacts`,
       images: [company.logo || defaultImage],
       siteName: "Фіногляд",
-      locale: lang === "ru" ? "ru_RU" : lang === "en" ? "en_US" : "uk_UA",
+      locale: lang === "ru" ? "ru_RU" : "uk_UA",
       type: "website",
     },
     twitter: {
@@ -91,6 +92,13 @@ export async function generateMetadata({
       images: [company.logo || defaultImage],
       site: "@Finoglyad",
       creator: "@Finoglyad",
+    },
+    alternates: {
+      canonical: `${baseUrl}/${lang}/mfos/${slug}/contacts`,
+      languages: {
+        "uk-UA": `${baseUrl}/uk/mfos/${slug}/contacts`,
+        "ru-UA": `${baseUrl}/ru/mfos/${slug}/contacts`,
+      },
     },
   };
 }
