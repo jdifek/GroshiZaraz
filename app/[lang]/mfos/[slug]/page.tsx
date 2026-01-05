@@ -79,6 +79,13 @@ export async function generateMetadata({
       locale: lang === "ru" ? "ru_RU" : "uk_UA",
       type: "website",
     },
+    alternates: {
+      canonical: `https://finoglyad.com.ua/${lang}/mfos/${slug}`,
+      languages: {
+        ru: `https://finoglyad.com.ua/ru/mfos/${slug}`,
+        uk: `https://finoglyad.com.ua/uk/mfos/${slug}`,
+      },
+    },
     twitter: {
       card: "summary_large_image",
       title: lang === "ru" ? titleRu : titleUk,
