@@ -83,12 +83,12 @@ export default function NotFoundPage() {
               К сожалению, запрашиваемая страница пока недоступна или была перемещена
             </p>
             <p className="text-gray-500">
-              Но не расстраивайтесь! На нашем портале вы найдете множество выгодных предложений от банков, МФО и страховых компаний
+              Но не расстраивайтесь! На нашем портале вы найдете множество выгодных предложений от МФО и финансовых компаний
             </p>
           </div>
         </div>
 
-        {/* Карточки с предложениями */}
+        {/* Карточки с предложениями - ИСПРАВЛЕНО */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-blue-300">
             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
@@ -105,10 +105,10 @@ export default function NotFoundPage() {
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
               <TrendingUp className="w-6 h-6 text-green-600" />
             </div>
-            <h3 className="font-semibold text-gray-800 mb-2">Банковские услуги</h3>
-            <p className="text-sm text-gray-600 mb-4">Выберите банк с выгодными тарифами</p>
-            <Link href="/banks" className="text-green-600 hover:text-green-800 font-medium text-sm">
-              Сравнить банки →
+            <h3 className="font-semibold text-gray-800 mb-2">Журнал</h3>
+            <p className="text-sm text-gray-600 mb-4">Читайте полезные статьи о финансах</p>
+            <Link href="/journal" className="text-green-600 hover:text-green-800 font-medium text-sm">
+              Читать статьи →
             </Link>
           </div>
 
@@ -116,15 +116,15 @@ export default function NotFoundPage() {
             <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
               <Shield className="w-6 h-6 text-orange-600" />
             </div>
-            <h3 className="font-semibold text-gray-800 mb-2">Страхование</h3>
-            <p className="text-sm text-gray-600 mb-4">Защитите себя и свое имущество</p>
-            <Link href="/insurance" className="text-orange-600 hover:text-orange-800 font-medium text-sm">
-              Выбрать полис →
+            <h3 className="font-semibold text-gray-800 mb-2">О нас</h3>
+            <p className="text-sm text-gray-600 mb-4">Узнайте больше о нашем сервисе</p>
+            <Link href="/about" className="text-orange-600 hover:text-orange-800 font-medium text-sm">
+              Подробнее →
             </Link>
           </div>
         </div>
 
-        {/* Кнопки навигации */}
+        {/* Кнопки навигации - ИСПРАВЛЕНО */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link 
             href="/"
@@ -134,20 +134,20 @@ export default function NotFoundPage() {
             На главную
           </Link>
           
-          <Link
-  href="/"
-  className="bg-white text-gray-700 px-8 py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-all duration-200 shadow-lg hover:shadow-xl border-2 border-gray-200 hover:border-gray-300 flex items-center gap-2 group"
->
-  <ArrowLeft className="w-5 h-5 group-hover:scale-110 transition-transform" />
-  Назад
-</Link>
+          <button
+            onClick={() => window.history.back()}
+            className="bg-white text-gray-700 px-8 py-4 rounded-2xl font-semibold hover:bg-gray-50 transition-all duration-200 shadow-lg hover:shadow-xl border-2 border-gray-200 hover:border-gray-300 flex items-center gap-2 group"
+          >
+            <ArrowLeft className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            Назад
+          </button>
 
           <Link 
-            href="/search"
+            href="/mfos"
             className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-2xl font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 group"
           >
             <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            Поиск
+            Поиск МФО
           </Link>
         </div>
 
