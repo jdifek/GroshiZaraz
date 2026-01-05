@@ -13,6 +13,7 @@ async function generateSitemap() {
   
   console.log(`🔍 Using API URL: ${API_URL}`);
   
+  
   try {
     console.log('🔄 Fetching sitemap data from API...');
     const response = await fetch(`${API_URL}api/sitemap/human`, {
