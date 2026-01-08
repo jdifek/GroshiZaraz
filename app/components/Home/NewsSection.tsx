@@ -10,7 +10,9 @@ import { stripHtml } from "@/app/utils/stripHtml";
 
 async function getNews(lang: string) {
   try {
-    const allNews = await NewsService.getAllNews();
+    const allNews = await NewsService.getAllNews(6);
+    console.log(allNews, allNews);
+    
     const toCard = allNews.map((newsItem) => {
       return {
         id: newsItem.id,
@@ -52,7 +54,7 @@ const NewsSection = async ({ lang }: { lang: string }) => {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {news.slice(0, 4).map((article, index) => (
+          {news.map((article, index) => (
             <Link key={article.id} href={"/journal/article/" + article.slug}>
               <article
                 className="bg-white rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group cursor-pointer border-2 border-transparent hover:border-blue-500"
