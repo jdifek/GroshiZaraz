@@ -3,7 +3,7 @@ import { Link } from "@/app/i18n/navigation";
 
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { FaLinkedin, FaTelegram, FaInstagram } from "react-icons/fa";
+import { FaLinkedin, FaTelegram } from "react-icons/fa";
 
 const Footer = async ({ lang }: { lang: string }) => {
   const t = await getTranslations({ locale: lang, namespace: "Footer" });
@@ -134,7 +134,7 @@ const Footer = async ({ lang }: { lang: string }) => {
                 </a>
 
                 <a
-                  href="https://t.me/finoglyad"
+                  href="https://t.me/finoglyad_ua"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-700 rounded-xl flex items-center justify-center text-white hover:shadow-lg hover:scale-105 transition-all duration-300"
@@ -143,15 +143,7 @@ const Footer = async ({ lang }: { lang: string }) => {
                   <FaTelegram className="w-6 h-6" />
                 </a>
 
-                <a
-                  href="https://instagram.com/finoglyad"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 bg-gradient-to-br from-pink-500 to-pink-700 rounded-xl flex items-center justify-center text-white hover:shadow-lg hover:scale-105 transition-all duration-300"
-                  aria-label="Instagram"
-                >
-                  <FaInstagram className="w-6 h-6" />
-                </a>
+              
               </div>
 
               <div className="bg-gradient-to-r from-blue-50 to-yellow-50 rounded-xl p-4">
