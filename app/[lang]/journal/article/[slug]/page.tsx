@@ -18,7 +18,7 @@ interface ArticleDetailPageProps {
 export async function generateMetadata({
   params,
 }: ArticleDetailPageProps): Promise<Metadata> {
-  const { lang, slug } = (await params) || "uk";
+  const { lang, slug } = await params;
   const t = await getTranslations({
     locale: lang,
     namespace: "ArticleDetailPage",
@@ -40,22 +40,69 @@ export async function generateMetadata({
     };
   }
 
-  const title = lang === "ru" ? article.title : article.titleUk;
-  const descriptionSnippet = stripHtml(
-    lang === "ru" ? article.body : article.bodyUk
-  ).substring(0, 160);
+  // Используем мета-теги из БД статьи
+  const title =
+    lang === "ru"
+      ? article.metaTitleRu || article.title
+      : article.metaTitleUk || article.titleUk;
+
+  const description =
+    lang === "ru"
+      ? article.metaDescriptionRu ||
+        stripHtml(article.body).substring(0, 160)
+      : article.metaDescriptionUk ||
+        stripHtml(article.bodyUk).substring(0, 160);
+
+  const keywords =
+    lang === "ru"
+      ? article.metaKeywordsRu || t("meta.keywords")
+      : article.metaKeywordsUk || t("meta.keywords");
+
+  const ogImage =
+    lang === "ru"
+      ? article.ogImageRu || article.image
+      : article.ogImageUk || article.image;
 
   return {
-    title: `${title}`,
-    description: descriptionSnippet || t("meta.description"),
-    keywords: t("meta.keywords"),
+    title,
+    description,
+    keywords,
     robots: "index, follow",
     alternates: {
-      canonical: `https://finoglyad.ua/${lang}/journal/article/${slug}`,
+      canonical: `https://finoglyad.com.ua/${lang}/journal/article/${slug}`,
       languages: {
-        uk: `https://finoglyad.ua/uk/journal/article/${slug}`,
-        ru: `https://finoglyad.ua/ru/journal/article/${slug}`,
+        uk: `https://finoglyad.com.ua/uk/journal/article/${article.slugUk}`,
+        ru: `https://finoglyad.com.ua/ru/journal/article/${article.slug}`,
       },
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://finoglyad.com.ua/${lang}/journal/article/${slug}`,
+      siteName: "Фіногляд",
+      locale: lang === "ru" ? "ru_UA" : "uk_UA",
+      type: "article",
+      publishedTime: article.createdAt,
+      modifiedTime: article.updatedAt,
+      authors: [
+        lang === "ru" ? article.author?.name : article.author?.nameUk,
+      ],
+      images: ogImage
+        ? [
+            {
+              url: ogImage,
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ogImage ? [ogImage] : undefined,
     },
   };
 }

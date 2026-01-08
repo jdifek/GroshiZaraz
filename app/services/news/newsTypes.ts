@@ -20,6 +20,14 @@ export interface News {
   titleUk: string;
   slug: string;
   image: string;
+  metaTitleRu?: string;
+  metaTitleUk?: string;
+  metaDescriptionRu?: string;
+  metaDescriptionUk?: string;
+  metaKeywordsRu?: string;
+  metaKeywordsUk?: string;
+  ogImageRu?: string;
+  ogImageUk?: string;
   slugUk: string;
   body: string;
   bodyUk: string;
