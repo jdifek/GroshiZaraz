@@ -20,12 +20,12 @@ export interface Author {
   achievementsUk: string[];
   telegram?: string;
   linkedin?: string;
-   metaTitleRu ?:      string
-   metaTitleUk?:       string
-   metaDescriptionRu?:string
-   metaDescriptionUk?: string
-   metaKeywordsRu   ?: string
-   metaKeywordsUk  ?:  string
+  metaTitleRu?: string;
+  metaTitleUk?: string;
+  metaDescriptionRu?: string;
+  metaDescriptionUk?: string;
+  metaKeywordsRu?: string;
+  metaKeywordsUk?: string;
   twitter?: string;
   email?: string;
 }

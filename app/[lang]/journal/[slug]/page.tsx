@@ -25,7 +25,77 @@ async function getCategoryData(slug: string) {
     return { categories: [], articles: [] };
   }
 }
+import { Metadata } from "next";
 
+export async function generateMetadata({
+  params,
+}: CategoryPageProps): Promise<Metadata> {
+  const { lang, slug } = await params;
+  const t = await getTranslations({
+    locale: lang,
+    namespace: "CategoryPage",
+  });
+
+  let category;
+  try {
+    const categories = await CategoryService.getAllCategories();
+    category = categories.find((cat) => cat.slug === slug);
+  } catch {
+    category = null;
+  }
+
+  if (!category) {
+    return {
+      title: t("meta.title"),
+      description: t("meta.description"),
+      keywords: t("meta.keywords"),
+      robots: "noindex, nofollow",
+    };
+  }
+
+  // Используем мета-теги из БД
+  const title =
+    lang === "ru"
+      ? category.metaTitleRu || `${category.name} | Фіногляд`
+      : category.metaTitleUk || `${category.nameUk} | Фіногляд`;
+
+  const description =
+    lang === "ru"
+      ? category.metaDescriptionRu || t("meta.description")
+      : category.metaDescriptionUk || t("meta.description");
+
+  const keywords =
+    lang === "ru"
+      ? category.metaKeywordsRu || t("meta.keywords")
+      : category.metaKeywordsUk || t("meta.keywords");
+
+  return {
+    title,
+    description,
+    keywords,
+    robots: "index, follow",
+    alternates: {
+      canonical: `https://finoglyad.com.ua/${lang}/journal/${slug}`,
+      languages: {
+        uk: `https://finoglyad.com.ua/uk/journal/${slug}`,
+        ru: `https://finoglyad.com.ua/ru/journal/${slug}`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://finoglyad.com.ua/${lang}/journal/${slug}`,
+      siteName: "Фіногляд",
+      locale: lang === "ru" ? "ru_UA" : "uk_UA",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
 const getArticleColor = (index: number) => {
   const colors = [
     "bg-gradient-to-br from-blue-500 to-blue-600",

@@ -5,6 +5,12 @@ export interface Category {
   slug: string;
   icon?: string;
   nameUk: string;
+  metaTitleRu?: string;
+  metaTitleUk?: string;
+  metaDescriptionRu?: string;
+  metaDescriptionUk?: string;
+  metaKeywordsRu?: string;
+  metaKeywordsUk?: string;
 }
 export interface CategoryCreateDto {
   name: string;
