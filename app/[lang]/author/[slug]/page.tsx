@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Link } from "@/app/i18n/navigation";
 import AuthorService from "@/app/services/authors/authorsService";
 import { authorArticles } from "@/app/data/authorArticles";
+import Image from "next/image";
 
 export const revalidate = 3600;
 
@@ -57,32 +58,45 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const cleanPath = `/author/${slug}`;
     console.log("Clean path:", cleanPath);
 
-    const title = `${lang === "ru" ? author.name : author.nameUk} - ${
-      lang === "ru" ? author.position : author.positionUk
-    } | ${messages.Metadata.author.siteName}`;
-    const description =
-      lang === "ru"
-        ? author.bio
-          ? author.bio.slice(0, 160)
-          : author.bioUk
-          ? author.bioUk.slice(0, 160)
-          : ""
-        : author.bioUk
-        ? author.bioUk.slice(0, 160)
-        : author.bio
-        ? author.bio.slice(0, 160)
-        : "";
+    const isRu = lang === "ru";
 
-    console.log("Metadata prepared:", { title, description });
-    const keywords = author
-      ? `${lang === "ru" ? author.name : author.nameUk}, ${
-          lang === "ru" ? author.position : author.positionUk
-        }, ${
-          lang === "ru"
-            ? author.expertise?.join(", ")
-            : author.expertiseUk?.join(", ") || ""
-        }, финансы, статьи, блог, Украина`
-      : messages.Metadata.author.defaultKeywords;
+    /* ---------- TITLE ---------- */
+    const autoTitle = `${isRu ? author.name : author.nameUk} — ${
+      isRu ? author.position : author.positionUk
+    } | ${messages.Metadata.author.siteName}`;
+    
+    const title =
+      (isRu ? author.metaTitleRu : author.metaTitleUk)?.trim() ||
+      autoTitle.slice(0, 60);
+    
+    /* ---------- DESCRIPTION ---------- */
+    const autoDescription = isRu
+      ? author.bio || author.bioUk || ""
+      : author.bioUk || author.bio || "";
+    
+    const description =
+      (isRu ? author.metaDescriptionRu : author.metaDescriptionUk)?.trim() ||
+      autoDescription.slice(0, 160);
+    
+    /* ---------- KEYWORDS ---------- */
+    const autoKeywords = `${isRu ? author.name : author.nameUk}, ${
+      isRu ? author.position : author.positionUk
+    }, ${
+      isRu
+        ? author.expertise?.join(", ")
+        : author.expertiseUk?.join(", ")
+    }`;
+    
+    const keywords =
+      (isRu ? author.metaKeywordsRu : author.metaKeywordsUk)?.trim() ||
+      autoKeywords;
+    
+    console.log("Metadata prepared:", {
+      title,
+      description,
+      keywords,
+    });
+    
     return {
       title,
       description,
@@ -121,7 +135,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         },
       },
     };
-    
+
   } catch (error) {
     console.error(`Failed to load author metadata for slug "${slug}":`, error);
     return {
@@ -188,48 +202,70 @@ export default async function AuthorPage({ params }: Props) {
       <div className="max-w-7xl mx-auto">
         {/* Author Hero Section */}
         <div className="bg-white rounded-xl md:rounded-2xl shadow-md overflow-hidden border border-gray-100 mb-6 md:mb-8">
-          <div
-            className={`${author.color} h-48 sm:h-56 md:h-64 lg:h-80 relative overflow-hidden`}
-          >
-            <div
-              className="absolute inset-0"
-              style={{ backgroundColor: author.color }}
-            ></div>
+        <div className="h-48 sm:h-56 md:h-64 lg:h-80 relative overflow-hidden">
+  {/* Background image */}
+  <Image
+    src={author.avatar}
+    alt={lang === "ru" ? author.name : author.nameUk}
+    fill
+    priority
+    className="object-cover"
+  />
 
-            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-end gap-4 md:gap-6">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold border-2 md:border-4 border-white/30 shadow-2xl mx-auto sm:mx-0">
-                  {author.avatar}
-                </div>
-                <div className="flex-1 text-white text-center sm:text-left">
-                  <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold mb-1 md:mb-2 !text-white drop-shadow-lg">
-                    {lang === "ru" ? author.name : author.nameUk}
-                  </h1>
-                  <p className="text-sm sm:text-base md:text-xl lg:text-2xl text-white/90 mb-3 md:mb-4 drop-shadow">
-                    {lang === "ru" ? author.position : author.positionUk}
-                  </p>
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-2 md:gap-4">
-                    <div className="bg-white/10 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full border border-white/20">
-                      <span className="text-xs sm:text-sm font-medium">
-                        📚 {author.totalPosts} {t("stats.articles")}
-                      </span>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full border border-white/20">
-                      <span className="text-xs sm:text-sm font-medium">
-                        👁️ {formatNumber(author.totalViews)} {t("stats.views")}
-                      </span>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full border border-white/20">
-                      <span className="text-xs sm:text-sm font-medium">
-                        👥 {formatNumber(author.followers)}{" "}
-                        {t("stats.followers")}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+  {/* Color overlay */}
+  <div
+    className="absolute inset-0"
+    style={{ backgroundColor: author.color, opacity: 0.6 }}
+  />
+
+  {/* Content */}
+  <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8">
+    <div className="flex flex-col sm:flex-row sm:items-end gap-4 md:gap-6">
+
+      {/* Avatar */}
+      <div className="relative w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden border-2 md:border-4 border-white/30 shadow-2xl mx-auto sm:mx-0 bg-white/20 backdrop-blur-sm">
+        <Image
+          src={author.avatar}
+          alt={lang === "ru" ? author.name : author.nameUk}
+          fill
+          className="object-cover"
+        />
+      </div>
+
+      {/* Text */}
+      <div className="flex-1 text-white text-center sm:text-left">
+        <h1 className="text-xl  !text-white sm:text-2xl md:text-3xl lg:text-5xl font-bold mb-1 md:mb-2 drop-shadow-lg">
+          {lang === "ru" ? author.name : author.nameUk}
+        </h1>
+
+        <p className="text-sm sm:text-base md:text-xl lg:text-2xl text-white/90 mb-3 md:mb-4 drop-shadow">
+          {lang === "ru" ? author.position : author.positionUk}
+        </p>
+
+        <div className="flex flex-wrap justify-center sm:justify-start gap-2 md:gap-4">
+          <div className="bg-white/10 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full border border-white/20">
+            <span className="text-xs sm:text-sm font-medium">
+              📚 {author.totalPosts} {t("stats.articles")}
+            </span>
           </div>
+
+          <div className="bg-white/10 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full border border-white/20">
+            <span className="text-xs sm:text-sm font-medium">
+              👁️ {formatNumber(author.totalViews)} {t("stats.views")}
+            </span>
+          </div>
+
+          <div className="bg-white/10 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 md:py-2 rounded-full border border-white/20">
+            <span className="text-xs sm:text-sm font-medium">
+              👥 {formatNumber(author.followers)} {t("stats.followers")}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
           {/* Author Details */}
           <div className="p-4 sm:p-6 md:p-8 lg:p-12">
@@ -508,18 +544,13 @@ export default async function AuthorPage({ params }: Props) {
             ))}
           </div>
 
-          {/* Load More (оставлена как button, т.к. требует загрузки дополнительных статей) */}
-          <div className="text-center pt-6 md:pt-8 border-t border-gray-100">
-            <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 md:px-8 py-2.5 md:py-3 rounded-lg md:rounded-xl text-sm md:text-base font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
-              {t("buttons.loadMore")}
-            </button>
-          </div>
+       
         </div>
 
         {/* Back Button */}
         <div className="text-center mt-6 md:mt-8">
           <Link
-            href={`/${lang}/journal`}
+            href={`/journal`}
             className="inline-block bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded-2xl font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105"
           >
             {t("buttons.backToJournal")}
