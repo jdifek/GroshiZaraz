@@ -15,6 +15,7 @@ const nextConfig = {
     domains: [
       "ledhqdqnwiedolkdffie.supabase.co",
       "img.freepik.com", 
+      "i.postimg.cc"
     ],
   },
   
