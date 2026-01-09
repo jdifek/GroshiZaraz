@@ -21,16 +21,23 @@ type SitemapPageProps = {
 };
 
 async function getSitemapData() {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL_SITEMAP || "http://localhost:5000/";
+
+  console.log("Fetching sitemap data from:", `${API_URL}api/sitemap/human`);
 
   try {
     const res = await fetch(`${API_URL}api/sitemap/human`, {
       cache: "no-store",
     });
 
+    console.log("Sitemap fetch response status:", res.status);
+
     if (!res.ok) throw new Error("Failed to fetch sitemap");
 
-    return await res.json();
+    const data = await res.json();
+    console.log("Sitemap data fetched successfully:", data);
+
+    return data;
   } catch (error) {
     console.error("Ошибка загрузки sitemap:", error);
     return null;
@@ -143,7 +150,7 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
             >
               {/* Главная страница МФО */}
               <Link
-                href={`/${lang}/mfos/${mfo.slug}`}
+                href={`/mfos/${mfo.slug}`}
                 className="flex items-center gap-2 p-3 rounded-xl border border-transparent hover:border-green-500 hover:bg-green-50 transition-all group mb-3"
               >
                 <Building2 className="w-5 h-5 text-gray-400 group-hover:text-green-500" />
@@ -157,7 +164,7 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
                 {subPages.map((sub) => (
                   <Link
                     key={sub.path}
-                    href={`/${lang}/mfos/${mfo.slug}/${sub.path}`}
+                    href={`/mfos/${mfo.slug}/${sub.path}`}
                     className="flex items-center gap-2 p-2 rounded-lg border border-gray-200 hover:border-green-400 hover:bg-green-50 transition-all group text-sm"
                   >
                     <sub.icon className="w-3 h-3 text-gray-400 group-hover:text-green-500" />
@@ -187,7 +194,7 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
             {data.news.map((article: any) => (
               <Link
                 key={article.id}
-                href={`/${lang}/journal/article/${
+                href={`/journal/article/${
                   lang === "uk" ? article.slugUk : article.slug
                 }`}
                 className="flex items-center gap-2 p-3 rounded-xl bg-white border border-orange-200 hover:border-orange-500 hover:shadow-md transition-all group"
@@ -217,7 +224,7 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
             {data.newsCategories.map((category: any) => (
               <Link
                 key={category.id}
-                href={`/${lang}/journal/${category.slug}`}
+                href={`/journal/${category.slug}`}
                 className="flex items-center gap-2 p-3 rounded-xl bg-white border border-cyan-200 hover:border-cyan-500 hover:shadow-md transition-all group"
               >
                 <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-cyan-500" />
@@ -245,7 +252,7 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
             {data.authors.map((author: any) => (
               <Link
                 key={author.id}
-                href={`/${lang}/journal/${author.slug}`}
+                href={`/journal/${author.slug}`}
                 className="flex items-center gap-2 p-3 rounded-xl bg-white border border-pink-200 hover:border-pink-500 hover:shadow-md transition-all group"
               >
                 <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-pink-500" />
@@ -272,7 +279,7 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
           {data.satelliteKeys.map((key: any) => (
             <Link
               key={key.id}
-              href={`/${lang}/mfo/${lang === "uk" ? key.slugUk : key.slugRu}`}
+              href={`/mfo/${lang === "uk" ? key.slugUk : key.slugRu}`}
               className="flex items-center gap-2 p-3 rounded-xl bg-white border border-purple-200 hover:border-purple-500 hover:shadow-md transition-all group"
             >
               <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-purple-500" />
@@ -299,7 +306,7 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
             {data.satellites.map((sat: any) => (
               <Link
                 key={sat.id}
-                href={`/${lang}/mfo/${lang === "uk" ? sat.slugUk : sat.slugRu}`}
+                href={`/mfo/${lang === "uk" ? sat.slugUk : sat.slugRu}`}
                 className="flex items-center gap-2 p-3 rounded-xl bg-white border border-amber-200 hover:border-amber-500 hover:shadow-md transition-all group"
               >
                 <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-amber-500" />
