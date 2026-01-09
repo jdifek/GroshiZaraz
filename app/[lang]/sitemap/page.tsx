@@ -112,7 +112,7 @@ export default async function SitemapPage({ params }: SitemapPageProps) {
           {data.static.map((item: any, index: number) => (
             <Link
               key={index}
-              href={`/${lang}${lang === "uk" ? item.pathUk : item.pathRu}`}
+              href={`${lang === "uk" ? item.pathUk : item.pathRu}`}
               className="flex items-center gap-2 p-3 rounded-xl border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all group"
             >
               <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-blue-500" />
