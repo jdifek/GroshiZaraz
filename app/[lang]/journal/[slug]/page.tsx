@@ -132,10 +132,19 @@ const CategoryPage: React.FC<CategoryPageProps> = async ({ params }) => {
       <div className="">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center text-sm text-gray-600 mb-4">
-            <span>{t("home")}</span>
+          <Link
+              href="/"
+              className="hover:text-blue-600 transition-colors whitespace-nowrap"
+            >
+              {t("home")}
+            </Link>
             <span className="mx-2">-</span>
-            <span>{t("journal")}</span>
-            <span className="mx-2">-</span>
+            <Link
+              href="/journal"
+              className="hover:text-blue-600 transition-colors whitespace-nowrap"
+            >
+              {t("journal")}
+            </Link>            <span className="mx-2">-</span>
             <span>{categoryName}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
