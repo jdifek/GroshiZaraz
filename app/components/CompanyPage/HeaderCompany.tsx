@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Calculator, CheckCircle, Star, ExternalLink } from "lucide-react";
 import Image from "next/image";

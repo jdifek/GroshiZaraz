@@ -9,6 +9,8 @@ export interface Mfo {
   logo: string;
   licenseNumber?: string;
   descriptionUk?: string;
+  nbuCharacteristicsLink?: string;
+  nbuWarningLink?: string;
   isActive: boolean;
 
   satisfiedClients: number;
