@@ -15,6 +15,7 @@ import {
 import { Link } from "@/app/i18n/navigation";
 
 import { getTranslations } from "next-intl/server";
+export const dynamic = 'force-dynamic'
 
 type SitemapPageProps = {
   params: Promise<{ lang: string }>;

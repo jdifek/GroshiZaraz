@@ -12,12 +12,25 @@ const nextConfig = {
   },
   
   images: {
-    domains: [
-      "ledhqdqnwiedolkdffie.supabase.co",
-      "img.freepik.com", 
-      "i.postimg.cc"
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ledhqdqnwiedolkdffie.supabase.co",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "img.freepik.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.postimg.cc",
+        pathname: "/**",
+      },
     ],
   },
+  
   
   // ✅ ДОБАВЛЕНО: Headers для Google Analytics
   async headers() {

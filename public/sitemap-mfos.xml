@@ -301,66 +301,6 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://finoglyad.com.ua/uk/mfos/mycredit</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/ru/mfos/mycredit</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.9</priority>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/uk/mfos/mycredit/reviews</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/ru/mfos/mycredit/reviews</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/uk/mfos/mycredit/contacts</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/ru/mfos/mycredit/contacts</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/uk/mfos/mycredit/questions</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/ru/mfos/mycredit/questions</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/uk/mfos/mycredit/promocodes</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/ru/mfos/mycredit/promocodes</loc>
-    <lastmod>2026-01-02T10:28:26.140Z</lastmod>
-    <priority>0.7</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
     <loc>https://finoglyad.com.ua/uk/mfos/sloncredit</loc>
     <lastmod>2026-01-02T10:24:37.316Z</lastmod>
     <priority>0.9</priority>
@@ -597,6 +537,66 @@
   <url>
     <loc>https://finoglyad.com.ua/ru/mfos/creditkasa/promocodes</loc>
     <lastmod>2026-01-02T10:25:15.777Z</lastmod>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/uk/mfos/mycredit</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/ru/mfos/mycredit</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
+    <priority>0.9</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/uk/mfos/mycredit/reviews</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/ru/mfos/mycredit/reviews</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/uk/mfos/mycredit/contacts</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/ru/mfos/mycredit/contacts</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/uk/mfos/mycredit/questions</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/ru/mfos/mycredit/questions</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/uk/mfos/mycredit/promocodes</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/ru/mfos/mycredit/promocodes</loc>
+    <lastmod>2026-01-09T15:44:10.745Z</lastmod>
     <priority>0.7</priority>
     <changefreq>weekly</changefreq>
   </url>

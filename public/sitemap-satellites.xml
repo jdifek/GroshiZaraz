@@ -25,30 +25,6 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://finoglyad.com.ua/uk/mfo/na-trivaliy-termin</loc>
-    <lastmod>2025-12-31T20:02:09.532Z</lastmod>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/ru/mfo/na-dlitelnyj-srok</loc>
-    <lastmod>2025-12-31T20:02:09.532Z</lastmod>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/uk/mfo/mikrokrediti</loc>
-    <lastmod>2025-12-31T20:02:09.532Z</lastmod>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
-    <loc>https://finoglyad.com.ua/ru/mfo/mikrokredity</loc>
-    <lastmod>2025-12-31T20:02:09.532Z</lastmod>
-    <priority>0.8</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-  <url>
     <loc>https://finoglyad.com.ua/uk/mfo/do-zarplati</loc>
     <lastmod>2025-12-31T20:02:09.532Z</lastmod>
     <priority>0.8</priority>
@@ -56,6 +32,18 @@
   </url>
   <url>
     <loc>https://finoglyad.com.ua/ru/mfo/do-zarplaty</loc>
+    <lastmod>2025-12-31T20:02:09.532Z</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/uk/mfo/na-trivaliy-termin</loc>
+    <lastmod>2025-12-31T20:02:09.532Z</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/ru/mfo/na-dlitelnyj-srok</loc>
     <lastmod>2025-12-31T20:02:09.532Z</lastmod>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
@@ -80,6 +68,18 @@
   </url>
   <url>
     <loc>https://finoglyad.com.ua/ru/mfo/zajmy-bez-protsentov</loc>
+    <lastmod>2025-12-31T20:02:09.532Z</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/uk/mfo/mikrokrediti</loc>
+    <lastmod>2025-12-31T20:02:09.532Z</lastmod>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://finoglyad.com.ua/ru/mfo/mikrokredity</loc>
     <lastmod>2025-12-31T20:02:09.532Z</lastmod>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>

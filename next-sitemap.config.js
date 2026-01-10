@@ -92,13 +92,13 @@ module.exports = {
           results.push({ 
             loc: `/uk/journal/article/${post.slugUk}`, 
             lastmod: post.updatedAt, 
-            priority: 0.8,
+            priority: 0.7,
             __sitemapFile: 'sitemap-news',
           });
           results.push({ 
             loc: `/ru/journal/article/${post.slug}`, 
             lastmod: post.updatedAt, 
-            priority: 0.8,
+            priority: 0.7,
             __sitemapFile: 'sitemap-news',
           });
         }
@@ -147,7 +147,7 @@ module.exports = {
             results.push({
               loc: `/uk/mfo/${sat.slugUk}`,
               lastmod: sat.updatedAt,
-              priority: 0.8,
+              priority: 0.85,
               changefreq: 'weekly',
               __sitemapFile: 'sitemap-satellites',
             });
@@ -156,7 +156,7 @@ module.exports = {
             results.push({
               loc: `/ru/mfo/${sat.slugRu}`,
               lastmod: sat.updatedAt,
-              priority: 0.8,
+              priority: 0.85,
               changefreq: 'weekly',
               __sitemapFile: 'sitemap-satellites',
             });
@@ -171,7 +171,7 @@ module.exports = {
             results.push({
               loc: `/uk/mfo/${sat.slugUk}`,
               lastmod: sat.updatedAt,
-              priority: 0.7,
+              priority: 0.85,
               changefreq: 'weekly',
               __sitemapFile: 'sitemap-satellites',
             });
@@ -180,7 +180,7 @@ module.exports = {
             results.push({
               loc: `/ru/mfo/${sat.slugRu}`,
               lastmod: sat.updatedAt,
-              priority: 0.7,
+              priority: 0.85,
               changefreq: 'weekly',
               __sitemapFile: 'sitemap-satellites',
             });
