@@ -1,8 +1,17 @@
 import { Home, Search, TrendingUp, Shield, CreditCard } from 'lucide-react';
 import { Link } from "@/app/i18n/navigation";
 import { BackButton } from '../ui/Buttons/BackButton';
+import { getTranslations } from 'next-intl/server';
+import { headers } from 'next/headers';
 
-export default function NotFound() {
+export default async function NotFound() {
+  // Получаем язык из заголовков или используем дефолтный
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') || '';
+  const lang = pathname.startsWith('/ru') ? 'ru' : 'uk';
+  
+  const t = await getTranslations({ locale: lang, namespace: "NotFound" });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center px-4">
       <div className="max-w-4xl mx-auto text-center">
@@ -77,14 +86,14 @@ export default function NotFound() {
         {/* Текстовый контент */}
         <div className="mb-12">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-6">
-            Упс! Страница потерялась
+            {t('title')}
           </h1>
           <div className="max-w-2xl mx-auto mb-8">
             <p className="text-xl text-gray-600 mb-4">
-              К сожалению, запрашиваемая страница пока недоступна или была перемещена
+              {t('description')}
             </p>
             <p className="text-gray-500">
-              Но не расстраивайтесь! На нашем портале вы найдете множество выгодных предложений от МФО и финансовых компаний
+              {t('subtitle')}
             </p>
           </div>
         </div>
@@ -95,10 +104,10 @@ export default function NotFound() {
             <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
               <CreditCard className="w-6 h-6 text-blue-600" />
             </div>
-            <h3 className="font-semibold text-gray-800 mb-2">Займы и кредиты</h3>
-            <p className="text-sm text-gray-600 mb-4">Найдите лучшие условия для получения займа</p>
+            <h3 className="font-semibold text-gray-800 mb-2">{t('cards.loans.title')}</h3>
+            <p className="text-sm text-gray-600 mb-4">{t('cards.loans.description')}</p>
             <Link href="/mfos" className="text-blue-600 hover:text-blue-800 font-medium text-sm">
-              Смотреть предложения →
+              {t('cards.loans.button')}
             </Link>
           </div>
 
@@ -106,10 +115,10 @@ export default function NotFound() {
             <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
               <TrendingUp className="w-6 h-6 text-green-600" />
             </div>
-            <h3 className="font-semibold text-gray-800 mb-2">Журнал</h3>
-            <p className="text-sm text-gray-600 mb-4">Читайте полезные статьи о финансах</p>
+            <h3 className="font-semibold text-gray-800 mb-2">{t('cards.journal.title')}</h3>
+            <p className="text-sm text-gray-600 mb-4">{t('cards.journal.description')}</p>
             <Link href="/journal" className="text-green-600 hover:text-green-800 font-medium text-sm">
-              Читать статьи →
+              {t('cards.journal.button')}
             </Link>
           </div>
 
@@ -117,10 +126,10 @@ export default function NotFound() {
             <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4 mx-auto">
               <Shield className="w-6 h-6 text-orange-600" />
             </div>
-            <h3 className="font-semibold text-gray-800 mb-2">О нас</h3>
-            <p className="text-sm text-gray-600 mb-4">Узнайте больше о нашем сервисе</p>
+            <h3 className="font-semibold text-gray-800 mb-2">{t('cards.about.title')}</h3>
+            <p className="text-sm text-gray-600 mb-4">{t('cards.about.description')}</p>
             <Link href="/about" className="text-orange-600 hover:text-orange-800 font-medium text-sm">
-              Подробнее →
+              {t('cards.about.button')}
             </Link>
           </div>
         </div>
@@ -132,7 +141,7 @@ export default function NotFound() {
             className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-4 rounded-2xl font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 group"
           >
             <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            На главную
+            {t('buttons.home')}
           </Link>
           
           <BackButton />
@@ -142,18 +151,18 @@ export default function NotFound() {
             className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-4 rounded-2xl font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center gap-2 group"
           >
             <Search className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            Поиск МФО
+            {t('buttons.search')}
           </Link>
         </div>
 
         {/* Дополнительная информация */}
         <div className="mt-12 bg-white/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-200">
           <p className="text-gray-600">
-            <span className="font-semibold text-gray-800">Нужна помощь?</span> Наша команда поддержки готова помочь вам найти нужное предложение
+            <span className="font-semibold text-gray-800">{t('support.title')}</span> {t('support.description')}
           </p>
           <div className="flex flex-wrap justify-center gap-4 mt-4 text-sm">
-            <a href="tel:+380123456789" className="text-blue-600 hover:text-blue-800 font-medium">
-              📞 +38 (012) 345-67-89
+            <a href="tel:+380663040967" className="text-blue-600 hover:text-blue-800 font-medium">
+              📞 +38 (066) 304-09-67
             </a>
             <a href="mailto:finoglyad@gmail.com" className="text-blue-600 hover:text-blue-800 font-medium">
               ✉️ finoglyad@gmail.com
