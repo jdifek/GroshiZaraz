@@ -56,8 +56,8 @@ export async function generateMetadata({
   // Используем мета-теги из БД
   const title =
     lang === "ru"
-      ? category.metaTitleRu || `${category.name} | Фіногляд`
-      : category.metaTitleUk || `${category.nameUk} | Фіногляд`;
+      ? category.metaTitleRu || `${category.name} `
+      : category.metaTitleUk || `${category.nameUk} `;
 
   const description =
     lang === "ru"
