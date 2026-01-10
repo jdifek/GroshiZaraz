@@ -1,22 +1,41 @@
 "use client";
-import { Calculator, CheckCircle, Star } from "lucide-react";
+import { Calculator, CheckCircle, Star, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/app/i18n/navigation";
-
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
   const t = useTranslations("HeaderCompany");
-  const [loanAmount, setLoanAmount] = useState(15000);
-  const [loanTerm, setLoanTerm] = useState(15);
+  
+  // Динамічні початкові значення з companyInfo
+  const minAmount = companyInfo.minAmount || 5000;
+  const maxAmount = companyInfo.maxAmount || 35000;
+  const minTerm = companyInfo.minTerm || 5;
+  const maxTerm = companyInfo.maxTerm || 30;
+  const dailyRate = companyInfo.dailyRate || 0.01; // ставка на день
+  
+  const [loanAmount, setLoanAmount] = useState(Math.floor((minAmount + maxAmount) / 2));
+  const [loanTerm, setLoanTerm] = useState(Math.floor((minTerm + maxTerm) / 2));
 
   const calculatePayment = () => {
-    const dailyRate = 0.008; // 0.8% в день для примера
-    const totalAmount = loanAmount * (1 + dailyRate * loanTerm);
+    // Якщо перша позика безкоштовна і термін до 30 днів
+    if (companyInfo.firstLoanFree && loanTerm <= 30) {
+      return {
+        totalAmount: loanAmount,
+        overpayment: 0
+      };
+    }
+    
+    // Інакше рахуємо з денною ставкою
+    const rate = dailyRate / 100; // конвертуємо % в десяткове число
+    const totalAmount = loanAmount * (1 + rate * loanTerm);
     const overpayment = totalAmount - loanAmount;
-    return { totalAmount, overpayment };
+    
+    return { 
+      totalAmount: Math.round(totalAmount), 
+      overpayment: Math.round(overpayment) 
+    };
   };
 
   const { totalAmount, overpayment } = calculatePayment();
@@ -26,9 +45,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Company Info */}
         <div className="flex-1">
-          <div
-            className={`block md:hidden mb-3 w-20 h-20 bg-gradient-to-br ${companyInfo.color} rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg`}
-          >
+          <div className={`block md:hidden mb-3 w-20 h-20 bg-gradient-to-br ${companyInfo.color} rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg`}>
             <div className="flex items-center justify-center w-full h-full">
               <Image
                 unoptimized
@@ -59,18 +76,11 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
               <div className="flex items-center gap-2 mb-2">
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className="w-4 h-4 text-yellow-400 fill-current"
-                    />
+                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <span className="font-semibold text-gray-800">
-                  {companyInfo.rating}
-                </span>
-                <span className="text-gray-500">
-                  ({companyInfo.reviews.length})
-                </span>
+                <span className="font-semibold text-gray-800">{companyInfo.rating}</span>
+                <span className="text-gray-500">({companyInfo.reviews.length})</span>
               </div>
               <div className="text-gray-600">
                 {t("license")}: {companyInfo.license}
@@ -78,32 +88,65 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
             </div>
           </div>
 
+          {/* Блок з 4 обов'язковими параметрами - ОДНАКОВИЙ КОЛІР */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div className="bg-blue-50 rounded-2xl p-4 text-center">
+            <div className="bg-blue-50 rounded-2xl p-4">
               <div className="text-2xl font-bold text-blue-600 mb-1">
-                {companyInfo.maxAmount} ₴
+                {companyInfo.maxAmount.toLocaleString()} ₴
               </div>
-              <div className="text-sm text-gray-600">{t("stats.maximum")}</div>
+              <div className="text-sm text-gray-600">Максимум</div>
             </div>
-            <div className="bg-green-50 rounded-2xl p-4 text-center">
-              <div className="text-2xl font-bold text-green-600 mb-1">
-                {companyInfo.term} {t("stats.days")}
+            
+            <div className="bg-blue-50 rounded-2xl p-4">
+              <div className="text-2xl font-bold text-blue-600 mb-1">
+                {companyInfo.minTerm}-{companyInfo.maxTerm} днів
               </div>
-              <div className="text-sm text-gray-600">{t("stats.term")}</div>
+              <div className="text-sm text-gray-600">Термін</div>
             </div>
-            <div className="bg-purple-50 rounded-2xl p-4 text-center">
-              <div className="text-2xl font-bold text-purple-600 mb-1">
-                {companyInfo.responseTime}
+            
+            <div className="bg-blue-50 rounded-2xl p-4">
+              <div className="text-2xl font-bold text-blue-600 mb-1">
+                {companyInfo.annualRateMin}%-{companyInfo.annualRateMax}%
               </div>
-              <div className="text-sm text-gray-600">{t("stats.decision")}</div>
+              <div className="text-sm text-gray-600">Річна ставка</div>
             </div>
-            <div className="bg-orange-50 rounded-2xl p-4 text-center">
-              <div className="text-2xl font-bold text-orange-600 mb-1">
-                {companyInfo.approval}%
+
+            <div className="bg-blue-50 rounded-2xl p-4">
+              <div className="text-2xl font-bold text-blue-600 mb-1">
+                {companyInfo.dailyRate}%
               </div>
-              <div className="text-sm text-gray-600">{t("stats.approval")}</div>
+              <div className="text-sm text-gray-600">Ставка на день</div>
             </div>
           </div>
+
+          {/* ГІПЕРПОСИЛАННЯ НБУ - обов'язкові */}
+          {(companyInfo.nbuCharacteristicsLink || companyInfo.nbuWarningLink) && (
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 mb-6 space-y-2">
+              {companyInfo.nbuCharacteristicsLink && (
+                <a
+                  href={companyInfo.nbuCharacteristicsLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800 underline font-medium transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>Істотні характеристики послуги</span>
+                </a>
+              )}
+              
+              {companyInfo.nbuWarningLink && (
+                <a
+                  href={companyInfo.nbuWarningLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-blue-600 hover:text-blue-800 underline font-medium transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>Попередження про наслідки для споживача</span>
+                </a>
+              )}
+            </div>
+          )}
 
           {companyInfo.firstLoanFree && (
             <div className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-2xl p-4 mb-6">
@@ -120,7 +163,7 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
           )}
         </div>
 
-        {/* Calculator */}
+        {/* ДИНАМІЧНИЙ КАЛЬКУЛЯТОР */}
         <div className="lg:w-96">
           <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
             <h3 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
@@ -135,16 +178,16 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 </label>
                 <input
                   type="range"
-                  min="5000"
-                  max="30000"
+                  min={minAmount}
+                  max={maxAmount}
                   step="1000"
                   value={loanAmount}
                   onChange={(e) => setLoanAmount(Number(e.target.value))}
                   className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
-                  <span>5 000 ₴</span>
-                  <span>30 000 ₴</span>
+                  <span>{minAmount.toLocaleString()} ₴</span>
+                  <span>{maxAmount.toLocaleString()} ₴</span>
                 </div>
               </div>
 
@@ -154,52 +197,42 @@ export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
                 </label>
                 <input
                   type="range"
-                  min="5"
-                  max="30"
+                  min={minTerm}
+                  max={maxTerm}
                   step="1"
                   value={loanTerm}
                   onChange={(e) => setLoanTerm(Number(e.target.value))}
                   className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
                 />
                 <div className="flex justify-between text-xs text-gray-500 mt-1">
-                  <span>5 {t("stats.days")}</span>
-                  <span>30 {t("stats.days")}</span>
+                  <span>{minTerm} {t("stats.days")}</span>
+                  <span>{maxTerm} {t("stats.days")}</span>
                 </div>
               </div>
 
               <div className="bg-white rounded-xl p-4 space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">
-                    {t("calculator.youTake")}:
-                  </span>
-                  <span className="font-semibold">
-                    {loanAmount.toLocaleString()} ₴
-                  </span>
+                  <span className="text-gray-600">{t("calculator.youTake")}:</span>
+                  <span className="font-semibold">{loanAmount.toLocaleString()} ₴</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">
-                    {t("calculator.overpayment")}:
-                  </span>
-                  <span className="font-semibold">
-                    {overpayment.toLocaleString()} ₴
-                  </span>
+                  <span className="text-gray-600">{t("calculator.overpayment")}:</span>
+                  <span className="font-semibold">{overpayment.toLocaleString()} ₴</span>
                 </div>
                 <div className="flex justify-between text-lg font-bold">
-                  <span className="text-gray-800">
-                    {t("calculator.toReturn")}:
-                  </span>
-                  <span className="text-blue-600">
-                    {totalAmount.toLocaleString()} ₴
-                  </span>
+                  <span className="text-gray-800">{t("calculator.toReturn")}:</span>
+                  <span className="text-blue-600">{totalAmount.toLocaleString()} ₴</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 mb-4">
-                <CheckCircle className="w-4 h-4 text-green-600" />
-                <span className="text-sm text-green-700 font-medium">
-                  {t("firstLoanFree.title")}
-                </span>
-              </div>
+              {companyInfo.firstLoanFree && loanTerm <= 30 && (
+                <div className="flex items-center gap-2 mb-4">
+                  <CheckCircle className="w-4 h-4 text-green-600" />
+                  <span className="text-sm text-green-700 font-medium">
+                    {t("firstLoanFree.title")}
+                  </span>
+                </div>
+              )}
 
               <Link
                 href={companyInfo.UtmLink}

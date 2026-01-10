@@ -281,7 +281,7 @@ const JournalPage = async ({ params }: JournalPageProps) => {
                   {categoriesFromApi.slice(1).map((category) => (
                     <Link
                       key={category.slug}
-                      href={`/${lang}/journal/${category.slug}`}
+                      href={`journal/${category.slug}`}
                       className="block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 text-gray-600 hover:bg-gray-50 hover:text-blue-600"
                     >
                       {lang === "ru" ? category.name : category.nameUk}

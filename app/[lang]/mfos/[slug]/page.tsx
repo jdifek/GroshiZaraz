@@ -1,4 +1,3 @@
-import React from "react";
 import { CheckCircle } from "lucide-react";
 import MfoService from "@/app/services/mfos/mfosService";
 import { Metadata } from "next";
