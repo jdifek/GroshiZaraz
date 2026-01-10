@@ -9,7 +9,6 @@ import { useTranslations } from "next-intl";
 export const HeaderCompany = ({ companyInfo }: { companyInfo: any }) => {
   const t = useTranslations("HeaderCompany");
   
-  // Динамічні початкові значення з companyInfo
   const minAmount = companyInfo.minAmount || 5000;
   const maxAmount = companyInfo.maxAmount || 35000;
   const minTerm = companyInfo.minTerm || 5;

@@ -279,7 +279,7 @@ const JournalPage = async ({ params }: JournalPageProps) => {
                   <div className="absolute -bottom-2 left-0 w-12 h-1 bg-gradient-to-r from-blue-500 to-yellow-400 rounded-full"></div>
                 </h3>
                 <div className="space-y-2">
-                  {categoriesFromApi.slice(1).map((category) => (
+                  {categoriesFromApi.map((category) => (
                     <Link
                       key={category.slug}
                       href={`journal/${category.slug}`}

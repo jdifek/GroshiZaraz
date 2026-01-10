@@ -272,15 +272,7 @@ const ArticleDetailPage = async ({ params }: ArticleDetailPageProps) => {
                   {t("shareText")}
                 </div>
                 <div className="flex items-center gap-2 md:gap-3">
-                  <button className="w-10 h-10 md:w-12 md:h-12 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 transition-all duration-200 hover:scale-110 shadow-lg text-sm md:text-base">
-                    📘
-                  </button>
-                  <button className="w-10 h-10 md:w-12 md:h-12 bg-blue-400 text-white rounded-full flex items-center justify-center hover:bg-blue-500 transition-all duration-200 hover:scale-110 shadow-lg text-sm md:text-base">
-                    🐦
-                  </button>
-                  <button className="w-10 h-10 md:w-12 md:h-12 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-all duration-200 hover:scale-110 shadow-lg text-sm md:text-base">
-                    💬
-                  </button>
+                 
                   <CopyLinkButton />
                 </div>
               </div>
