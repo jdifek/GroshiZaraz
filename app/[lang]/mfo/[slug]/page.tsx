@@ -1,5 +1,5 @@
 import React from "react";
-import { Star, Clock, Percent, TrendingUp, Shield, Users } from "lucide-react";
+import { Star, Clock, TrendingUp, Shield, Users } from "lucide-react";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 import MfoService from "@/app/services/mfos/mfosService";
@@ -265,7 +265,7 @@ export default async function MFOSattelitePage({
                 <div className="flex justify-between items-center mb-4">
                   <div>
                     <div className="text-xl font-bold text-green-600">
-                      {offer.rateMin}% - {offer.rateMax}%
+                      {offer.dailyRate}%
                     </div>
                     <div className="text-xs text-gray-500">
                       {t("keyInfo.perDay")}
@@ -310,8 +310,7 @@ export default async function MFOSattelitePage({
                     <span> {t("footer.minutes")}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Percent className="w-4 h-4 text-blue-500" />
-                    <span>0%</span>
+                 
                   </div>
                 </div>
 

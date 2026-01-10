@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, Star, Clock, Percent } from "lucide-react";
+import { ChevronDown, Star, Clock } from "lucide-react";
 import { BlueButton } from "@/app/ui/Buttons/BlueButton";
 import { GrayButton } from "@/app/ui/Buttons/GrayButton";
 import { InfoButton } from "@/app/ui/Buttons/InfoButton";
@@ -200,7 +200,7 @@ export function MFOsPageClient({
               <div className="flex justify-between items-center mb-4">
                 <div>
                   <div className="text-xl font-bold text-green-600">
-                    {offer.rateMin}% - {offer.rateMax}%
+                    {offer.dailyRate}%
                   </div>
                   <div className="text-xs text-gray-500">
                     {t.keyInfo.perDay}
@@ -245,8 +245,7 @@ export function MFOsPageClient({
                   <span>{t.footer.minutes}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Percent className="w-4 h-4 text-blue-500" />
-                  <span>0%</span>
+                 
                 </div>
               </div>
 
