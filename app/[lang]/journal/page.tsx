@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/app/i18n/navigation";
+import SEOJournalContent from "@/app/components/SEOJournalContent";
 
 type Props = {
   params: Promise<{ lang: string }>;
@@ -329,6 +330,7 @@ const JournalPage = async ({ params }: JournalPageProps) => {
           </div>
         </div>
       </div>
+      <SEOJournalContent lang={lang} />
     </div>
   );
 };
