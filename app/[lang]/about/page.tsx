@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 type Props = {
   params: Promise<{ lang: string }>;
 };
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { lang: rawLang } = await params;
   const lang = rawLang === "ru" || rawLang === "uk" ? rawLang : "uk";
@@ -16,6 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     console.error(`Translations not found for ${lang}, fallback to uk`, e);
     t = await getTranslations({ locale: "uk", namespace: "AboutPage" });
   }
+  
   try {
     const title = t("meta.title") ?? "Про компанію — Фіногляд";
     const description =
@@ -78,7 +80,6 @@ export default async function AboutPage({
   params: Promise<{ lang: string }>;
 }) {
   const { lang } = await params;
-
   const t = await getTranslations({ locale: lang, namespace: "AboutPage" });
 
   return (
@@ -188,6 +189,118 @@ export default async function AboutPage({
             </h3>
             <p className="text-gray-600 text-sm">
               {t("whyChoose.features.security.description")}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Trust Section - NEW */}
+      <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-8 md:p-12 text-white">
+        <h2 className="text-2xl md:text-3xl font-bold mb-6 text-center">
+          {t("trust.title")}
+        </h2>
+        <p className="text-lg leading-relaxed mb-8 max-w-4xl mx-auto text-green-50">
+          {t("trust.description")}
+        </p>
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="bg-white/10 backdrop-blur rounded-xl p-6">
+            <h3 className="text-lg font-semibold mb-3">
+              {t("trust.points.independence.title")}
+            </h3>
+            <p className="text-sm text-green-50">
+              {t("trust.points.independence.description")}
+            </p>
+          </div>
+          <div className="bg-white/10 backdrop-blur rounded-xl p-6">
+            <h3 className="text-lg font-semibold mb-3">
+              {t("trust.points.experience.title")}
+            </h3>
+            <p className="text-sm text-green-50">
+              {t("trust.points.experience.description")}
+            </p>
+          </div>
+          <div className="bg-white/10 backdrop-blur rounded-xl p-6">
+            <h3 className="text-lg font-semibold mb-3">
+              {t("trust.points.reviews.title")}
+            </h3>
+            <p className="text-sm text-green-50">
+              {t("trust.points.reviews.description")}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* How We Earn Section - NEW */}
+      <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-100">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          {t("howWeEarn.title")}
+        </h2>
+        <div className="max-w-4xl mx-auto space-y-4">
+          <p className="text-gray-700 leading-relaxed text-lg">
+            {t("howWeEarn.description")}
+          </p>
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-lg">
+            <p className="text-gray-700 leading-relaxed">
+              {t("howWeEarn.model")}
+            </p>
+          </div>
+          <p className="text-gray-700 leading-relaxed font-medium">
+            {t("howWeEarn.guarantee")}
+          </p>
+        </div>
+      </div>
+
+      {/* Security Section - NEW */}
+      <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-100">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          {t("security.title")}
+        </h2>
+        <p className="text-gray-700 leading-relaxed text-center max-w-3xl mx-auto mb-8">
+          {t("security.description")}
+        </p>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">🔐</span>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              {t("security.measures.encryption.title")}
+            </h3>
+            <p className="text-gray-600 text-sm">
+              {t("security.measures.encryption.description")}
+            </p>
+          </div>
+          <div className="text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">💾</span>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              {t("security.measures.storage.title")}
+            </h3>
+            <p className="text-gray-600 text-sm">
+              {t("security.measures.storage.description")}
+            </p>
+          </div>
+          <div className="text-center">
+            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">🔒</span>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              {t("security.measures.privacy.title")}
+            </h3>
+            <p className="text-gray-600 text-sm">
+              {t("security.measures.privacy.description")}
+            </p>
+          </div>
+          <div className="text-center">
+            <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-2xl">✅</span>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              {t("security.measures.compliance.title")}
+            </h3>
+            <p className="text-gray-600 text-sm">
+              {t("security.measures.compliance.description")}
             </p>
           </div>
         </div>
