@@ -75,6 +75,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/uk/journal/article/nbu-posylyuye-regulyuvannya-mfo-2026',
+        destination: '/uk/journal/article/nbu-posylyuye-regulyuvannya-mfo-2025',
+        permanent: true,
+      },
+      {
         source: '/:path*',
         has: [
           {
