@@ -80,6 +80,17 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/uk',
+        destination: '/uk/',
+        permanent: true,
+      },
+      {
+        source: '/ru',
+        destination: '/ru/',
+        permanent: true,
+      },
+      
+      {
         source: '/:path*',
         has: [
           {
